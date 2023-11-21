@@ -47,10 +47,8 @@ class Tratamientos3 extends StatelessWidget {
             fontSize: 25,
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [   
               const Text(
                 "Seleccione la hora de la toma",
                 style: TextStyle(
@@ -62,7 +60,11 @@ class Tratamientos3 extends StatelessWidget {
               Center(
                 child: Row(
                   children: [
+                    SizedBox(
+                      height: 270,
+                    ),
                     Container(
+                      margin: EdgeInsets.only(left: 80.0),
                       child: const Image(
                 image: NetworkImage(
                   "https://cdn-icons-png.flaticon.com/512/3889/3889548.png"),
