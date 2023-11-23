@@ -1,12 +1,12 @@
 import 'package:farmacofy/almacen.dart';
-import 'package:farmacofy/anadirTratamiento/tratamientos1.dart';
 import 'package:farmacofy/config_menu/menu_items.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos2.dart';
 import 'package:farmacofy/instruccionesUsuario.dart';
+import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
 
-class PantallaInicial extends StatelessWidget {
-  const PantallaInicial({Key? key}) : super(key: key);
+class Almacen extends StatelessWidget {
+  const Almacen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +27,9 @@ class PantallaInicial extends StatelessWidget {
       body: Column(
         children: [
           const Padding(
-            padding: EdgeInsets.all(40.0),
+            padding: EdgeInsets.all(38.0),
             child: Text(
-              'Recordatorio de medicamentos',
+              'Farmacias cercanas',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 24.0,
@@ -37,46 +37,17 @@ class PantallaInicial extends StatelessWidget {
               ),
             ),
           ),
-          Center(
-            child: Row(
-              children: [
-                const SizedBox(
-                  height: 50,
-                ),
-                //Posible imagen a añadir
-                // Container(
-                //   margin: const EdgeInsets.only(left: 140.0),
-                //   child: const Image(
-                //     image: NetworkImage(
-                //         "https://i.pinimg.com/originals/d0/56/ab/d056ab76ccee4a9adc1625923ec992ae.png"),
-                //     width: 50,
-                //     height: 50,
-                //   ),
-                // )
-              ],
-            ),
-          ),
-          const SizedBox(height: 0),
+          const SizedBox(height: 25),
           Expanded(
             child: ListView.builder(
-              itemCount: tratamientoMenuItems.length,
+              itemCount: farmaciasMenuItem.length,
               itemBuilder: (context, index) {
-                final tratamientoMenuItem = tratamientoMenuItems[index];
-                return _CustomListTile(menuItem: tratamientoMenuItem);
+                final farmaciasMenuItems = farmaciasMenuItem[index];
+                return _CustomListTile(menuItem: farmaciasMenuItems);
               },
             ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const Tratamientos1()),
-          );
-        },
-        child: const Icon(Icons.add),
-        backgroundColor: const Color(0xFF02A724),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
@@ -85,14 +56,15 @@ class PantallaInicial extends StatelessWidget {
             label: 'Inicio',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.info_outline),
-            label: 'Información',
+            icon: Icon(Icons.medication_sharp),
+            label: 'Tratamientos',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_pharmacy_rounded),
-            label: 'Farmacias',
+            label: 'Almacén',
           ),
         ],
+        selectedItemColor: const Color(0xFF02A724),
         onTap: (index) {
           // Lógica para manejar la selección de ítem
           switch (index) {
@@ -126,40 +98,31 @@ class _CustomListTile extends StatelessWidget {
     required this.menuItem,
   });
 
-  final TratamientoMenuItem menuItem;
+  final FarmaciasMenuItem menuItem;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
     return ListTile(
-      leading: Icon(menuItem.icon, color: colors.primary),
-      trailing: Icon(Icons.arrow_forward_ios_rounded, color: colors.primary),
-      title: Text(menuItem.title,
-      style: TextStyle(
-        fontSize: 22.0,
-        fontWeight: FontWeight.bold
-      ),
-      ),
-      subtitle: Row(
-        children: [
-          Text(
-            "${menuItem.numPastillas}",
-            style: const TextStyle(color: Color.fromARGB(255, 12, 100, 40),
-            fontSize: 20.0,
-            ),
-          ),
-          Text(
-            " - ${menuItem.hora}",
-            style: const TextStyle(color: Color.fromARGB(255, 12, 100, 40),
-            fontSize: 20.0,
-            ),
-          ),
-        ],
-      ),
-      onTap: () {
-        Navigator.pushNamed(context, menuItem.link);
-      },
-    );
-  }
+      leading: Icon(menuItem.icono, color: menuItem.color),
+      trailing: null,
+      title: Center( // Añade este widget
+      child: Text(menuItem.nombre, style: TextStyle(fontSize: 30.0)),
+    ),
+    subtitle: Column(
+      children: [
+        Text(menuItem.direccion, style: TextStyle(fontSize: 18.0)),
+        const SizedBox(
+          width: 5,
+        ),
+        Text(menuItem.telefono, style: TextStyle(fontSize: 16.0)),
+        const SizedBox(
+          width: 5,
+        ),
+        Text(menuItem.horario, style: TextStyle(fontSize: 14.0)),
+      ],
+    ),
+  );
+}
 }

@@ -1,5 +1,5 @@
 import 'package:farmacofy/config_menu/menu_items.dart';
-import 'package:farmacofy/tratamientos1.dart';
+import 'package:farmacofy/anadirTratamiento/tratamientos1.dart';
 import 'package:flutter/material.dart';
 
 class Tratamientos2 extends StatelessWidget {
@@ -11,7 +11,7 @@ class Tratamientos2 extends StatelessWidget {
       appBar: AppBar(
         title: const Text('FarmacoFy'),
         backgroundColor: const Color(0xFF02A724),
-        centerTitle: true, // Alinea el título en el centro
+        centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -44,10 +44,10 @@ class Tratamientos2 extends StatelessWidget {
           const SizedBox(height: 50),
           Expanded(
             child: ListView.builder(
-              itemCount: FrecuenciaAppMenuItems.length,
+              itemCount: frecuenciaAppMenuItems.length,
               itemBuilder: (context, index) {
-                final FrecuenciaMenuItem = FrecuenciaAppMenuItems[index];
-                return _CustomListTile(FrecuenciaMenuItem: FrecuenciaMenuItem);
+                final frecuenciaMenuItem = frecuenciaAppMenuItems[index];
+                return _CustomListTile(menuItem: frecuenciaMenuItem);
               },
             ),
           ),
@@ -59,21 +59,21 @@ class Tratamientos2 extends StatelessWidget {
 
 class _CustomListTile extends StatelessWidget {
   const _CustomListTile({
-    required this.FrecuenciaMenuItem,
+    required this.menuItem,
   });
 
-  final FrecuenciaMenuItem;
+  final FrecuenciaMenuItem menuItem;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
     return ListTile(
-      leading: Icon(FrecuenciaMenuItem.icon, color: colors.primary),
+      leading: Icon(menuItem.icon, color: colors.primary),
       trailing: Icon(Icons.arrow_forward_ios_rounded, color: colors.primary),
-      title: Text(FrecuenciaMenuItem.title),
+      title: Text(menuItem.title),
       onTap: () {
-        Navigator.pushNamed(context, FrecuenciaMenuItem.link);
+        Navigator.pushNamed(context, menuItem.link);
       },
     );
   }

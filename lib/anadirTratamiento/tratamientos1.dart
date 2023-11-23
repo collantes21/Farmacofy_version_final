@@ -1,5 +1,6 @@
 import 'package:farmacofy/config_menu/menu_items.dart';
 import 'package:farmacofy/pantallaInicial.dart';
+import 'package:farmacofy/anadirTratamiento/tratamientos2.dart';
 import 'package:flutter/material.dart';
 
 class Tratamientos1 extends StatelessWidget {
@@ -17,7 +18,7 @@ class Tratamientos1 extends StatelessWidget {
           onPressed: () {
             Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const pantallaInicial()),
+                MaterialPageRoute(builder: (context) => const PantallaInicial()),
               );
           },
         ),
@@ -56,7 +57,7 @@ class Tratamientos1 extends StatelessWidget {
               itemCount: appMenuItems.length,
               itemBuilder: (context, index) {
                 final menuItem = appMenuItems[index];
-                return _CustomListTile(menuItem: menuItem);
+                return _CustomListTile(menuItem1: menuItem);
               },
             ),
           ),
@@ -66,10 +67,10 @@ class Tratamientos1 extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: ElevatedButton(
           onPressed: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => Tratamientos2()),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Tratamientos2()),
+            );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF02A724),
@@ -86,33 +87,33 @@ class Tratamientos1 extends StatelessWidget {
 
 class _CustomListTile extends StatelessWidget {
   const _CustomListTile({
-    required this.menuItem,
+    required this.menuItem1,
   });
 
-  final MenuItem menuItem;
+  final MenuItem menuItem1;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
 
     return ListTile(
-      leading: Icon(menuItem.icon, color: colors.primary),
+      leading: Icon(menuItem1.icon, color: colors.primary),
       trailing: Icon(Icons.arrow_forward_ios_rounded, color: colors.primary),
-      title: Text(menuItem.title),
+      title: Text(menuItem1.title),
       subtitle: Row(
         children: [
-          Text(menuItem.subtitle),
+          Text(menuItem1.subtitle),
           const SizedBox(
             width: 5,
           ),
           Text(
-            "${menuItem.price} €",
-            style: const TextStyle(color: Colors.red),
+            "${menuItem1.price} €",
+            style: const TextStyle(color: Colors.black),
           ),
         ],
       ),
       onTap: () {
-        Navigator.pushNamed(context, menuItem.link);
+        Navigator.pushNamed(context, menuItem1.link);
       },
     );
   }

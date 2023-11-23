@@ -1,4 +1,4 @@
-import 'package:farmacofy/tratamientos4.dart';
+import 'package:farmacofy/anadirTratamiento/tratamientos4.dart';
 import 'package:flutter/material.dart';
 
 class Tratamientos3 extends StatelessWidget {
