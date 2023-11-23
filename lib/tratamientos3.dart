@@ -1,5 +1,5 @@
+import 'package:farmacofy/tratamientos4.dart';
 import 'package:flutter/material.dart';
-
 
 class Tratamientos3 extends StatelessWidget {
   const Tratamientos3({Key? key}) : super(key: key);
@@ -48,7 +48,7 @@ class Tratamientos3 extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [   
+            children: [
               const Text(
                 "Seleccione la hora de la toma",
                 style: TextStyle(
@@ -60,37 +60,73 @@ class Tratamientos3 extends StatelessWidget {
               Center(
                 child: Row(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 270,
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 80.0),
+                      margin: const EdgeInsets.only(left: 80.0),
                       child: const Image(
-                image: NetworkImage(
-                  "https://cdn-icons-png.flaticon.com/512/3889/3889548.png"),
-                  width: 200,
-                  height: 100,
-              ),
-                  )
-                ]
+                        image: NetworkImage(
+                            "https://cdn-icons-png.flaticon.com/512/3889/3889548.png"),
+                        width: 200,
+                        height: 100,
+                      ),
+                    )
+                  ],
                 ),
               ),
-            const SizedBox(height: 10),
+              const SizedBox(height: 10),
               Row(
                 children: [
-                  Expanded(
-                    child: Text(
-                      "Hora Seleccionada: ${selectedDate.hour}:${selectedDate.minute}",
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
+                  Container(
+                    margin: const EdgeInsets.all(50.0),
+                    child: const Expanded(
+                      child: Text(
+                        "Seleccione hora: ",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
                       ),
                     ),
                   ),
+                  Text(
+                    "${selectedDate.hour}:${selectedDate.minute}",
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                    ),
+                  )
                 ],
               ),
-              const SizedBox(height: 140), // Separa el listView del título.
+              const SizedBox(height: 95), // Separa el listView del título.
             ],
+          ),
+        ),
+      ),
+      
+      // Añadir el botón en la parte inferior
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(6.0),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Tratamientos4()),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFF02A724), // Color del botón
+          ),
+          child: const Padding(
+            padding: EdgeInsets.symmetric(vertical: 16.0), // Ajuste del espacio interno
+            child: Text(
+              'Siguiente',
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+              ),
+            ),
           ),
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:farmacofy/tratamientos1.dart';
 import 'package:flutter/material.dart';
 
 class pantallaInicial extends StatelessWidget {
@@ -7,53 +8,37 @@ class pantallaInicial extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FarmacoFy'),
-        backgroundColor: Color(0xFF02A724),
+        title: const Text('FarmacoFy'),
+        backgroundColor: const Color(0xFF02A724),
         actions: [
           IconButton(
             onPressed: () {
               // Lógica para ir a la página de ajustes
             },
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
           ),
         ],
       ),
       body: ListView(
-        children: [
+        children: const [
           // Espacio en blanco arriba
           SizedBox(height: 20.0),
-
           // Contenido principal de la página
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text('Contenido de la página aquí'),
-          ),
-
-          // ListView de 4 campos
-          ListTile(
-            title: Text('Campo 1'),
-            // Puedes personalizar cada ListTile según tus necesidades
-          ),
-          ListTile(
-            title: Text('Campo 2'),
-          ),
-          ListTile(
-            title: Text('Campo 3'),
-          ),
-          ListTile(
-            title: Text('Campo 4'),
-          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Lógica para el botón de añadir
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Tratamientos1()),
+          );
         },
-        child: Icon(Icons.add),
-        backgroundColor: Color(0xFF02A724),
+        backgroundColor: const Color(0xFF02A724),
+        child: const Icon(Icons.add),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Inicio',
@@ -67,7 +52,7 @@ class pantallaInicial extends StatelessWidget {
             label: 'Almacén',
           ),
         ],
-        selectedItemColor: Color(0xFF02A724),
+        selectedItemColor: const Color(0xFF02A724),
         onTap: (index) {
           // Lógica para manejar la selección de ítem
         },
@@ -75,3 +60,6 @@ class pantallaInicial extends StatelessWidget {
     );
   }
 }
+
+
+

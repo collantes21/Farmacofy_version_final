@@ -1,3 +1,5 @@
+import 'package:farmacofy/config_menu/menu_items.dart';
+import 'package:farmacofy/tratamientos1.dart';
 import 'package:flutter/material.dart';
 
 class Tratamientos2 extends StatelessWidget {
@@ -7,86 +9,72 @@ class Tratamientos2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF02A724),
-        // Agregamos un IconButton con un icono de flecha hacia atrás en el lado izquierdo de la AppBar
+        title: const Text('FarmacoFy'),
+        backgroundColor: const Color(0xFF02A724),
+        centerTitle: true, // Alinea el título en el centro
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context); // Vuelve a la pantalla anterior
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const Tratamientos1()),
+            );
           },
         ),
         actions: [
           IconButton(
-            onPressed: () {
-              // Acción del botón de ajustes (aún no implementada)
-              // final destino=MaterialPageRoute(
-              //   // builder: (_)=>PaginaAjustes());
-              //   Navigator.push(context, destino);
-            },
-            icon: Icon(Icons.settings),
+            onPressed: () {},
+            icon: const Icon(Icons.settings),
           ),
         ],
-        title: Center(
-          // Centro del texto 'FarmacoFy' en la AppBar
-          child: Text(
-            'FarmacoFy',
-            textAlign: TextAlign.center,
-          ),
-        ),
       ),
-      body: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.symmetric(
-          vertical: 40,
-          horizontal: 8,
-        ),
-        child: DefaultTextStyle(
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 25,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Seleccione la frecuencia de toma",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+      body: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(38.0),
+            child: Text(
+              'Seleccione frecuencia de toma',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
               ),
-              SizedBox(height: 140),//Separa el listView del titulo.
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Elementos de la lista de selección con títulos y acciones onTap (aún no implementadas)
-                  ListTile(
-                    title: Text('Una vez al día'),
-                    onTap: () {},
-                  ),
-                  ListTile(
-                    title: Text('2 veces al día'),
-                    onTap: () {},
-                  ),
-                  ListTile(
-                    title: Text('3 veces al día'),
-                    onTap: () {},
-                  ),
-                  ListTile(
-                    title: Text('Definirlo manualmente'),
-                    onTap: () {},
-                  ),
-                  ListTile(
-                    title: Text('No quiero establecer frecuencia'),
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            ],
+            ),
           ),
-        ),
+          const SizedBox(height: 50),
+          Expanded(
+            child: ListView.builder(
+              itemCount: FrecuenciaAppMenuItems.length,
+              itemBuilder: (context, index) {
+                final FrecuenciaMenuItem = FrecuenciaAppMenuItems[index];
+                return _CustomListTile(FrecuenciaMenuItem: FrecuenciaMenuItem);
+              },
+            ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class _CustomListTile extends StatelessWidget {
+  const _CustomListTile({
+    required this.FrecuenciaMenuItem,
+  });
+
+  final FrecuenciaMenuItem;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return ListTile(
+      leading: Icon(FrecuenciaMenuItem.icon, color: colors.primary),
+      trailing: Icon(Icons.arrow_forward_ios_rounded, color: colors.primary),
+      title: Text(FrecuenciaMenuItem.title),
+      onTap: () {
+        Navigator.pushNamed(context, FrecuenciaMenuItem.link);
+      },
     );
   }
 }

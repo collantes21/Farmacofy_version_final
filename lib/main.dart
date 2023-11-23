@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:farmacofy/pantallaInicial.dart';
 import 'package:farmacofy/tratamientos1.dart';
+import 'package:flutter/material.dart';
+
 import 'package:farmacofy/tratamientos2.dart';
 import 'package:farmacofy/tratamientos3.dart';
 
@@ -15,7 +15,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Tratamientos3(),
+      home: const Tratamientos1(),
+      routes: {
+        ''
+        '/tratamientos2': (context) => const Tratamientos2(),
+        '/tratamientos3': (context) => const Tratamientos3()
+      },
     );
   }
 }
