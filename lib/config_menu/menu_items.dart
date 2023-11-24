@@ -232,7 +232,7 @@ class InstruccionesUsoMenuItem {
 }
 const instruccionesUsoMenuItem = <InstruccionesUsoMenuItem>[
   InstruccionesUsoMenuItem(
-    title: 'Uso de ibuprofeno',
+    title: 'Ibuprofeno:',
     subtitle: 'Leer atentamente el prospecto antes de su tomado',
     numPastillas: ' ',
     stock: 100,
@@ -303,7 +303,7 @@ const instruccionesUsoMenuItem = <InstruccionesUsoMenuItem>[
     icon: Icons.shopping_cart_outlined,
   ),
   InstruccionesUsoMenuItem(
-    title: 'Uso de paracetamol',
+    title: 'Paracetamol:',
     subtitle: 'Leer atentamente el prospecto antes de su tomado',
     numPastillas: ' ',
     stock: 100,

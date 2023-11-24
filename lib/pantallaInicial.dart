@@ -3,6 +3,7 @@ import 'package:farmacofy/anadirTratamiento/tratamientos1.dart';
 import 'package:farmacofy/config_menu/menu_items.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos2.dart';
 import 'package:farmacofy/instruccionesUsuario.dart';
+import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 
 class PantallaInicial extends StatelessWidget {
@@ -24,6 +25,7 @@ class PantallaInicial extends StatelessWidget {
           ),
         ],
       ),
+
       body: Column(
         children: [
           const Padding(
@@ -68,6 +70,8 @@ class PantallaInicial extends StatelessWidget {
           ),
         ],
       ),
+      //
+      drawer: MenuDrawer(), // Implementa el menú lateral
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(

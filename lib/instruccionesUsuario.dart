@@ -133,10 +133,14 @@ class _CustomListTile extends StatelessWidget {
       leading: Icon(menuItem.icon, color: menuItem.color),
       
       trailing: menuItem.title == 'Cantidad restante: ' ? Icon(Icons.arrow_forward_ios_rounded, color: colors.primary) : null,
-      title:  Text(menuItem.title,style: TextStyle(
-
+      title:  Text(
+        menuItem.title,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
           fontSize: 17.0,),
       ),
+
+      
       
       subtitle: Row(
         children: [
@@ -147,6 +151,9 @@ class _CustomListTile extends StatelessWidget {
           Text(
             menuItem.numPastillas,
             style: const TextStyle(color: Colors.red),
+          ),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
           ),
           
         ],
