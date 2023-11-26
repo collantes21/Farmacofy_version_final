@@ -31,7 +31,7 @@ class Tratamientos4 extends StatelessWidget {
       ),
       body: Container(
         padding: const EdgeInsets.symmetric(
-          vertical: 20,
+          vertical: 30,
           horizontal: 8,
         ),
         child: Column(

@@ -2,6 +2,7 @@ import 'package:farmacofy/almacen.dart';
 import 'package:farmacofy/config_menu/menu_items.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos2.dart';
 import 'package:farmacofy/pantallaInicial.dart';
+import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 
 class InstruccionesUsuario extends StatelessWidget {
@@ -49,6 +50,7 @@ class InstruccionesUsuario extends StatelessWidget {
             ),
           ],
         ),
+        
         Positioned(
           top: 50.0,
           right:20.0,
@@ -64,55 +66,48 @@ class InstruccionesUsuario extends StatelessWidget {
               ),
               Text('Agregar foto')
             ],
-          )
-      
+          ),
           )
         ]
       ),
-      bottomNavigationBar: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.white, // Fondo del BottomNavigationBar
-        ),
-        child: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Inicio',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.medication_sharp),
-              label: 'Tratamientos',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.local_pharmacy_rounded),
-              label: 'Almacén',
-            ),
-          ],
-          selectedItemColor: const Color(0xFF02A724),
-          onTap: (index) {
-            // Lógica para manejar la selección de ítem
-            switch (index) {
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Inicio',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.info_outline),
+            label: 'Información',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_pharmacy_rounded),
+            label: 'Farmacias',
+          ),
+        ],
+        onTap: (index) {
+          // Lógica para manejar la selección de ítem
+          switch (index) {
             case 0:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const PantallaInicial()),
               );
               break;
             case 1:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const InstruccionesUsuario()),
               );
               break;
             case 2:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const Almacen()),
               );
               break;
           }
-          },
-        ),
+        },
       ),
     );
   }

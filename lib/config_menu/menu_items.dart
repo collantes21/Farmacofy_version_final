@@ -233,7 +233,7 @@ class InstruccionesUsoMenuItem {
 const instruccionesUsoMenuItem = <InstruccionesUsoMenuItem>[
   InstruccionesUsoMenuItem(
     title: 'Ibuprofeno:',
-    subtitle: 'Leer atentamente el prospecto antes de su tomado',
+    subtitle: 'Leer atentamente el prospecto',
     numPastillas: ' ',
     stock: 100,
     hora: '08:00H',
@@ -304,7 +304,7 @@ const instruccionesUsoMenuItem = <InstruccionesUsoMenuItem>[
   ),
   InstruccionesUsoMenuItem(
     title: 'Paracetamol:',
-    subtitle: 'Leer atentamente el prospecto antes de su tomado',
+    subtitle: 'Leer atentamente el prospecto',
     numPastillas: ' ',
     stock: 100,
     hora: '08:00H',

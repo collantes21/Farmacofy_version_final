@@ -34,19 +34,19 @@ class _MenuDrawerState extends State<MenuDrawer> {
           // 1. Usando el método Navigator.push que recibe un MaterialPageRoute que es una ruta que se construye a partir de un widget
           // 2. Usando el método Navigator.pushNamed que recibe el nombre de la ruta definida en el atributo routes del MaterialApp
           // La diferencia entre ambas es que la primera permite pasar argumentos a la ruta y la segunda no
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const PantallaInicial()),
               ); // Navega a la ruta '/'
             break;
           case 1:
-            Navigator.pushNamed(context, '/intruccionesUsuario'); 
+            Navigator.pushReplacementNamed(context, '/intruccionesUsuario'); 
             break;
           case 2:
-            Navigator.pushNamed(context, '/compraFarmacia'); 
+            Navigator.pushReplacementNamed(context, '/compraFarmacia'); 
             break;
           default:
-            Navigator.pushNamed(context, '/'); 
+            Navigator.pushReplacementNamed(context, '/'); 
         }
 
       },

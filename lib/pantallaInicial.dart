@@ -74,7 +74,7 @@ class PantallaInicial extends StatelessWidget {
       drawer: MenuDrawer(), // Implementa el menú lateral
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const Tratamientos1()),
           );
@@ -101,19 +101,19 @@ class PantallaInicial extends StatelessWidget {
           // Lógica para manejar la selección de ítem
           switch (index) {
             case 0:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const PantallaInicial()),
               );
               break;
             case 1:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const InstruccionesUsuario()),
               );
               break;
             case 2:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const Almacen()),
               );

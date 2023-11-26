@@ -3,6 +3,7 @@ import 'package:farmacofy/config_menu/menu_items.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos2.dart';
 import 'package:farmacofy/instruccionesUsuario.dart';
 import 'package:farmacofy/pantallaInicial.dart';
+import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 
 class Almacen extends StatelessWidget {
@@ -56,32 +57,31 @@ class Almacen extends StatelessWidget {
             label: 'Inicio',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.medication_sharp),
-            label: 'Tratamientos',
+            icon: Icon(Icons.info_outline),
+            label: 'Información',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_pharmacy_rounded),
-            label: 'Almacén',
+            label: 'Farmacias',
           ),
         ],
-        selectedItemColor: const Color(0xFF02A724),
         onTap: (index) {
           // Lógica para manejar la selección de ítem
           switch (index) {
             case 0:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const PantallaInicial()),
               );
               break;
             case 1:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const InstruccionesUsuario()),
               );
               break;
             case 2:
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const Almacen()),
               );

@@ -63,24 +63,24 @@ class Tratamientos1 extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(16.0),
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Tratamientos2()),
-            );
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF02A724),
-          ),
-          child: const Text(
-            'Siguiente',
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      ),
+      // bottomNavigationBar: Container(
+      //   padding: const EdgeInsets.all(16.0),
+      //   child: ElevatedButton(
+      //     onPressed: () {
+      //       Navigator.push(
+      //         context,
+      //         MaterialPageRoute(builder: (context) => Tratamientos2()),
+      //       );
+      //     },
+      //     style: ElevatedButton.styleFrom(
+      //       backgroundColor: const Color(0xFF02A724),
+      //     ),
+      //     child: const Text(
+      //       'Siguiente',
+      //       style: TextStyle(color: Colors.white),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

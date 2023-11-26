@@ -53,55 +53,119 @@ class Tratamientos3 extends StatelessWidget {
                 "Seleccione la hora de la toma",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 20,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              const SizedBox(height: 30),
               Center(
-                child: Row(
-                  children: [
-                    const SizedBox(
-                      height: 270,
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(left: 80.0),
-                      child: const Image(
-                        image: NetworkImage(
-                            "https://cdn-icons-png.flaticon.com/512/3889/3889548.png"),
-                        width: 200,
-                        height: 100,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center, // Añadido para centrar verticalmente también
                 children: [
-                  Container(
-                    margin: const EdgeInsets.all(50.0),
-                    child: const Expanded(
+                  Container( 
+                    child: const Image(
+                      image: NetworkImage(
+                          "https://cdn-icons-png.flaticon.com/512/3889/3889548.png"),
+                      width: 200,
+                      height: 100,
+                    ),
+                  ),
+                  const SizedBox(height: 50),
+                  const Text(
+                    "Indica la hora de la primera toma:",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 50), // Ajusta el espacio entre el texto y la hora
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
                       child: Text(
                         "Seleccione hora: ",
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 20,
                         ),
                       ),
                     ),
-                  ),
-                  Text(
-                    "${selectedDate.hour}:${selectedDate.minute}",
-                    style: const TextStyle(
+                    const SizedBox(width: 20), // Ajusta el espacio entre el texto y la hora
+                    Row(
+                      children: [
+                        Text(
+                          "${selectedDate.hour}:${selectedDate.minute}",
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 20), // Ajusta el espacio entre el texto y el icono
+                        Icon(
+                          Icons.access_time, // Puedes cambiar esto al icono que desees
+                          color: Colors.black,
+                          size: 20,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 50), // Separa el listView del título.
+                  const Text(
+                    "Indica la hora de la segunda toma:",
+                    style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
-                  )
-                ],
+                  ),
+                  const SizedBox(height: 50),
+                  Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        "Seleccione hora: ",
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 20), // Ajusta el espacio entre el texto y la hora
+                    Row(
+                      children: [
+                        Text(
+                          "${selectedDate.hour}:${selectedDate.minute}",
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
+                        ),
+                        const SizedBox(width: 20), // Ajusta el espacio entre el texto y el icono
+                        Icon(
+                          Icons.access_time, // Puedes cambiar esto al icono que desees
+                          color: Colors.black,
+                          size: 20,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 95), // Separa el listView del título.
             ],
           ),
+          
         ),
       ),
       
