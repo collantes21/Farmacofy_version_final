@@ -34,16 +34,16 @@ class _MenuDrawerState extends State<MenuDrawer> {
           // 1. Usando el método Navigator.push que recibe un MaterialPageRoute que es una ruta que se construye a partir de un widget
           // 2. Usando el método Navigator.pushNamed que recibe el nombre de la ruta definida en el atributo routes del MaterialApp
           // La diferencia entre ambas es que la primera permite pasar argumentos a la ruta y la segunda no
-            Navigator.pushReplacement(
+            Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const PantallaInicial()),
               ); // Navega a la ruta '/'
             break;
           case 1:
-            Navigator.pushReplacementNamed(context, '/intruccionesUsuario'); 
+            Navigator.pushNamed(context, '/intruccionesUsuario'); 
             break;
           case 2:
-            Navigator.pushReplacementNamed(context, '/compraFarmacia'); 
+            Navigator.pushNamed(context, '/compraFarmacia'); 
             break;
           default:
             Navigator.pushReplacementNamed(context, '/'); 
@@ -64,7 +64,12 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 fontSize: 24,
               ),
             ),
-            //Image.asset('assets/farmacofy.jpg'), // Asegúrate de que la imagen esté en la carpeta de assets de tu proyecto
+            Image(image: AssetImage('C:/Users/USER/Documents/DI/Proyecto AppFarmacos/FARMACOFY_BUENO/farmacofy-1/lib/images/farmacofy.jpg'),
+              width: 60,
+              height: 60, 
+             )
+              // Asegúrate de que la imagen esté en la carpeta de assets de tu proyecto
+          
           ],
         ),
           ),
