@@ -64,7 +64,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 fontSize: 24,
               ),
             ),
-            Image(image: AssetImage('C:/Users/USER/Documents/DI/Proyecto AppFarmacos/FARMACOFY_BUENO/farmacofy-1/lib/images/farmacofy.jpg'),
+            Image(image: AssetImage('assets/farmacofy.jpg'),
               width: 60,
               height: 60, 
              )
