@@ -19,7 +19,7 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registro'),
+        title: const Text('RegistroMAFAFAKA'),
         backgroundColor: const Color(0xFF02A724),
         centerTitle: true,
       ),
