@@ -1,4 +1,7 @@
 import 'package:farmacofy/almacen.dart';
+import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
+import 'package:farmacofy/inicioSesion/pantallaRegistro.dart';
+import 'package:farmacofy/inicioSesion/pantallaRegistroLogin.dart';
 import 'package:farmacofy/instruccionesUsuario.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos1.dart';
@@ -19,7 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const PantallaInicial(),
+      home: const InicioPantalla(),
       routes: {
         '/intruccionesUsuario': (context) => const InstruccionesUsuario(),
         '/tratamientos2': (context) => const Tratamientos2(),
