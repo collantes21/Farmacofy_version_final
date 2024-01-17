@@ -1,4 +1,6 @@
+// registro_pantalla.dart
 import 'package:flutter/material.dart';
+import 'package:farmacofy/BBDD/bdHelper.dart'; // Asegúrate de importar el archivo correcto
 
 class RegistroPantalla extends StatefulWidget {
   const RegistroPantalla({Key? key}) : super(key: key);
@@ -14,6 +16,14 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
   final TextEditingController _contrasenaController = TextEditingController();
   final TextEditingController _repetirContrasenaController =
       TextEditingController();
+
+  final BaseDeDatosUsuarios _baseDeDatos = BaseDeDatosUsuarios();
+
+  @override
+  void dispose() {
+    _baseDeDatos.cerrarBaseDeDatos();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +56,13 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, introduce un nombre de usuario';
                   }
+
+                  _baseDeDatos.verificarUsuarioExistente(value).then((usuarioExistente) {
+                    if (usuarioExistente) {
+                      print('El nombre de usuario ya está registrado');
+                    }
+                  });
+
                   return null;
                 },
               ),
@@ -75,11 +92,35 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState?.validate() ?? false) {
-                    // Aquí puedes realizar el registro, por ejemplo, enviar los datos a una API
-                    // y manejar la respuesta según sea necesario.
-                    // Puedes acceder a los valores ingresados utilizando _nombreController.text, _usuarioController.text, etc.
+                    final usuarioExistente = await _baseDeDatos.verificarUsuarioExistente(_usuarioController.text);
+
+                    if (usuarioExistente) {
+                      print('El nombre de usuario ya está registrado');
+                    } else {
+                      final nuevoUsuario = Usuario(
+                        nombre: _nombreController.text,
+                        usuario: _usuarioController.text,
+                        contrasena: _contrasenaController.text,
+                      );
+
+                      final idUsuario = await _baseDeDatos.registrarUsuario(nuevoUsuario);
+
+                      if (idUsuario > 0) {
+                        print('Registro exitoso con ID: $idUsuario');
+
+                        // Navegar a la nueva pantalla después de un registro exitoso
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InicioPantalla(), // Reemplaza "PantallaSiguiente" con el nombre de tu siguiente pantalla
+                          ),
+                        );
+                      } else {
+                        print('Error al registrar usuario');
+                      }
+                    }
                   }
                 },
                 child: const Text('Registrarse'),
@@ -87,6 +128,21 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+// Para cambiar de pantalla cuando presionas el boton.
+class InicioPantalla extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('InicioPantalla'),
+      ),
+      body: Center(
+        child: Text('¡Registro exitoso!'),
       ),
     );
   }
