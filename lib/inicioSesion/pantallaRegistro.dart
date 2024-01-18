@@ -1,4 +1,6 @@
 // registro_pantalla.dart
+import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
+import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
 import 'package:farmacofy/BBDD/bdHelper.dart'; // Asegúrate de importar el archivo correcto
 
@@ -59,7 +61,12 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
 
                   _baseDeDatos.verificarUsuarioExistente(value).then((usuarioExistente) {
                     if (usuarioExistente) {
-                      print('El nombre de usuario ya está registrado');
+                      // Mostrar un mensaje de error si las credenciales son incorrectas
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('El usuario ya existe'),
+                        ),
+                      );
                     }
                   });
 
@@ -108,13 +115,17 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
                       final idUsuario = await _baseDeDatos.registrarUsuario(nuevoUsuario);
 
                       if (idUsuario > 0) {
-                        print('Registro exitoso con ID: $idUsuario');
+                        ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Usuario creado correctamente'),
+                        ),
+                      );
 
                         // Navegar a la nueva pantalla después de un registro exitoso
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => InicioPantalla(), // Reemplaza "PantallaSiguiente" con el nombre de tu siguiente pantalla
+                            builder: (context) => LoginPantalla(), // Reemplaza "PantallaSiguiente" con el nombre de tu siguiente pantalla
                           ),
                         );
                       } else {
@@ -133,17 +144,3 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
   }
 }
 
-// Para cambiar de pantalla cuando presionas el boton.
-class InicioPantalla extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('InicioPantalla'),
-      ),
-      body: Center(
-        child: Text('¡Registro exitoso!'),
-      ),
-    );
-  }
-}

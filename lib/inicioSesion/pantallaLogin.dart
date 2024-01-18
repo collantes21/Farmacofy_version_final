@@ -1,4 +1,6 @@
+import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
+import 'package:farmacofy/BBDD/bdHelper.dart';
 
 class LoginPantalla extends StatefulWidget {
   const LoginPantalla({Key? key}) : super(key: key);
@@ -11,6 +13,8 @@ class _LoginPantallaState extends State<LoginPantalla> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usuarioController = TextEditingController();
   final TextEditingController _contrasenaController = TextEditingController();
+
+  final BaseDeDatosUsuarios _baseDeDatos = BaseDeDatosUsuarios();  // Instancia de la clase BaseDeDatosUsuarios
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +53,26 @@ class _LoginPantallaState extends State<LoginPantalla> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState?.validate() ?? false) {
-                    // Aquí puedes realizar la lógica de inicio de sesión, como validar las credenciales y navegar a la siguiente pantalla si son correctas.
-                    // Puedes acceder a los valores ingresados utilizando _usuarioController.text y _contrasenaController.text.
+                    final usuario = _usuarioController.text;
+                    final contrasena = _contrasenaController.text;
+
+                    final credencialesCorrectas = await _baseDeDatos.verificarCredenciales(usuario, contrasena);
+
+                    if (credencialesCorrectas) {
+                      Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PantallaInicial()),
+                  );
+                    } else {
+                      // Mostrar un mensaje de error si las credenciales son incorrectas
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Error: Credenciales incorrectas'),
+                        ),
+                      );
+                    }
                   }
                 },
                 child: const Text('Login'),

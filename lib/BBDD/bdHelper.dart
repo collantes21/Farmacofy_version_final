@@ -63,6 +63,17 @@ class BaseDeDatosUsuarios {
     return result.isNotEmpty;
   }
 
+  Future<bool> verificarCredenciales(String usuario, String contrasena) async {
+    await abrirBaseDeDatos();
+    final result = await _database.query(
+      'usuarios',
+      where: 'usuario = ? AND contrasena = ?',
+      whereArgs: [usuario, contrasena],
+    );
+    await cerrarBaseDeDatos();
+    return result.isNotEmpty;
+  }
+
   Future<void> cerrarBaseDeDatos() async {
     await _database.close();
   }
