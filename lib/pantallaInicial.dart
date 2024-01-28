@@ -3,8 +3,9 @@ import 'package:farmacofy/anadirTratamiento/tratamientos1.dart';
 import 'package:farmacofy/config_menu/menu_items.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos2.dart';
 import 'package:farmacofy/instruccionesUsuario.dart';
-import 'package:farmacofy/models/medicamento.dart';
-import 'package:farmacofy/pages/page_medicamento.dart';
+import 'package:farmacofy/models/medicamentoOld.dart';
+import 'package:farmacofy/pages/page_medicamento_old.dart';
+import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -80,7 +81,7 @@ class PantallaInicial extends StatelessWidget {
             context,
             //Cambiar a pantalla de Formulario medicamento
            // MaterialPageRoute(builder: (context) => const Tratamientos1()),
-           MaterialPageRoute(builder: (context) =>  const PaginaMedicamento()),
+           MaterialPageRoute(builder: (context) =>  const PaginaTratamiento()),
           );
         },
         child: const Icon(Icons.add),

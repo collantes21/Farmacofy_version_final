@@ -2,6 +2,10 @@
 
 // ignore_for_file: prefer_const_constructors
 
+import 'package:farmacofy/models/consulta_medica.dart';
+import 'package:farmacofy/pages/page_consulta_medica.dart';
+import 'package:farmacofy/pages/page_listado_consultas.dart';
+import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +47,16 @@ class _MenuDrawerState extends State<MenuDrawer> {
             Navigator.pushNamed(context, '/intruccionesUsuario'); 
             break;
           case 2:
-            Navigator.pushNamed(context, '/compraFarmacia'); 
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PaginaTratamiento()),
+              ); 
+            break;
+          case 3:
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ListadoConsultasMedicas()),
+              );
             break;
           default:
             Navigator.pushReplacementNamed(context, '/'); 
@@ -87,12 +100,28 @@ class _MenuDrawerState extends State<MenuDrawer> {
           icon:  Icon(Icons.home), 
           label:  Text('Inicio')
         ),
-         NavigationDrawerDestination(
-          icon:  Icon(Icons.info_outline), 
+        NavigationDrawerDestination(
+           
+            icon: Icon(Icons.medication_outlined), 
+            label: Text('Medicamentos')
+            ),
+       
+        NavigationDrawerDestination(
+          icon: Icon(Icons.medication_liquid_outlined), 
+          label: Text('Tratamiento')
+          ),
+        
+        NavigationDrawerDestination(
+          icon: Icon(Icons.medical_services_outlined), 
+          label: Text('Consultas médicas')
+          ),
+          
+        NavigationDrawerDestination(
+          icon:  Icon(Icons.info_sharp), 
           label:  Text('Información')
         ),
          NavigationDrawerDestination(
-          icon:  Icon(Icons.local_pharmacy_rounded), 
+          icon:  Icon(Icons.local_pharmacy_outlined), 
           label:  Text('Farmacias')
         ),
          Padding(

@@ -1,29 +1,37 @@
 
 import 'package:farmacofy/BBDD/bbdd_medicamento.dart';
-import 'package:farmacofy/models/medicamento.dart';
+import 'package:farmacofy/models/medicamentoOld.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
 
-class PaginaMedicamento extends StatefulWidget {
-  const PaginaMedicamento({super.key});
+class PaginaMedicamentoOld extends StatefulWidget {
+  const PaginaMedicamentoOld({super.key});
 
   @override
-  State<PaginaMedicamento> createState() => _PaginaMedicamentoState();
+  State<PaginaMedicamentoOld> createState() => _PaginaMedicamentoOldState();
 }
 
-class _PaginaMedicamentoState extends State<PaginaMedicamento> {
+class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
     
     final _formKey = GlobalKey<FormState>();
-    Medicamento medicamento = Medicamento();
+    MedicamentoOld medicamento = MedicamentoOld();
     BDHelper bdHelper = BDHelper();
+    bool _habilitado = false;
+    String? _opcionSeleccionada;
+
+    
+
 
   @override
   Widget build(BuildContext context) {
 
     final tema = Theme.of(context);
+
+    
     
 
     return  GestureDetector( //Para quitar el foco de los campos de texto al pulsar fuera de ellos
+   
       onTap: () {
         //Quitar el foco de los campos de texto al pulsar fuera de ellos
         FocusScope.of(context).requestFocus(FocusNode());
@@ -66,7 +74,11 @@ class _PaginaMedicamentoState extends State<PaginaMedicamento> {
             key: _formKey, //Clave del formulario para validar los campos
             child: SingleChildScrollView(
               child: Column(
-                children: [
+                
+
+                children:<Widget> [
+                  
+
                   ListTile(
                     title: Text(
                       'Datos del medicamento',
@@ -78,6 +90,65 @@ class _PaginaMedicamentoState extends State<PaginaMedicamento> {
                     ),
                   ),
                   //Campo para introducir el nombre del medicamento
+                  
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          children: [
+                              Expanded(
+                                child:  DropdownButtonFormField<String>(
+                         
+                                 decoration: const InputDecoration(
+
+
+
+                                labelText: 'Seleccionar un medicamento',
+                                hintText: 'Seleccione un medicamento',
+                                icon: Icon(Icons.local_hospital),
+                                                             
+
+                              ), // Not necessary for Option 1
+                                value: _opcionSeleccionada,
+                                items: const [
+
+                                  // Tus DropdownMenuItems aquí
+                                  DropdownMenuItem(
+                                    value: 'Aspirina',
+                                    child: Text('Aspirina'),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 'Ibuprofeno',
+                                    child: Text('Ibuprofeno'),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 'Paracetamol',
+                                    child: Text('Paracetamol'),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 'Nuevo medicamento',
+                                    child: Text('Agregar nuevo medicamento'),
+                                  ),
+
+                                ],
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    _opcionSeleccionada = value;
+                                    _habilitado = value == 'Nuevo medicamento'; // Habilita los campos si se selecciona 'Agregar nuevo medicamento'
+                                  });
+                                },
+                            ),
+                            
+                              )
+                            
+                          ],
+                          
+                        ),
+                        
+                      ),
+                      // TextFormField(
+                      //       enabled: _habilitado, // Usa la variable _habilitado para controlar si el campo está habilitado o no
+                      //       // El resto de tu código aquí
+                      //     ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 15),
                     child: TextFormField(
@@ -97,6 +168,8 @@ class _PaginaMedicamentoState extends State<PaginaMedicamento> {
                       onSaved: (value) {
                         medicamento.nombre = value!;
                       },
+                      
+                      enabled: _habilitado,
                     ),
                   ),
                   //Campo para introducir la descripción del medicamento
@@ -121,6 +194,7 @@ class _PaginaMedicamentoState extends State<PaginaMedicamento> {
                       onSaved: (value) {
                         medicamento.descripcion = value!;
                       },
+                      enabled: _habilitado,
                     ),
                   ),
                   // Campo para indicar la fecha de caducidad del medicamento
@@ -164,22 +238,31 @@ class _PaginaMedicamentoState extends State<PaginaMedicamento> {
                           
                         }
                       },
+                      enabled: _habilitado,
                     ),
                     ),
+                  
                     //Campo del tipo de envase del medicamento
+                    if(_habilitado == true) // Mustra el campo si selecciona 'Agregar nuevo medicamento'
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
+                        
                         children: [
                           Expanded(
+                            
                             child: DropdownButtonFormField(
+                              
+                              
                               decoration: const InputDecoration(
+                                                             
                                 labelText: 'Tipo de envase',
                                 hintText: 'Introduce el tipo de envase del medicamento',
                                 icon: Icon(Icons.medication_liquid),
                                                              
 
                               ),
+                               
                               items: const [
                                 DropdownMenuItem(
                                   
@@ -221,8 +304,7 @@ class _PaginaMedicamentoState extends State<PaginaMedicamento> {
                                   value: 'Otro',
                                   child: Text('Otro'),
                                 ),
-                                
-                              
+                                                              
                               ], 
                               onChanged: (String? value) { 
                                 medicamento.tipoEnvase = value!; //Asignación del valor del campo al atributo tipoEnvase del objeto medicamento
@@ -235,14 +317,23 @@ class _PaginaMedicamentoState extends State<PaginaMedicamento> {
                               },
                               onSaved: (value){
                                 medicamento.tipoEnvase = value!;
-                              }
-                                                         
+                              },
+                                                                
                             
                             ),
+                            
+                            
                           ),
+                          
                         ],
-                      )
+                         
                       ),
+                                          
+                      ),
+                               
+                      
+                      
+                     
                       SizedBox(height: 15),
                       Divider(
                         color: tema.colorScheme.secondary,

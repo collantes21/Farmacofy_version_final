@@ -61,17 +61,35 @@ class BDHelper{
     String path = directorio+nombreBD;
     var baseDatos = await openDatabase(
       path, 
-      version: 1, 
+      version: 2, 
       onCreate: (Database db, int version) async{
+
         await db.execute(
-          "CREATE TABLE IF NOT EXISTS Medicamento(id INTEGER PRIMARY KEY, nombre TEXT, descripcion TEXT, fechaCaducidad TEXT, tipoEnvase TEXT, dosis INTEGER, frecuencia TEXT, viaAdministracion TEXT, duracion TEXT, cantidadEnvase INTEGER, cantidadMinima INTEGER, cantidadActual INTEGER, recordatorio BOOL, fechaInicio TEXT, fechaFin TEXT, activado BOOL, notas TEXT)"
+           "CREATE TABLE IF NOT EXISTS Consulta(id INTEGER PRIMARY KEY, especialista TEXT, doctor TEXT, fecha TEXT, hora TEXT, motivo TEXT)"
+         );
+
+        await db.execute(
+          "CREATE TABLE IF NOT EXISTS Medicamento(id INTEGER PRIMARY KEY, nombre TEXT, prospecto TEXT, fechaCaducidad TEXT, tipoEnvase TEXT, cantidadEnvase INTEGER)"
         );
-        //para añadir una segunda tabla
-        // await db.execute(
-        //   "CREATE TABLE Resultados(id INTEGER PRIMARY KEY, jugador1 TEXT, j1set1 TEXT, j1set1 TEXT)"
-        // );
+        
+        // para añadir una segunda tabla a la base de datos
+         await db.execute(
+           "CREATE TABLE IF NOT EXISTS Tratamiento(id INTEGER PRIMARY KEY, dosis INTEGER, frecuencia INTEGER, viaAdministracion TEXT, fechaInicio TEXT, fechaFin TEXT, descripcion TEXT, recordatorio INTEGER, idMedicamento INTEGER, FOREIGN KEY(idMedicamento) REFERENCES Medicamento(id))"
+         );
+         
+      },
+       onUpgrade: (Database db, int oldVersion, int newVersion) async {
+      // Aquí es donde manejas la lógica para actualizar la base de datos
+      if (oldVersion < 2) { // Si la versión anterior es menor que 2, significa que la base de datos no tiene la tabla "Consulta"
+        await db.execute(
+          // Modificar una tabla existente con un nuevo campo
+          // "ALTER TABLE Consulta ADD COLUMN nueva columna TEXT"
+          "CREATE TABLE IF NOT EXISTS Consulta(id INTEGER PRIMARY KEY, especialista TEXT, doctor TEXT, fecha TEXT, hora TEXT, motivo TEXT)"
+        );
       }
-      );
+    }
+  );
+      
     return baseDatos;
   }
 }
