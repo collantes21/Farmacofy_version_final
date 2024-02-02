@@ -5,6 +5,7 @@
 import 'package:farmacofy/models/consulta_medica.dart';
 import 'package:farmacofy/pages/page_consulta_medica.dart';
 import 'package:farmacofy/pages/page_listado_consultas.dart';
+import 'package:farmacofy/pages/page_listado_tratamientos.dart';
 import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +50,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
           case 2:
             Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const PaginaTratamiento()),
+                MaterialPageRoute(builder: (context) => const ListadoTratamientos()),
               ); 
             break;
           case 3:

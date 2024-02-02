@@ -3,6 +3,7 @@
 import 'package:farmacofy/BBDD/bbdd_medicamento.dart';
 import 'package:farmacofy/models/medicamento.dart';
 import 'package:farmacofy/models/tratamiento.dart';
+import 'package:farmacofy/pages/page_listado_tratamientos.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
 
@@ -473,7 +474,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                                     child: Text('Agregar nuevo medicamento'),
                                   ),
                                   DropdownMenuItem(
-                                    value: 'No agergar medicamento',
+                                    value: 'No agregar medicamento',
                                     child: Text('Deshabilitar campos medicamento'),
                                   ),
 
@@ -737,29 +738,31 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                           keyboardType: TextInputType.number,
                           //Validación del campo cantidadEnvase
                                                    
-                          validator: (value) {
-                            // if (!_habilitado) {
-                            //  return null;
-                            // }
-                            if ((value == null || value.isEmpty)) {
-                              return 'Por favor, introduce la cantidad del envase';
-                            }
-                           
-                            //Controlar que sea un número entero positivo
-                            if(RegExp(r'^[0-9]+$').hasMatch(value)==false)
-                            {
-                              return 'La cantidad debe ser un número';
-                            }
+                         validator: (value) {
+                              if (!_habilitado) {
+                                return null;
+                              }
+                              if ((value == null || value.isEmpty)) {
+                                return 'Por favor, introduce la cantidad del envase';
+                              }
+                              //Controlar que sea un número entero positivo
+                              if(RegExp(r'^[0-9]+$').hasMatch(value)==false)
+                              {
+                                return 'La cantidad debe ser un número';
+                              }
+                            
                             return null;
                           },
-                          //Asignación del valor del campo al atributo cantidadEnvase del objeto medicamento
                           onSaved: (value) {
-                             if(value != null)
-                             {
+                            if(_habilitado){
+                              if(value != null)
+                              {
                                 medicamento.cantidadEnvase = int.parse(value);
-                             }
+                              }
+                            }
+                            
                           },
-                          //enabled: _habilitado,
+                          enabled: _habilitado,
                         ),
                         
                       ),
@@ -939,7 +942,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                                 //Navigator.pop(context);
                                 Navigator.pushReplacement(
                                   context,
-                                MaterialPageRoute(builder: (context) => const PantallaInicial() ),
+                                MaterialPageRoute(builder: (context) => const ListadoTratamientos() ),
                                 );
                               });
                             }

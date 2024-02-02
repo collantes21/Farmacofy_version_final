@@ -38,7 +38,7 @@ class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
             
               future: BDHelper().consultarBD('Consulta'), 
               builder: (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
+                if (snapshot.connectionState == ConnectionState.waiting) { // Mientras espera la respuesta de la BD muestra un indicador de carga
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
@@ -61,7 +61,9 @@ class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
                         Text(
                          snapshot.data![index]['doctor'],
                         
-                        style: TextStyle(color: Color.fromARGB(255, 12, 42, 173), fontSize: 15.0), 
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 12, 42, 173), 
+                          fontSize: 15.0), 
                         ),
                         Text(
                           'Hora cita: '+ snapshot.data![index]['hora'], 

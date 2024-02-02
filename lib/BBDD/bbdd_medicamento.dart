@@ -92,4 +92,13 @@ class BDHelper{
       
     return baseDatos;
   }
+
+  Future<List<Map<String, dynamic>>> consultarTratamientosConMedicamentos() async {
+    // Database? bd = await baseDatos;
+    final bd = await baseDatos;
+    final resultado = await bd!.rawQuery(
+      "SELECT t.id, t.dosis, t.frecuencia, t.viaAdministracion, t.fechaInicio, t.fechaFin, t.descripcion, t.recordatorio, t.idMedicamento, m.nombre as nombreMedicamento, m.prospecto, m.fechaCaducidad, m.tipoEnvase, m.cantidadEnvase FROM Tratamiento t INNER JOIN Medicamento m ON t.idMedicamento = m.id"
+    );
+    return resultado;
+  }
 }
