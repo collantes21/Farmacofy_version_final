@@ -3,12 +3,16 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:farmacofy/models/consulta_medica.dart';
+import 'package:farmacofy/modo/modo_trabajo.dart';
+import 'package:farmacofy/pages/page_configuracion.dart';
 import 'package:farmacofy/pages/page_consulta_medica.dart';
 import 'package:farmacofy/pages/page_listado_consultas.dart';
+import 'package:farmacofy/pages/page_listado_medicamentos.dart';
 import 'package:farmacofy/pages/page_listado_tratamientos.dart';
 import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MenuDrawer extends StatefulWidget {
   const MenuDrawer({super.key});
@@ -23,6 +27,9 @@ class _MenuDrawerState extends State<MenuDrawer> {
 
   @override
   Widget build(BuildContext context) {
+
+    final modoTrabajo = Provider.of<ModoTrabajo>(context);
+
     return  NavigationDrawer(
       selectedIndex: indiceSeleccionado, // Permitirá cambiar el color del elemento seleccionado en el indice del menú
       // El método onDestinationSelected se ejecutará cuando se seleccione un elemento del menú lateral y se le pasará el indice del elemento seleccionado
@@ -42,10 +49,15 @@ class _MenuDrawerState extends State<MenuDrawer> {
             Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const PantallaInicial()),
-              ); // Navega a la ruta '/'
+              ); 
             break;
           case 1:
-            Navigator.pushNamed(context, '/intruccionesUsuario'); 
+            // Navega a la ruta '/'
+            //Navigator.pushNamed(context, '/intruccionesUsuario');
+             Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ListadoMedicamentos()),
+              ); 
             break;
           case 2:
             Navigator.push(
@@ -57,6 +69,12 @@ class _MenuDrawerState extends State<MenuDrawer> {
             Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const ListadoConsultasMedicas()),
+              );
+            break;
+          case 6:
+            Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PaginaConfiguracion()),
               );
             break;
           default:
@@ -78,10 +96,24 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 fontSize: 24,
               ),
             ),
-            Image(image: AssetImage('assets/farmacofy.jpg'),
-              width: 60,
-              height: 60, 
-             )
+            // crear mas separacion del texto con el avatar
+            SizedBox(width: 75),
+          
+            // Image(image: AssetImage('assets/farmacofy.jpg'),
+            //   width: 60,
+            //   height: 60, 
+            //  ),
+          
+             CircleAvatar(
+
+            radius: 25,
+    
+            backgroundImage: NetworkImage(
+              
+                'https://www.stylist.co.uk/images/app/uploads/2022/06/01105352/jennifer-aniston-crop-1654077521-1390x1390.jpg?w=256&h=256&fit=max&auto=format%2Ccompress'
+                ),
+          ),
+ 
               // Asegúrate de que la imagen esté en la carpeta de assets de tu proyecto
           
           ],
@@ -144,6 +176,18 @@ class _MenuDrawerState extends State<MenuDrawer> {
             ),
           )
           ),
+            Padding(
+            padding: EdgeInsets.fromLTRB(28, 0, 28, 20),
+            child: Divider(
+              color: Colors.green,
+              thickness: 2,
+            ),
+          ),
+          NavigationDrawerDestination(
+          icon:  Icon(Icons.settings), 
+          label:  Text('Configuración')
+        ),
+          
         
       ],
     );

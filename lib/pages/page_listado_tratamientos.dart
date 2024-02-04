@@ -49,7 +49,7 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                        margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
                        child: ListTile(
                          title: Text(
-                          snapshot.data![index]['nombreMedicamento'] ?? 'Sin nombre del medicamento',
+                          snapshot.data![index]['condicionMedica'] ?? 'Sin nombre del medicamento',
                           style: TextStyle(fontWeight: FontWeight.bold),
                          ),
                          
@@ -61,7 +61,7 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                        Text('Fecha de fin: ${snapshot.data![index]['fechaFin']}'),
                        Text('Frecuencia: ${snapshot.data![index]['frecuencia']}'),
                        Text('Via de administración: ${snapshot.data![index]['viaAdministracion']}'),
-                        Text('Recordatorio: ${snapshot.data![index]['recordatorio']}'),
+                        Text('Medicamento: ${snapshot.data![index]['nombreMedicamento']}'), // Acordarse de poner: m.nombre as nombreMedicamento                         
                         
 
                      ],

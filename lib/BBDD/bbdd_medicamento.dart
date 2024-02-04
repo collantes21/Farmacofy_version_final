@@ -61,7 +61,7 @@ class BDHelper{
     String path = directorio+nombreBD;
     var baseDatos = await openDatabase(
       path, 
-      version: 2, 
+      version: 4, 
       onCreate: (Database db, int version) async{
 
         await db.execute(
@@ -74,17 +74,17 @@ class BDHelper{
         
         // para añadir una segunda tabla a la base de datos
          await db.execute(
-           "CREATE TABLE IF NOT EXISTS Tratamiento(id INTEGER PRIMARY KEY, dosis INTEGER, frecuencia INTEGER, viaAdministracion TEXT, fechaInicio TEXT, fechaFin TEXT, descripcion TEXT, recordatorio INTEGER, idMedicamento INTEGER, FOREIGN KEY(idMedicamento) REFERENCES Medicamento(id))"
+           "CREATE TABLE IF NOT EXISTS Tratamiento(id INTEGER PRIMARY KEY, condicionMedica TEXT, dosis INTEGER, frecuencia INTEGER, viaAdministracion TEXT, fechaInicio TEXT, fechaFin TEXT, descripcion TEXT, recordatorio INTEGER, idMedicamento INTEGER, FOREIGN KEY(idMedicamento) REFERENCES Medicamento(id))"
          );
          
       },
        onUpgrade: (Database db, int oldVersion, int newVersion) async {
       // Aquí es donde manejas la lógica para actualizar la base de datos
-      if (oldVersion < 2) { // Si la versión anterior es menor que 2, significa que la base de datos no tiene la tabla "Consulta"
+      if (oldVersion < 4) { // Si la versión anterior es menor que 2, significa que la base de datos no tiene la tabla "Consulta"
         await db.execute(
           // Modificar una tabla existente con un nuevo campo
           // "ALTER TABLE Consulta ADD COLUMN nueva columna TEXT"
-          "CREATE TABLE IF NOT EXISTS Consulta(id INTEGER PRIMARY KEY, especialista TEXT, doctor TEXT, fecha TEXT, hora TEXT, motivo TEXT)"
+          "ALTER TABLE Tratamiento ADD COLUMN condicionMedica TEXT"
         );
       }
     }
@@ -97,7 +97,7 @@ class BDHelper{
     // Database? bd = await baseDatos;
     final bd = await baseDatos;
     final resultado = await bd!.rawQuery(
-      "SELECT t.id, t.dosis, t.frecuencia, t.viaAdministracion, t.fechaInicio, t.fechaFin, t.descripcion, t.recordatorio, t.idMedicamento, m.nombre as nombreMedicamento, m.prospecto, m.fechaCaducidad, m.tipoEnvase, m.cantidadEnvase FROM Tratamiento t INNER JOIN Medicamento m ON t.idMedicamento = m.id"
+      "SELECT t.id, t.condicionMedica, t.dosis, t.frecuencia, t.viaAdministracion, t.fechaInicio, t.fechaFin, t.descripcion, t.recordatorio, t.idMedicamento, m.nombre as nombreMedicamento, m.prospecto, m.fechaCaducidad, m.tipoEnvase, m.cantidadEnvase FROM Tratamiento t INNER JOIN Medicamento m ON t.idMedicamento = m.id"
     );
     return resultado;
   }

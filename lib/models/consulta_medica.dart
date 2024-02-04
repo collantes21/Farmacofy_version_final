@@ -1,4 +1,6 @@
 
+import 'package:farmacofy/BBDD/bbdd_medicamento.dart';
+
 class ConsultaMedica {
   int? _id;
   late String _especialista;
@@ -88,6 +90,39 @@ class ConsultaMedica {
     _fecha = map['fecha'];
     _hora = map['hora'];
     _motivo = map['motivo'];
+  }
+
+  Future<List<ConsultaMedica>> obtenerProximasConsultas(bool modoLocal) async {
+    List<ConsultaMedica> proximasConsultas = [];
+
+    if(modoLocal) {
+      // Obtener las consultas de la base de datos local
+      BDHelper bd = BDHelper();
+      List<Map<String, dynamic>> consultas = await bd.consultarBD('Consulta');
+      for(int i = 0; i < consultas.length; i++) {
+        proximasConsultas.add(ConsultaMedica.fromMapObject(consultas[i]));
+      }
+
+    } else {
+      // Obtener las consultas de la base de datos remota API
+      // Aquí se haría la petición a la API para obtener las consultas
+      // y se rellenaría el array de proximasConsultas con los datos obtenidos
+      // Ejemplo:
+      // var response = await http.get('https://api.com/consultas');
+      // if(response.statusCode == 200) {
+      //   var consultas = json.decode(response.body);
+      //   for(int i = 0; i < consultas.length; i++) {
+      //     proximasConsultas.add(ConsultaMedica.fromMapObject(consultas[i]));
+      //   }
+      // }
+      // return proximasConsultas;
+      // En este caso, como no tenemos una API real, simplemente devolvemos un array vacío
+      // para simular que no hay consultas
+      return proximasConsultas; 
+
+    }
+
+    return proximasConsultas;
   }
 
 

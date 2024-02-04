@@ -8,7 +8,7 @@ import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
 
 class PaginaTratamiento extends StatefulWidget {
-  const PaginaTratamiento({super.key});
+  const PaginaTratamiento({super.key, });
 
   @override
   State<PaginaTratamiento> createState() => _PaginaTratamientoState();
@@ -73,6 +73,31 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                       ), 
                      ),
                     ),
+
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Condición médica',
+                        hintText: 'Introduce la condición médica',
+                        icon: Icon(Icons.medical_services_rounded, color: Color.fromARGB(255, 224, 13, 13)),
+                      ),
+                      //Validación del campo
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, introduce la condición médica';
+                        }
+                        return null;
+                      },
+                      //Asignación del valor del campo al atributo condicionMedica del objeto medicamento
+                      onSaved: (value) {
+                        if(value != null)
+                        {
+                          tratamiento.condicionMedica = value;
+                        }
+                      },
+                    ),
+                  ),  
                   
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 20),
@@ -100,35 +125,56 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                           },
                         ),
                   ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: TextFormField(
-                          //maxLines: null,
-                          decoration: const InputDecoration(
-                            labelText: 'Frecuencia de tomar el medicamento',
-                            //Hacaer que entre texto en el campo
-                          
-                            hintText: 'Introduce cada cuanto tiempo tomar el medicamento',
-                            icon: Icon(Icons.medication_liquid_sharp),
-                          ),
-                          keyboardType: TextInputType.number,
-                          //Validación del campo
+                                Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: DropdownButtonFormField(
+                                decoration: const InputDecoration(
+                                  labelText: 'Frecuencia',
+                                  hintText: 'Introduce la frecuencia del medicamento',
+                                  icon: Icon(Icons.medication_liquid),
+                                ),
+                                items: const [
+                                  DropdownMenuItem(
+                                    value: 6,
+                                    child: Text('Cada 6 horas'),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 8,
+                                    child: Text('Cada 8 horas'),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 12,
+                                    child: Text('Cada 12 horas'),
+                                  ),
+                                  DropdownMenuItem(
+                                    value: 24,
+                                    child: Text('Cada 24 horas'),
+                                  ),
+                           
+                          ],
+                          onChanged: (value) {
+                            tratamiento.frecuencia = value!; //Asignación del valor del campo al atributo frecuencia del objeto medicamento
+                          },
                           validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor, introduce la frecuencia de toma del medicamento';
+                            // Controlar que es un valor válido y un numero
+
+                            if(value == null || value == 0)
+                            {
+                              return 'Por favor, seleccione la frecuencia del medicamento';
                             }
                             return null;
                           },
-                          //Asignación del valor del campo al atributo dosis del objeto medicamento
-                          onSaved: (value) {
-                            if(value != null)
-                            {
-                              tratamiento.frecuencia = int.parse(value);
-                            }
-                         
-                          },
-                        ),
-                  ),
+                          onSaved: (value){
+                            tratamiento.frecuencia = value!;
+                           },
+                          ),
+                         ),
+                        ],
+                       ),
+                      ),
                    Container(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
@@ -138,7 +184,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                                 decoration: const InputDecoration(
                                   labelText: 'Via de administración',
                                   hintText: 'Introduce la via de administración del medicamento',
-                                  icon: Icon(Icons.local_hospital_rounded),
+                                  icon: Icon(Icons.medication_rounded, color: Color.fromARGB(255, 24, 183, 211)),
                                 ),
                                 items: const [
                                   DropdownMenuItem(
@@ -210,7 +256,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                           decoration: const InputDecoration(
                             labelText: 'Fecha de inicio',
                             hintText: 'Introduce la fecha de inicio del medicamento',
-                            icon: Icon(Icons.calendar_today_rounded),
+                            icon: Icon(Icons.calendar_today_rounded, color: Color.fromARGB(255, 163, 22, 156)),
                           ),
                           keyboardType: TextInputType.datetime,
                           //Validación del campo
@@ -242,7 +288,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                           decoration: const InputDecoration(
                             labelText: 'Fecha de fin',
                             hintText: 'Introduce la fecha de fin del medicamento',
-                            icon: Icon(Icons.calendar_month_rounded),
+                            icon: Icon(Icons.calendar_month_rounded, color: Color.fromARGB(255, 57, 101, 196)),
                           ),
                           keyboardType: TextInputType.datetime,
                           //Validación del campo
@@ -272,9 +318,9 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: TextFormField(
                         decoration: const InputDecoration(
-                          labelText: 'Descripción del tratamiento',
+                          labelText: 'Detalles del tratamiento',
                           hintText: 'Introduce notas sobre el tratamiento',
-                          icon: Icon(Icons.note_add_rounded),
+                          icon: Icon(Icons.note_add_rounded, color: Color.fromARGB(255, 9, 168, 44)),
                         ),
                         keyboardType: TextInputType.multiline,
                        //
@@ -709,25 +755,8 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                       ),
                                           
                       ),
-
-                       SizedBox(height: 15),
-                      Divider(
-                        color: Colors.green,
-                        thickness: 2,
-                      ),
-                                     
-                     ListTile(
-                        title: Text(
-                          'Control stock',
-                          style: TextStyle(
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                          ),
-                        ),
-                      ),
-
-                     Container(
+                      //Campo para indicar la cantidad del medicamento
+                          Container(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: TextFormField(
                           decoration: const InputDecoration(
@@ -766,149 +795,16 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                         ),
                         
                       ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Cantidad mínima',
-                            hintText: 'Introduce la cantidad mínima del medicamento',
-                            icon: Icon(Icons.shopping_cart_outlined),
-                          ),
-                          keyboardType: TextInputType.number,
-                          //Validación del campo
-                          // validator: (value) {
-                          //   if (value == null || value.isEmpty) {
-                          //     return 'Por favor, introduce la cantidad mínima';
-                          //   }
-                          //   //Controlar que sea un número entero positivo
-                          //   if(RegExp(r'^[0-9]+$').hasMatch(value)==false)
-                          //   {
-                          //     return 'La cantidad debe ser un número';
-                          //   }
-                          //   return null;
-                          // },
-                          //Asignación del valor del campo al atributo cantidadMinima del objeto medicamento
-                          // onSaved: (value) {
-                          //   if(value != null)
-                          //   {
-                          //      //no esta asignada a ningun sitio aún
-                          //   }
-                          // },
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Cantidad actual',
-                            hintText: 'Introduce la cantidad actual del medicamento',
-                            icon: Icon(Icons.battery_5_bar),
-                          ),
-                          keyboardType: TextInputType.number,
-                          //Validación del campo
-                          // validator: (value) {
-                          //   if (value == null || value.isEmpty) {
-                          //     return 'Por favor, introduce la cantidad actual';
-                          //   }
-                          //   //Controlar que sea un número entero positivo
-                          //   if(RegExp(r'^[0-9]+$').hasMatch(value)==false)
-                          //   {
-                          //     return 'La cantidad debe ser un número';
-                          //   }
-                          //   return null;
-                          // },
-                          //Asignación del valor del campo al atributo cantidadActual del objeto medicamento
-                          // onSaved: (value) {
-                          //   tratamiento.cantidadActual = int.parse(value!);
-                          // },
-                        ),
-                      ),
 
-                      //Activación del medicamento
-                      
-                      //  Container(
-                      //   padding: const EdgeInsets.symmetric(horizontal: 20),
-                      //   child: CheckboxListTile(
-                          
-                      //     title: Text(
-                      //       "Activar medicamento",
-                      //       style: TextStyle(
-                      //         fontSize: 18.0,
-                      //         fontWeight: FontWeight.bold,
-                      //         color: Colors.green
-                             
-                      //       ),
-                      //     ),
-                      //     value: tratamiento.activado, //Asignación del valor del campo al atributo activado del objeto medicamento
-                      //     onChanged: (bool? value) {
-                      //       setState(() {
-                      //         tratamiento.activado = value!;
-                      //       });
-                      //     },
-                      //     secondary: const Icon(Icons.notification_add),
-                      //   ),
-                        
-                      // ),
-
+                   
                       SizedBox(height: 15),
                       Divider(
                         color: Colors.green,
                         thickness: 2,
                       ),
                       SizedBox(height: 10),
-                      //Datos de campos para el control de imágenes
-                      ListTile(
-                        title: Text(
-                          'Imágenes',
-                          style: TextStyle(
-                            fontSize: 17.0,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.green,
-                          ),
-                        ),
-                      ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 17),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Logo Medicamento',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green, 
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.add_a_photo_rounded),
-                            
-                          ),
-                          Text(
-                            'Imagen Envase',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green,
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.add_a_photo_outlined),
-                            
-                          ),
-                        
-                        ],
-                      ),
-                      
-                    ),
-                      const SizedBox(height: 15),
-                    Divider(
-                      color: Colors.green,
-                      thickness: 2,
-                    ), 
-                    const SizedBox(height: 50),
+                  
+                    
                     //Botón para añadir el medicamento
                     Padding(
                       padding: const EdgeInsets.only(bottom: 40.0), // Ajusta el valor según tus necesidades

@@ -1,20 +1,21 @@
 
 import 'package:farmacofy/BBDD/bbdd_medicamento.dart';
+import 'package:farmacofy/models/medicamento.dart';
 import 'package:farmacofy/models/medicamentoOld.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
 
-class PaginaMedicamentoOld extends StatefulWidget {
-  const PaginaMedicamentoOld({super.key});
+class PaginaMedicamento extends StatefulWidget {
+  const PaginaMedicamento({super.key});
 
   @override
-  State<PaginaMedicamentoOld> createState() => _PaginaMedicamentoOldState();
+  State<PaginaMedicamento> createState() => _PaginaMedicamentoState();
 }
 
-class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
+class _PaginaMedicamentoState extends State<PaginaMedicamento> {
     
     final _formKey = GlobalKey<FormState>();
-    MedicamentoOld medicamento = MedicamentoOld();
+    Medicamento medicamento = Medicamento();
     BDHelper bdHelper = BDHelper();
     bool _habilitado = false;
     String? _opcionSeleccionada;
@@ -38,10 +39,9 @@ class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
       },
       child: Scaffold(
         appBar: AppBar(
-
-          backgroundColor: const Color(0xFF02A724),
+          
           title: Text('Añadir medicamento',
-         
+              
             style: TextStyle(
             //Color del texto
             color: tema.colorScheme.onPrimary,
@@ -177,8 +177,8 @@ class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: TextFormField(
                       decoration: const InputDecoration(
-                        labelText: 'Descripción del medicamento',
-                        hintText: 'Introduce la descripción del medicamento',
+                        labelText: 'Prospecto del medicamento',
+                        hintText: 'Introduce los detalles del medicamento',
                      
                         icon: Icon(Icons.description_rounded),
                       ),
@@ -192,7 +192,7 @@ class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
                       },
                       //Asignación del valor del campo al atributo descripción del objeto medicamento
                       onSaved: (value) {
-                        medicamento.descripcion = value!;
+                        medicamento.prospecto = value!;
                       },
                       enabled: _habilitado,
                     ),
@@ -234,7 +234,7 @@ class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
                       onSaved: (value){
                         if(value != null)
                         {
-                          medicamento.diaCaducidad = value;
+                          medicamento.fechaCaducidad = value;
                           
                         }
                       },
@@ -334,163 +334,9 @@ class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
                       
                       
                      
-                      SizedBox(height: 15),
-                      Divider(
-                        color: tema.colorScheme.secondary,
-                        thickness: 2,
-                      ),
-                      //Datos de campos para prescripción médica
-                      ListTile(
-                        title: Text(
-                          'Prescripción médica',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold,
-                            color: tema.colorScheme.secondary,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Dosis',
-                            hintText: 'Introduce la dosis del medicamento en cada toma',
-                            icon: Icon(Icons.medication_liquid_sharp),
-                          ),
-                          keyboardType: TextInputType.number,
-                          //Validación del campo
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor, introduce la dosis del medicamento';
-                            }
-                            return null;
-                          },
-                          //Asignación del valor del campo al atributo dosis del objeto medicamento
-                          onSaved: (value) {
-                            medicamento.dosis = int.parse(value!);
-                          },
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: DropdownButtonFormField(
-                                decoration: const InputDecoration(
-                                  labelText: 'Frecuencia',
-                                  hintText: 'Introduce la frecuencia del medicamento',
-                                  icon: Icon(Icons.medication_liquid),
-                                ),
-                                items: const [
-                                  DropdownMenuItem(
-                                    value: 'Cada 8 horas',
-                                    child: Text('Cada 8 horas'),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'Cada 12 horas',
-                                    child: Text('Cada 12 horas'),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'Cada 24 horas',
-                                    child: Text('Cada 24 horas'),
-                                  ),
-                           
-                          ],
-                          onChanged: (String? value) {
-                            medicamento.frecuencia = value!; //Asignación del valor del campo al atributo frecuencia del objeto medicamento
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor, introduce la frecuencia del medicamento';
-                            }
-                            return null;
-                          },
-                          onSaved: (value){
-                            medicamento.frecuencia = value!;
-                           },
-                          ),
-                         ),
-                        ],
-                       ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: DropdownButtonFormField(
-                                decoration: const InputDecoration(
-                                  labelText: 'Via de administración',
-                                  hintText: 'Introduce la via de administración del medicamento',
-                                  icon: Icon(Icons.local_hospital_rounded),
-                                ),
-                                items: const [
-                                  DropdownMenuItem(
-                                    value: 'Oral',
-                                    child: Text('Oral'),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'Intravenosa',
-                                    child: Text('Intravenosa'),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'Intramuscular',
-                                    child: Text('Intramuscular'),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'Subcutánea',
-                                    child: Text('Subcutánea'),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'Rectal',
-                                    child: Text('Rectal'),
-                                  ),
-                                  DropdownMenuItem(
-                                    value: 'Otro',
-                                    child: Text('Otro'),
-                                  ),
-                                ],
-                                onChanged: (String? value) {
-                                  medicamento.viaAdministracion = value!; //Asignación del valor del campo al atributo viaAdministracion del objeto medicamento
-                                },
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Por favor, introduce la via de administración del medicamento';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (value){
-                                  medicamento.viaAdministracion = value!;
-                                }
-                              ),
-                              )
-                          ],
-                        )
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Duración',
-                            hintText: 'Introduce la duración del medicamento',
-                            icon: Icon(Icons.timelapse),
-                          ),
-                          keyboardType: TextInputType.text,
-                          //Validación del campo
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor, introduce la duración del medicamento';
-                            }
-                            return null;
-                          },
-                          //Asignación del valor del campo al atributo duracion del objeto medicamento
-                          onSaved: (value) {
-                            medicamento.duracion = value!;
-                          },
-                        ),
-                      ),
+
+                    
+
                       SizedBox(height: 15),
                       Divider(
                         color: tema.colorScheme.secondary,
@@ -535,6 +381,13 @@ class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
                           },
                         ),
                       ),
+
+                      /**
+                       * * Importante ver como usarlo para crear una notificación
+                       * ! No se ha implementado la cantidad mínima y la cantidad actual
+                       * ? No se como puedo usar la cantidad mínima y la cantidad actual en mi app
+                       */
+
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: TextFormField(
@@ -558,7 +411,7 @@ class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
                           },
                           //Asignación del valor del campo al atributo cantidadMinima del objeto medicamento
                           onSaved: (value) {
-                            medicamento.cantidadMinima = int.parse(value!);
+                           // medicamento.cantidadMinima = int.parse(value!);
                           },
                         ),
                       ),
@@ -585,7 +438,7 @@ class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
                           },
                           //Asignación del valor del campo al atributo cantidadActual del objeto medicamento
                           onSaved: (value) {
-                            medicamento.cantidadActual = int.parse(value!);
+                           // medicamento.cantidadActual = int.parse(value!);
                           },
                         ),
                       ),
@@ -606,6 +459,11 @@ class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
                           ),
                         ),
                       ),
+                      /**
+                       * * Importante ver como usarlo para crear una notificación
+                       * ! No se ha implementado el campo recordatorio
+                       * ? No se como puedo usar el campo recordatorio en mi app
+                       */
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
@@ -628,7 +486,7 @@ class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
                                   ),
                                 ],
                                 onChanged: (bool? value) {
-                                  medicamento.recordatorio = value!; //Asignación del valor del campo al atributo recordatorio del objeto medicamento
+                                 // medicamento.recordatorio = value!; //Asignación del valor del campo al atributo recordatorio del objeto medicamento
                                 },
                                 validator: (value) {
                                   if (value == null) {
@@ -637,120 +495,45 @@ class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
                                   return null;
                                 },
                                 onSaved: (value){
-                                  medicamento.recordatorio = value!;
+                                 // medicamento.recordatorio = value!;
                                 }
                               ),
                             ),
                           ],
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Fecha de inicio',
-                            hintText: 'Introduce la fecha de inicio del medicamento',
-                            icon: Icon(Icons.calendar_today_rounded),
-                          ),
-                          keyboardType: TextInputType.datetime,
-                          //Validación del campo
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor, introduce la fecha de inicio';
-                            }
-                            if(RegExp(r'^(\d{2})/(\d{2})/(\d{4})$').hasMatch(value)==false)
-                            {
-                              return 'El formato de la fecha es incorrecto';
-                            }
-                            List<String> datoFecha = value.split('/');
-                              int dia = int.tryParse(datoFecha[0])!;
-                              int mes = int.tryParse(datoFecha[1])!;
-                              int anio = int.tryParse(datoFecha[2])!;
 
-                            try{
-                              DateTime fechaInicio = DateTime(anio, mes, dia);
-                              //medicamento.fechaInicio = fechaInicio; //Asignación del valor del campo al atributo fechaInicio del objeto medicamento
-                            }
-                            catch(e){
-                              return 'El formato fecha introducida no es válida';
-                            }
-                            return null;
-                          },
-                          //Asignación del valor del campo al atributo fechaInicio del objeto medicamento
-                          onSaved: (value){
-                            if(value != null)
-                            {
-                              medicamento.diaInicio = value;
-                            }
-                          },
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            labelText: 'Fecha de fin',
-                            hintText: 'Introduce la fecha de fin del medicamento',
-                            icon: Icon(Icons.calendar_today_rounded),
-                          ),
-                          keyboardType: TextInputType.datetime,
-                          //Validación del campo
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor, introduce la fecha de fin';
-                            }
-                            if(RegExp(r'^(\d{2})/(\d{2})/(\d{4})$').hasMatch(value)==false)
-                            {
-                              return 'El formato de la fecha es incorrecto';
-                            }
-                            List<String> datoFecha = value.split('/');
-                              int dia = int.tryParse(datoFecha[0])!;
-                              int mes = int.tryParse(datoFecha[1])!;
-                              int anio = int.tryParse(datoFecha[2])!;
+                      /**
+                       * * Importante ver si lo queremos implementar de algun modo
+                       * ! No se ha implementado el campo activar medicamento
+                       * ? No se si lo necesitamos en nuestra app
+                       */
 
-                            try{
-                              DateTime fechaFin = DateTime(anio, mes, dia);
-                              //medicamento.fechaFin = fechaFin; //Asignación del valor del campo al atributo fechaFin del objeto medicamento
-                            }
-                            catch(e){
-                              return 'El formato fecha introducida no es válida';
-                            }
-                            return null;
-                          },
-                          //Asignación del valor del campo al atributo fechaFin del objeto medicamento
-                          onSaved: (value){
-                            if(value != null)
-                            {
-                              medicamento.diaFin = value;
-                            }
-                          },
-                        ),
-                      ),
-                       
+                      // Campo para activar el medicamento, aun no se ha implementado 
                       
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: CheckboxListTile(
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                      //   child: CheckboxListTile(
                           
-                          title: Text(
-                            "Activar medicamento",
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
-                              color: tema.colorScheme.secondary,
+                      //     title: Text(
+                      //       "Activar medicamento",
+                      //       style: TextStyle(
+                      //         fontSize: 18.0,
+                      //         fontWeight: FontWeight.bold,
+                      //         color: tema.colorScheme.secondary,
                              
-                            ),
-                          ),
-                          value: medicamento.activado, //Asignación del valor del campo al atributo activado del objeto medicamento
-                          onChanged: (bool? value) {
-                            setState(() {
-                              medicamento.activado = value!;
-                            });
-                          },
-                          secondary: const Icon(Icons.notification_add),
-                        ),
+                      //       ),
+                      //     ),
+                      //     value: medicamento.activado, //Asignación del valor del campo al atributo activado del objeto medicamento
+                      //     onChanged: (bool? value) {
+                      //       setState(() {
+                      //         medicamento.activado = value!;
+                      //       });
+                      //     },
+                      //     secondary: const Icon(Icons.notification_add),
+                      //   ),
                         
-                      ),
+                      // ),
                       SizedBox(height: 15),
                       Divider(
                         color: tema.colorScheme.secondary,
@@ -776,7 +559,7 @@ class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
                           Text(
                             'Logo Medicamento',
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: 15.0,
                               fontWeight: FontWeight.bold,
                               color: tema.colorScheme.secondary,
                             ),
@@ -789,7 +572,7 @@ class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
                           Text(
                             'Imagen Envase',
                             style: TextStyle(
-                              fontSize: 18.0,
+                              fontSize: 15.0,
                               fontWeight: FontWeight.bold,
                               color: tema.colorScheme.secondary,
                             ),
@@ -804,19 +587,7 @@ class _PaginaMedicamentoOldState extends State<PaginaMedicamentoOld> {
                       ),
                       
                     ),
-                    //Campo para introducir notas
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: 'Notas',
-                          hintText: 'Introduce notas sobre el medicamento',
-                          icon: Icon(Icons.note_add_rounded),
-                        ),
-                      
-                      ),
 
-                    ),
 
                     const SizedBox(height: 15),
                     Divider(

@@ -1,15 +1,22 @@
 import 'package:farmacofy/almacen.dart';
 import 'package:farmacofy/inicioSesion/pantallaRegistroLogin.dart';
 import 'package:farmacofy/instruccionesUsuario.dart';
+import 'package:farmacofy/modo/modo_trabajo.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos1.dart';
 import 'package:flutter/material.dart';
 
 import 'package:farmacofy/anadirTratamiento/tratamientos2.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos3.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( MultiProvider(
+    providers: [ChangeNotifierProvider(create: (_) => ModoTrabajo())
+    ],
+    child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -18,6 +25,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const InicioPantalla(),

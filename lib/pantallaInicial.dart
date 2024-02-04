@@ -3,22 +3,31 @@ import 'package:farmacofy/anadirTratamiento/tratamientos1.dart';
 import 'package:farmacofy/config_menu/menu_items.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos2.dart';
 import 'package:farmacofy/instruccionesUsuario.dart';
+import 'package:farmacofy/models/consulta_medica.dart';
 import 'package:farmacofy/models/medicamentoOld.dart';
-import 'package:farmacofy/pages/page_medicamento_old.dart';
+import 'package:farmacofy/modo/modo_trabajo.dart';
+import 'package:farmacofy/pages/page_consulta_medica.dart';
+import 'package:farmacofy/pages/page_medicamento.dart';
 import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PantallaInicial extends StatelessWidget {
   const PantallaInicial({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final modoTrabajo = Provider.of<ModoTrabajo>(context);
+    final consultaMedica = new ConsultaMedica();
     return Scaffold(
       appBar: AppBar(
+                
         title: const Text('FarmacoFy'),
         backgroundColor: const Color(0xFF02A724),
         centerTitle: true,
+       
+       
         actions: [
           IconButton(
             onPressed: () {
@@ -26,51 +35,75 @@ class PantallaInicial extends StatelessWidget {
             },
            icon: const Icon(Icons.settings),
           ),
+          
         ],
+        
       ),
 
       body: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(40.0),
-            child: Text(
-              'Recordatorio de medicamentos',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Center(
-            child: Row(
-              children: [
-                const SizedBox(
-                  height: 50,
-                ),
-                //Posible imagen a añadir
-                // Container(
-                //   margin: const EdgeInsets.only(left: 140.0),
-                //   child: const Image(
-                //     image: NetworkImage(
-                //         "https://i.pinimg.com/originals/d0/56/ab/d056ab76ccee4a9adc1625923ec992ae.png"),
-                //     width: 50,
-                //     height: 50,
-                //   ),
-                // )
-              ],
-            ),
-          ),
-          const SizedBox(height: 0),
-          Expanded(
-            child: ListView.builder(
-              itemCount: tratamientoMenuItems.length,
-              itemBuilder: (context, index) {
-                final tratamientoMenuItem = tratamientoMenuItems[index];
-                return _CustomListTile(menuItem: tratamientoMenuItem);
-              },
-            ),
-          ),
+           Expanded(
+             child: FutureBuilder(
+                    future: consultaMedica.obtenerProximasConsultas(modoTrabajo.modoLocal), 
+                    builder: (context, AsyncSnapshot<List<ConsultaMedica>> snapshot) {
+                      if(snapshot.hasData) {
+                        return Column(
+                          children:[
+                             Expanded(
+                            child: ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index){
+                                return Card(
+                                  margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+                                  child: ListTile(
+                                    title: Text(
+                                      snapshot.data![index].especialista ,
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Text('Doctor: ${snapshot.data![index].doctor}'),
+                                        Text('Fecha: ${snapshot.data![index].fecha}'),
+                                        Text('Hora: ${snapshot.data![index].hora}'),
+                                      ],
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => PaginaConsultaMedica()),
+                                      );
+                                    },
+                                  ),
+                            
+                                );
+                            
+                            
+                                
+                              },
+                            ),
+                          ),
+                          ],
+                        );
+                      }
+                      else {
+                        return const Center(child: Text('No hay consultas'));
+                      }
+                    },
+             ),
+           
+           ),
+ 
+    
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: tratamientoMenuItems.length,
+          //     itemBuilder: (context, index) {
+          //       final tratamientoMenuItem = tratamientoMenuItems[index];
+          //       return _CustomListTile(menuItem: tratamientoMenuItem);
+          //     },
+          //   ),
+          // ),
         ],
       ),
       //
