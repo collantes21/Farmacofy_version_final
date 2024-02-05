@@ -2,6 +2,7 @@
 import 'package:farmacofy/BBDD/bbdd_medicamento.dart';
 import 'package:farmacofy/pages/page_consulta_medica.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ListadoConsultasMedicas extends StatefulWidget {
   const ListadoConsultasMedicas({super.key});
@@ -51,6 +52,7 @@ class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
                         //Separacion entre las tarjetas
                         margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
                         child: ListTile(
+                          leading: Icon(FontAwesomeIcons.userMd, color: Colors.blue, size: 40.0,),
                           title: Text(snapshot.data![index]['especialista'],
                           style: TextStyle(fontWeight: FontWeight.bold),
                           ),

@@ -104,9 +104,14 @@ class ConsultaMedica {
       }
 
     } else {
-      // Obtener las consultas de la base de datos remota API
-      // Aquí se haría la petición a la API para obtener las consultas
-      // y se rellenaría el array de proximasConsultas con los datos obtenidos
+      /**
+       * !IMPORTANTE!
+       * * Obtener las consultas de la base de datos remota API
+       * ? Aquí se haría la petición a la API para obtener las consultas
+       * ? y se rellenaría el array de proximasConsultas con los datos obtenidos
+       * * A continuación se muestra un posible ejemplo de cómo se haría la petición
+       */
+
       // Ejemplo:
       // var response = await http.get('https://api.com/consultas');
       // if(response.statusCode == 200) {
