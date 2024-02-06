@@ -88,6 +88,7 @@ class BaseDeDatos {
     var resultado = await db!.query(tabla);
     return resultado;
   }
+ 
 
   // Consulta con SQL
   static Future<List<Map<String, dynamic>>> consultarSQL(String sql) async {
@@ -146,4 +147,31 @@ class BaseDeDatos {
       return null;
     }
   }
+
+  // Método para obtener el id_usuario dado el nombre de usuario
+  static Future<int?> obtenerIdUsuario(String usuario) async {
+    final db = await database;
+    final result = await db!.query(
+      'Usuarios',
+      columns: ['id'],
+      where: 'usuario = ?',
+      whereArgs: [usuario],
+    );
+    if (result.isNotEmpty) {
+      return result.first['id'] as int;
+    } else {
+      return null;
+    }
+  }
+
+  // Consultar la tabla entera en la base de datos
+static Future<List<Map<String, dynamic>>> consultarUsuariosPorIdAdministrador(int idAdministrador) async {
+  final db = await database;
+  var resultado = await db!.query(
+    'Usuarios',
+    where: 'id_administrador = ?',
+    whereArgs: [idAdministrador],
+  );
+  return resultado;
+}
 }

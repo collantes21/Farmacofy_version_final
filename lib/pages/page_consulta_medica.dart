@@ -34,6 +34,19 @@ class _PaginaConsultaMedicaState extends State<PaginaConsultaMedica> {
         appBar: AppBar(
           title: const Text('FarmacoFy'),
           backgroundColor: const Color(0xFF02A724),
+          flexibleSpace: Container( //Sirve para definir el color de la barra de estado
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  
+                  Color(0xFF02A724),
+                  Color.fromARGB(255, 18, 240, 63),
+                  Color.fromARGB(255, 11, 134, 34),
+                  
+                ],
+              ),
+            ),
+          ),
           centerTitle: true,
           actions: [
             // IconButton(

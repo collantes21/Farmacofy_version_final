@@ -17,7 +17,8 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (_) => ModoTrabajo()),
       ChangeNotifierProvider(create: (_) => ModoSupervisor()),
-      ChangeNotifierProvider(create: (_) => AdminProvider())
+      ChangeNotifierProvider(create: (_) => AdminProvider()),
+      ChangeNotifierProvider(create: (_) => IdSupervisor())
 
     ],
     child: const MyApp(),

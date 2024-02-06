@@ -1,26 +1,29 @@
 import 'package:farmacofy/BBDD/bbdd.dart';
-import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
-import 'package:farmacofy/pages/page_consulta_medica.dart';
+import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
+import 'package:farmacofy/pages/page_nuevo_usuario.dart';
+import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
-class ListadoConsultasMedicas extends StatefulWidget {
-  const ListadoConsultasMedicas({super.key});
+class ListadoUsuarios extends StatefulWidget {
+  const ListadoUsuarios({super.key});
 
   @override
-  State<ListadoConsultasMedicas> createState() =>
-      _ListadoConsultasMedicasState();
+  State<ListadoUsuarios> createState() => _ListadoUsuariosState();
 }
 
-class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
-  BaseDeDatos bdHelper = BaseDeDatos();
-
+class _ListadoUsuariosState extends State<ListadoUsuarios> {
   @override
   Widget build(BuildContext context) {
+    // Obtener el id del usuario del proveedor
+    final usuarioProvider = context.read<IdSupervisor>();
+    final int idAdministrador = usuarioProvider.idUsuario;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Consultas médicas'),
+        title: const Text('Usuarios'),
         backgroundColor: const Color(0xFF02A724),
         flexibleSpace: Container(
           //Sirve para definir el color de la barra de estado
@@ -44,11 +47,12 @@ class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
           ),
         ],
       ),
-      drawer: MenuDrawer(),
+      drawer: MenuDrawer(), // Agrega el Drawer aquí
+
       body: Stack(
         children: [
           FutureBuilder<List<Map<String, dynamic>>>(
-            future: BaseDeDatos.consultarBD('Consulta'),
+            future: BaseDeDatos.consultarUsuariosPorIdAdministrador(idAdministrador),
             builder: (BuildContext context,
                 AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -71,30 +75,26 @@ class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
                             size: 40.0,
                           ),
                           title: Text(
-                            snapshot.data![index]['especialista'],
+                            snapshot.data![index]['nombre'],
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                snapshot.data![index]['doctor'],
+                                snapshot.data![index]['usuario'],
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 12, 42, 173),
                                     fontSize: 15.0),
                               ),
                               Text(
-                                'Hora cita: ' + snapshot.data![index]['hora'],
+                                'Hora cita: ' +
+                                    snapshot.data![index]['contrasena'],
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 4, 167, 12),
                                     fontSize: 17.0),
                               ), // Añade la hora aquí
                             ],
-                          ),
-                          trailing: Text(
-                            snapshot.data![index]['fecha'],
-                            style:
-                                TextStyle(color: Colors.teal, fontSize: 17.0),
                           ),
                         ),
                       );
@@ -116,8 +116,7 @@ class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
             context,
             //Cambiar a pantalla de Formulario medicamento
             // MaterialPageRoute(builder: (context) => const Tratamientos1()),
-            MaterialPageRoute(
-                builder: (context) => const PaginaConsultaMedica()),
+            MaterialPageRoute(builder: (context) => const AnadirUsuario()),
           );
         },
         child: const Icon(Icons.add),
