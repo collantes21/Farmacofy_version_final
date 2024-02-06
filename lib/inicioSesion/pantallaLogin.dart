@@ -75,41 +75,42 @@ class _LoginPantallaState extends State<LoginPantalla> {
                             usuario, contrasena);
 
                     if (credencialesCorrectas) {
-                      final esAdmin =
+                      final bool? esAdmin =
                           await BaseDeDatos.obtenerRolUsuario(usuario);
 
                       // Obtener el proveedor AdminProvider
                       final adminProvider =
                           Provider.of<AdminProvider>(context, listen: false);
 
-
                       // Navegar a la pantalla correspondiente
-                      if (esAdmin == 1) {
-                        // Actualizar el valor de esAdmin en el proveedor
-                        adminProvider.actualizarEsAdmin(esAdmin == 1);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PantallaInicial(),
-                          ),
-                        );
-                      } else {
-                        adminProvider.actualizarEsAdmin(esAdmin == 0);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PaginaConfiguracion(),
-                          ),
-                        );
+                      if (esAdmin != null) {
+                        if (esAdmin) {
+                          // Actualizar el valor de esAdmin en el proveedor
+                          adminProvider.actualizarEsAdmin(esAdmin);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PantallaInicial(),
+                            ),
+                          );
+                        } else {
+                          adminProvider.actualizarEsAdmin(esAdmin);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PantallaInicial(),
+                            ),
+                          );
+                        }
                       }
-                    } else {
-                      // Mostrar un mensaje de error si las credenciales son incorrectas
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Error: Credenciales incorrectas'),
-                        ),
-                      );
                     }
+                  } else {
+                    // Mostrar un mensaje de error si las credenciales son incorrectas
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Error: Credenciales incorrectas'),
+                      ),
+                    );
                   }
                 },
                 child: const Text('Login'),

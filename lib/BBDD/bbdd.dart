@@ -131,7 +131,7 @@ class BaseDeDatos {
 
   // Consulta para conocer el valor de la columna administrador
 
-  static Future<int?> obtenerRolUsuario(String usuario) async {
+  static Future<bool?> obtenerRolUsuario(String usuario) async {
     final db = await database;
     final result = await db!.query(
       'Usuarios',
@@ -140,7 +140,8 @@ class BaseDeDatos {
       whereArgs: [usuario],
     );
     if (result.isNotEmpty) {
-      return result.first['administrador'] as int?;
+      final bool esAdmin = result.first['administrador'] == 1;
+      return esAdmin;
     } else {
       return null;
     }

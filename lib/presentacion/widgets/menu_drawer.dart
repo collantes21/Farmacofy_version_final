@@ -2,6 +2,7 @@
 
 // ignore_for_file: prefer_const_constructors
 
+import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
 import 'package:farmacofy/models/consulta_medica.dart';
 import 'package:farmacofy/modo/modo_trabajo.dart';
 import 'package:farmacofy/pages/page_configuracion.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MenuDrawer extends StatefulWidget {
+  
   const MenuDrawer({super.key});
 
   @override
@@ -29,7 +31,8 @@ class _MenuDrawerState extends State<MenuDrawer> {
   Widget build(BuildContext context) {
 
     final modoTrabajo = Provider.of<ModoTrabajo>(context);
-
+    final esAdmin=Provider.of<AdminProvider>(context);
+    
     return  NavigationDrawer(
       selectedIndex: indiceSeleccionado, // Permitirá cambiar el color del elemento seleccionado en el indice del menú
       // El método onDestinationSelected se ejecutará cuando se seleccione un elemento del menú lateral y se le pasará el indice del elemento seleccionado
@@ -82,7 +85,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
         }
 
       },
-      children: const [
+      children:  [
 
          Padding(
           padding:  EdgeInsets.fromLTRB(28, 30, 16, 10), // EdgeInsets.fromLTRB(left, top, right, bottom)  sirve para definir el padding de un widget, muy útil para definir el espacio entre elementos
@@ -187,6 +190,10 @@ class _MenuDrawerState extends State<MenuDrawer> {
           icon:  Icon(Icons.settings), 
           label:  Text('Configuración')
         ),
+        (esAdmin.esAdmin) ? NavigationDrawerDestination(
+          icon:  Icon(Icons.admin_panel_settings), 
+          label:  Text('Administrador')
+        ) : Text("")
           
         
       ],
