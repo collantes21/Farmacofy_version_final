@@ -1,6 +1,8 @@
 import 'package:farmacofy/almacen.dart';
+import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
 import 'package:farmacofy/inicioSesion/pantallaRegistroLogin.dart';
 import 'package:farmacofy/instruccionesUsuario.dart';
+import 'package:farmacofy/modo/modo_supervisor.dart';
 import 'package:farmacofy/modo/modo_trabajo.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos1.dart';
@@ -12,7 +14,11 @@ import 'package:provider/provider.dart';
 
 void main() {
   runApp( MultiProvider(
-    providers: [ChangeNotifierProvider(create: (_) => ModoTrabajo())
+    providers: [
+      ChangeNotifierProvider(create: (_) => ModoTrabajo()),
+      ChangeNotifierProvider(create: (_) => ModoSupervisor()),
+      ChangeNotifierProvider(create: (_) => AdminProvider())
+
     ],
     child: const MyApp(),
     ),

@@ -1,4 +1,5 @@
-import 'package:farmacofy/BBDD/bbdd_medicamento.dart';
+import 'package:farmacofy/BBDD/bbdd.dart';
+import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
 import 'package:farmacofy/pages/page_medicamento.dart';
 import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ class ListadoMedicamentos extends StatefulWidget {
 }
 
 class _ListadoMedicamentosState extends State<ListadoMedicamentos> {
-  BDHelper bdHelper = BDHelper();
+  BaseDeDatos bdHelper = BaseDeDatos();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class _ListadoMedicamentosState extends State<ListadoMedicamentos> {
       body: Stack(
         children: [
           FutureBuilder<List<Map<String, dynamic>>>(
-            future: BDHelper().consultarBD('Medicamento'),
+            future: BaseDeDatos.consultarBD('Medicamento'),
             builder: (BuildContext context,
                 AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

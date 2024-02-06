@@ -1,7 +1,8 @@
 
 import 'dart:io';
 
-import 'package:farmacofy/BBDD/bbdd_medicamento.dart';
+import 'package:farmacofy/BBDD/bbdd.dart';
+import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
 import 'package:farmacofy/models/consulta_medica.dart';
 import 'package:farmacofy/pages/page_listado_consultas.dart';
 import 'package:farmacofy/pantallaInicial.dart';
@@ -19,7 +20,7 @@ class _PaginaConsultaMedicaState extends State<PaginaConsultaMedica> {
   final _formKey = GlobalKey<FormState>(); // Llave para validar el formulario
   //final TextEditingController _check = TextEditingController();
   ConsultaMedica consultaMedica = ConsultaMedica(); // Instancia de la clase ConsultaMedica
-  BDHelper bdHelper = BDHelper(); // Instancia de la clase BDHelper
+  BaseDeDatos bdHelper = BaseDeDatos(); // Instancia de la clase BDHelper
 
   @override
   Widget build(BuildContext context) {
@@ -309,7 +310,7 @@ class _PaginaConsultaMedicaState extends State<PaginaConsultaMedica> {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save(); //Guarda los datos del formulario
                               //Añadir el medicamento a la base de datos
-                              bdHelper.insertarBD('Consulta', consultaMedica.toMap());
+                              BaseDeDatos.insertarBD('Consulta', consultaMedica.toMap());
                     
                               //Mostrar mensaje de confirmación despues de 1 segundo
                               Future.delayed(const Duration(seconds: 1), () {

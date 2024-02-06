@@ -1,5 +1,6 @@
 
-import 'package:farmacofy/BBDD/bbdd_medicamento.dart';
+import 'package:farmacofy/BBDD/bbdd.dart';
+import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
 import 'package:farmacofy/pages/page_consulta_medica.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,7 +14,7 @@ class ListadoConsultasMedicas extends StatefulWidget {
 
 class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
 
-  BDHelper bdHelper = BDHelper();
+  BaseDeDatos bdHelper = BaseDeDatos();
 
 
   @override
@@ -37,7 +38,7 @@ class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
          FutureBuilder<List<Map<String, dynamic>>>(
          
             
-              future: BDHelper().consultarBD('Consulta'), 
+              future: BaseDeDatos.consultarBD('Consulta'), 
               builder: (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) { // Mientras espera la respuesta de la BD muestra un indicador de carga
             return const Center(child: CircularProgressIndicator());

@@ -1,6 +1,20 @@
-import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
-import 'package:farmacofy/BBDD/bdHelper.dart';
+import 'package:provider/provider.dart';
+import 'package:farmacofy/BBDD/bbdd.dart';
+import 'package:farmacofy/pages/page_configuracion.dart';
+import 'package:farmacofy/pantallaInicial.dart';
+
+// Definir la clase que actúa como un proveedor
+class AdminProvider with ChangeNotifier {
+  late bool _esAdmin;
+
+  bool get esAdmin => _esAdmin;
+
+  void actualizarEsAdmin(bool esAdmin) {
+    _esAdmin = esAdmin;
+    notifyListeners(); // Notificar a los consumidores del cambio
+  }
+}
 
 class LoginPantalla extends StatefulWidget {
   const LoginPantalla({Key? key}) : super(key: key);
@@ -13,8 +27,6 @@ class _LoginPantallaState extends State<LoginPantalla> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usuarioController = TextEditingController();
   final TextEditingController _contrasenaController = TextEditingController();
-
-  final BaseDeDatosUsuarios _baseDeDatos = BaseDeDatosUsuarios();  // Instancia de la clase BaseDeDatosUsuarios
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +70,38 @@ class _LoginPantallaState extends State<LoginPantalla> {
                     final usuario = _usuarioController.text;
                     final contrasena = _contrasenaController.text;
 
-                    final credencialesCorrectas = await _baseDeDatos.verificarCredenciales(usuario, contrasena);
+                    final credencialesCorrectas =
+                        await BaseDeDatos.verificarCredenciales(
+                            usuario, contrasena);
 
                     if (credencialesCorrectas) {
-                      Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PantallaInicial()),
-                  );
+                      final esAdmin =
+                          await BaseDeDatos.obtenerRolUsuario(usuario);
+
+                      // Obtener el proveedor AdminProvider
+                      final adminProvider =
+                          Provider.of<AdminProvider>(context, listen: false);
+
+
+                      // Navegar a la pantalla correspondiente
+                      if (esAdmin == 1) {
+                        // Actualizar el valor de esAdmin en el proveedor
+                        adminProvider.actualizarEsAdmin(esAdmin == 1);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PantallaInicial(),
+                          ),
+                        );
+                      } else {
+                        adminProvider.actualizarEsAdmin(esAdmin == 0);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PaginaConfiguracion(),
+                          ),
+                        );
+                      }
                     } else {
                       // Mostrar un mensaje de error si las credenciales son incorrectas
                       ScaffoldMessenger.of(context).showSnackBar(

@@ -1,5 +1,6 @@
 
-import 'package:farmacofy/BBDD/bbdd_medicamento.dart';
+import 'package:farmacofy/BBDD/bbdd.dart';
+import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
 
 class ConsultaMedica {
   int? _id;
@@ -97,15 +98,15 @@ class ConsultaMedica {
 
     if(modoLocal) {
       // Obtener las consultas de la base de datos local
-      BDHelper bd = BDHelper();
-      List<Map<String, dynamic>> consultas = await bd.consultarBD('Consulta');
+      BaseDeDatos bd = BaseDeDatos();
+      List<Map<String, dynamic>> consultas = await BaseDeDatos.consultarBD('Consulta');
       for(int i = 0; i < consultas.length; i++) {
         proximasConsultas.add(ConsultaMedica.fromMapObject(consultas[i]));
       }
 
     } else {
       /**
-       * !IMPORTANTE!
+       * ! IMPORTANTE!
        * * Obtener las consultas de la base de datos remota API
        * ? Aquí se haría la petición a la API para obtener las consultas
        * ? y se rellenaría el array de proximasConsultas con los datos obtenidos

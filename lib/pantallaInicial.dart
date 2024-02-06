@@ -18,9 +18,11 @@ class PantallaInicial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final modoTrabajo = Provider.of<ModoTrabajo>(context);
     final consultaMedica = new ConsultaMedica();
     return Scaffold(
+
       appBar: AppBar(
                 
         title: const Text('FarmacoFy'),

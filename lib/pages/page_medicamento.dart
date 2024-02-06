@@ -1,5 +1,6 @@
 
-import 'package:farmacofy/BBDD/bbdd_medicamento.dart';
+import 'package:farmacofy/BBDD/bbdd.dart';
+import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
 import 'package:farmacofy/models/medicamento.dart';
 import 'package:farmacofy/models/medicamentoOld.dart';
 import 'package:farmacofy/pantallaInicial.dart';
@@ -16,7 +17,7 @@ class _PaginaMedicamentoState extends State<PaginaMedicamento> {
     
     final _formKey = GlobalKey<FormState>();
     Medicamento medicamento = Medicamento();
-    BDHelper bdHelper = BDHelper();
+    BaseDeDatos bdHelper = BaseDeDatos();
     bool _habilitado = false;
     String? _opcionSeleccionada;
 
@@ -606,7 +607,7 @@ class _PaginaMedicamentoState extends State<PaginaMedicamento> {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save(); //Guarda los datos del formulario
                               //Añadir el medicamento a la base de datos
-                              bdHelper.insertarBD('Medicamento', medicamento.toMap());
+                              BaseDeDatos.insertarBD('Medicamento', medicamento.toMap());
                     
                               //Mostrar mensaje de confirmación despues de 1 segundo
                               Future.delayed(const Duration(seconds: 1), () {

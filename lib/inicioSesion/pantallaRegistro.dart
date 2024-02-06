@@ -1,19 +1,21 @@
 // registro_pantalla.dart
+import 'package:farmacofy/BBDD/bbdd.dart';
 import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
+import 'package:farmacofy/models/usuario.dart';
 import 'package:flutter/material.dart';
-import 'package:farmacofy/BBDD/bdHelper.dart';
- 
+import 'package:farmacofy/BBDD/bdHelper_old.dart';
+
 class Medicamento {
   bool activado = false; // Puedes ajustar según tus necesidades
 }
- 
+
 class RegistroPantalla extends StatefulWidget {
   const RegistroPantalla({Key? key}) : super(key: key);
- 
+
   @override
   _RegistroPantallaState createState() => _RegistroPantallaState();
 }
- 
+
 class _RegistroPantallaState extends State<RegistroPantalla> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nombreController = TextEditingController();
@@ -21,27 +23,26 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
   final TextEditingController _contrasenaController = TextEditingController();
   final TextEditingController _repetirContrasenaController =
       TextEditingController();
- 
-  late BaseDeDatosUsuarios _baseDeDatos;
+
+  late BaseDeDatos _baseDeDatos;
   late ThemeData tema;
   late Medicamento medicamento;
- 
+
   @override
   void initState() {
     super.initState();
-    _baseDeDatos = BaseDeDatosUsuarios();
-    _baseDeDatos.abrirBaseDeDatos();
- 
+    _baseDeDatos = BaseDeDatos();
+    BaseDeDatos.inicializarBD();
+
     tema = ThemeData.light(); // Puedes ajustar esto según tu implementación
     medicamento = Medicamento(); // Inicialización de la variable medicamento
   }
- 
+
   @override
   void dispose() {
-    _baseDeDatos.cerrarBaseDeDatos();
     super.dispose();
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,9 +74,8 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, introduce un nombre de usuario';
                   }
- 
-                  _baseDeDatos
-                      .verificarUsuarioExistente(value)
+
+                  BaseDeDatos.verificarUsuarioExistente(value)
                       .then((usuarioExistente) {
                     if (usuarioExistente) {
                       ScaffoldMessenger.of(context).showSnackBar(
@@ -85,7 +85,7 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
                       );
                     }
                   });
- 
+
                   return null;
                 },
               ),
@@ -113,7 +113,6 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
                   return null;
                 },
               ),
- 
               CheckboxListTile(
                 title: Text(
                   "Usuario Administrador",
@@ -130,36 +129,41 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
                   });
                 },
               ),
- 
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState?.validate() ?? false) {
+                    BaseDeDatos.inicializarBD();
                     final usuarioExistente =
-                        await _baseDeDatos.verificarUsuarioExistente(
+                        await BaseDeDatos.verificarUsuarioExistente(
                             _usuarioController.text);
- 
+
                     if (usuarioExistente) {
                       print('El nombre de usuario ya está registrado');
                     } else {
-                      final nuevoUsuario = Usuario(
+                      var idAdministrador = null;
+                      var value = idAdministrador ??
+                          0; // Aquí usamos 0 como valor predeterminado
+
+                      final nuevoUsuario = Usuario.withData(
                         nombre: _nombreController.text,
                         usuario: _usuarioController.text,
                         contrasena: _contrasenaController.text,
                         administrador: medicamento.activado,
-                        idAdministrador: null, // siempre null
+                        idAdministrador:
+                            value, // Aquí usamos el valor que acabamos de establecer
                       );
- 
+
                       final idUsuario =
-                          await _baseDeDatos.registrarUsuario(nuevoUsuario);
- 
+                          await BaseDeDatos.registrarUsuario(nuevoUsuario);
+
                       if (idUsuario > 0) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Usuario creado correctamente'),
                           ),
                         );
- 
+
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

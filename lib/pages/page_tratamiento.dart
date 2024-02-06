@@ -1,6 +1,7 @@
 
 
-import 'package:farmacofy/BBDD/bbdd_medicamento.dart';
+import 'package:farmacofy/BBDD/bbdd.dart';
+import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
 import 'package:farmacofy/models/medicamento.dart';
 import 'package:farmacofy/models/tratamiento.dart';
 import 'package:farmacofy/pages/page_listado_tratamientos.dart';
@@ -20,7 +21,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
   //Tratamiento tratamiento = Tratamiento();
   Medicamento medicamento = Medicamento();
   Tratamiento tratamiento = Tratamiento();
-  BDHelper bdHelper = BDHelper();
+  BaseDeDatos bdHelper = BaseDeDatos();
   bool _habilitado = false;
   String? _opcionSeleccionada;
 
@@ -424,7 +425,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                       ),
 
                       FutureBuilder<List<Map<String, dynamic>>>(
-                        future: BDHelper().consultarBD('Medicamento'), 
+                        future: BaseDeDatos.consultarBD('Medicamento'), 
                         builder: (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                           if(snapshot.hasData) {
                             return Container(
@@ -820,11 +821,11 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                               //Añadir el medicamento a la base de datos solo si se ha seleccionado la opción de añadir un medicamento
                               if(_habilitado == true)
                               {
-                                bdHelper.insertarBD('Medicamento', medicamento.toMap());
+                                BaseDeDatos.insertarBD('Medicamento', medicamento.toMap());
                               }
                         
                               //Añadir el tratamiento a la base de datos
-                              bdHelper.insertarBD('Tratamiento', tratamiento.toMap());
+                              BaseDeDatos.insertarBD('Tratamiento', tratamiento.toMap());
                     
                               //Mostrar mensaje de confirmación despues de 1 segundo
                               Future.delayed(const Duration(seconds: 1), () {
