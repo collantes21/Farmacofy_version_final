@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 
 class BaseDeDatos {
   static Database? _database;
-  static const String nombreBD = "farmacofyBBDD.db";
+  static const String nombreBD = "farmacofy-BBDD.db";
 
   // Iniciar la base de datos
   static Future<Database?> get database async {
@@ -17,34 +17,33 @@ class BaseDeDatos {
 
   // Método privado para inicializar la base de datos
   static Future<Database> inicializarBD() async {
-    var directorio = await getDatabasesPath();
-    String path = join(directorio, nombreBD);
-    var baseDatos = await openDatabase(
-      path,
-      version: 4,
-      onCreate: (Database db, int version) async {
-        await db.execute(
-            "CREATE TABLE IF NOT EXISTS Consulta(id INTEGER PRIMARY KEY, especialista TEXT, doctor TEXT, fecha TEXT, hora TEXT, motivo TEXT)");
-        await db.execute(
-            "CREATE TABLE IF NOT EXISTS Medicamento(id INTEGER PRIMARY KEY, nombre TEXT, prospecto TEXT, fechaCaducidad TEXT, tipoEnvase TEXT, cantidadEnvase INTEGER)");
+  var directorio = await getDatabasesPath();
+  String path = join(directorio, nombreBD);
+  var baseDatos = await openDatabase(
+    path,
+    version: 6,
+    onCreate: (Database db, int version) async {
+      await db.execute(
+         "CREATE TABLE IF NOT EXISTS Consulta(id INTEGER PRIMARY KEY, especialista TEXT, doctor TEXT, fecha TEXT, hora TEXT, motivo TEXT, idUsuario INTEGER, FOREIGN KEY(idUsuario) REFERENCES Usuarios(id) ON DELETE CASCADE)");
+      await db.execute(
+          "CREATE TABLE IF NOT EXISTS Medicamento(id INTEGER PRIMARY KEY, nombre TEXT, prospecto TEXT, fechaCaducidad TEXT, tipoEnvase TEXT, cantidadEnvase INTEGER)");
 
-        // para añadir una segunda tabla a la base de datos
-        await db.execute(
-            "CREATE TABLE IF NOT EXISTS Tratamiento(id INTEGER PRIMARY KEY, condicionMedica TEXT, dosis INTEGER, frecuencia INTEGER, viaAdministracion TEXT, fechaInicio TEXT, fechaFin TEXT, descripcion TEXT, recordatorio INTEGER, idMedicamento INTEGER, FOREIGN KEY(idMedicamento) REFERENCES Medicamento(id))");
+      await db.execute(
+          "CREATE TABLE IF NOT EXISTS Tratamiento(id INTEGER PRIMARY KEY, condicionMedica TEXT, dosis INTEGER, frecuencia INTEGER, viaAdministracion TEXT, fechaInicio TEXT, fechaFin TEXT, descripcion TEXT, recordatorio INTEGER, idMedicamento INTEGER, idUsuario INTEGER, FOREIGN KEY(idMedicamento) REFERENCES Medicamento(id), FOREIGN KEY(idUsuario) REFERENCES Usuarios(id) ON DELETE CASCADE)");
 
-        await db.execute(
-            'CREATE TABLE IF NOT EXISTS Usuarios(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, usuario TEXT, contrasena TEXT, administrador INTEGER, id_administrador INTEGER)');
-      },
-      onUpgrade: (Database db, int oldVersion, int newVersion) async {
-        if (oldVersion < 4) {
-          await db.execute(
-            "ALTER TABLE Tratamiento ADD COLUMN condicionMedica TEXT",
-          );
-        }
-      },
-    );
-    return baseDatos;
-  }
+      await db.execute(
+          'CREATE TABLE IF NOT EXISTS Usuarios(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, usuario TEXT, contrasena TEXT, administrador INTEGER, id_administrador INTEGER)');
+    },
+    // onUpgrade: (Database db, int oldVersion, int newVersion) async {
+    //   if (oldVersion < 5) {
+    //     await db.execute(
+    //       "ALTER TABLE Tratamiento ADD COLUMN idUsuario INTEGER",
+    //     );
+    //   }
+    // },
+  );
+  return baseDatos;
+}
 
   // Método para registrar un usuario
   static Future<int> registrarUsuario(Usuario usuario) async {

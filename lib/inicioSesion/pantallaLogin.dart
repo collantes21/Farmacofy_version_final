@@ -105,6 +105,7 @@ class _LoginPantallaState extends State<LoginPantalla> {
                             usuario, contrasena);
 
                     if (credencialesCorrectas) {
+                      
                       final bool? esAdmin =
                           await BaseDeDatos.obtenerRolUsuario(usuario);
                       final int? idUsuario =

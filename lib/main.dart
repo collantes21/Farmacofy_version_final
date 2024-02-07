@@ -4,10 +4,7 @@ import 'package:farmacofy/inicioSesion/pantallaRegistroLogin.dart';
 import 'package:farmacofy/instruccionesUsuario.dart';
 import 'package:farmacofy/modo/modo_supervisor.dart';
 import 'package:farmacofy/modo/modo_trabajo.dart';
-import 'package:farmacofy/pantallaInicial.dart';
-import 'package:farmacofy/anadirTratamiento/tratamientos1.dart';
 import 'package:flutter/material.dart';
-
 import 'package:farmacofy/anadirTratamiento/tratamientos2.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos3.dart';
 import 'package:provider/provider.dart';
