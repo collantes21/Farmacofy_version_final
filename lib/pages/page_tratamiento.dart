@@ -31,10 +31,6 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
   @override
   Widget build(BuildContext context) {
 
-    final esAdmin = context.read<AdminProvider>().esAdmin;
-    final idAdministrador = context.read<IdSupervisor>().idUsuario;
-    final idUsuario = context.read<IdUsuarioSeleccionado>().idUsuario;
-
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
@@ -767,37 +763,37 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                               BaseDeDatos.insertarBD(
                                   'Medicamento', medicamento.toMap());
                             }
-                            
 
-                            //Para cargar en el tratamiento el id_usuario al que corresponde el tratamiento.
+                            // Obtener los valores de los Providers
+                            final esAdmin =
+                                context.read<AdminProvider>().esAdmin;
+                            final idAdministrador =
+                                context.read<IdSupervisor>().idUsuario;
+                            final idUsuario =
+                                context.read<IdUsuarioSeleccionado>().idUsuario;
+
+                            // Variable para almacenar el id del usuario
                             int id_usuario;
 
+                            // Asignar el id del usuario dependiendo de si es administrador o no
                             if (esAdmin) {
                               id_usuario = idUsuario;
                             } else {
                               id_usuario = idAdministrador;
                             }
 
-                            //Añadir el tratamiento a la base de datos
+                            // Añadir el tratamiento a la base de datos
                             BaseDeDatos.insertarBD(
                                 'Tratamiento', tratamiento.toMap());
 
-                            //Mostrar mensaje de confirmación despues de 1 segundo
+                            // Mostrar mensaje de confirmación después de 1 segundo
                             Future.delayed(const Duration(seconds: 1), () {
-                              //Mostrar mensaje de confirmación
+                              // Mostrar mensaje de confirmación
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content:
-                                      Text('Tratamiento añadido correctamente'),
+                                SnackBar(
+                                  content: Text(
+                                      'Tratamiento añadido correctamente. ID Usuario: $id_usuario'),
                                 ),
-                              );
-                              //Volver a la pagina de inicio
-                              //Navigator.pop(context);
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ListadoTratamientos()),
                               );
                             });
                           }
