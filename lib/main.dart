@@ -2,8 +2,8 @@ import 'package:farmacofy/almacen.dart';
 import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
 import 'package:farmacofy/inicioSesion/pantallaRegistroLogin.dart';
 import 'package:farmacofy/instruccionesUsuario.dart';
-import 'package:farmacofy/modo/modo_supervisor.dart';
 import 'package:farmacofy/modo/modo_trabajo.dart';
+import 'package:farmacofy/pages/page_listado_usuarios.dart';
 import 'package:flutter/material.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos2.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos3.dart';
@@ -13,9 +13,9 @@ void main() {
   runApp( MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => ModoTrabajo()),
-      ChangeNotifierProvider(create: (_) => ModoSupervisor()),
       ChangeNotifierProvider(create: (_) => AdminProvider()),
-      ChangeNotifierProvider(create: (_) => IdSupervisor())
+      ChangeNotifierProvider(create: (_) => IdSupervisor()),
+      ChangeNotifierProvider(create: (_) => IdUsuarioSeleccionado())
 
     ],
     child: const MyApp(),
