@@ -76,11 +76,13 @@ class _MenuDrawerState extends State<MenuDrawer> {
             );
             break;
           case 6:
-            Navigator.pushReplacement(
+            Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const PaginaConfiguracion()),
+                builder: (context) => const PaginaConfiguracion(),
+              ),
             );
+            break;
             break;
           case 7:
             Navigator.pushReplacement(
@@ -88,7 +90,6 @@ class _MenuDrawerState extends State<MenuDrawer> {
               MaterialPageRoute(builder: (context) => const ListadoUsuarios()),
             );
             break;
-          
         }
       },
       children: [
