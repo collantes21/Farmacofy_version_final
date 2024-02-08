@@ -20,9 +20,6 @@ class ListadoUsuarios extends StatefulWidget {
   State<ListadoUsuarios> createState() => _ListadoUsuariosState();
 }
 
-<<<<<<< HEAD
-
-=======
 class IdUsuarioSeleccionado with ChangeNotifier {
   int _idUsuario = 0;
 
@@ -33,7 +30,6 @@ class IdUsuarioSeleccionado with ChangeNotifier {
     notifyListeners();
   }
 }
->>>>>>> 045f041b390a92188906130c4a88847bf8247abf
 
 class _ListadoUsuariosState extends State<ListadoUsuarios> {
   @override
@@ -90,10 +86,7 @@ class _ListadoUsuariosState extends State<ListadoUsuarios> {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () {
-<<<<<<< HEAD
-                          //
-=======
-                          
+                  
                           // Guardar el ID del usuario en el Provider
                           final usuarioId = snapshot.data![index]['id'] as int;
                           Provider.of<IdUsuarioSeleccionado>(context, listen: false).setIdUsuario(usuarioId);
@@ -106,7 +99,7 @@ class _ListadoUsuariosState extends State<ListadoUsuarios> {
                     );
 
                           // Navegar a la pantalla de detalle del usuario
->>>>>>> 045f041b390a92188906130c4a88847bf8247abf
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(
