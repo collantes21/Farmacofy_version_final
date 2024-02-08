@@ -56,6 +56,15 @@ class _PaginaConsultaMedicaState extends State<PaginaConsultaMedica> {
             //   icon: const Icon(Icons.settings),
             // ),
           ],
+          leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ListadoConsultasMedicas()),
+            );
+          },
+        ),
         ),
         body: SafeArea( // Evita que el contenido se dibuje debajo del notch y el sensor de huellas
           child: Form(

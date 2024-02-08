@@ -42,44 +42,40 @@ class _PaginaMedicamentoState extends State<PaginaMedicamento> {
       },
       child: Scaffold(
         appBar: AppBar(
-          
-          title: Text('Añadir medicamento',
-              
-            style: TextStyle(
-            //Color del texto
-            color: tema.colorScheme.onPrimary,
+  title: Text(
+    'Añadir medicamento',
+    style: TextStyle(
+      //Color del texto
+      color: Colors.black,
+    ),
+  ),
+  flexibleSpace: Container(
+    //Sirve para definir el color de la barra de estado
+    decoration: BoxDecoration(
+      gradient: LinearGradient(
+        colors: [
+          Color(0xFF02A724),
+          Color.fromARGB(255, 18, 240, 63),
+          Color.fromARGB(255, 11, 134, 34),
+        ],
+      ),
+    ),
+  ),
+  iconTheme: IconThemeData(
+    //Color de los iconos
+    color: Colors.black,
+  ),
+  leading: IconButton(
+    icon: Icon(Icons.arrow_back),
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ListadoMedicamentos()),
+      );
+    },
+  ),
+),
 
-        ),
-        
-        
-       ),
-     
-       flexibleSpace: Container(
-        //Color de la barra
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                
-                tema.colorScheme.primary,
-                tema.colorScheme.secondary,
-              ],
-             ),
-           ),
-          ),
-          iconTheme: IconThemeData(
-            //Color de los iconos 
-            color: tema.colorScheme.onPrimary,
-          ),
-          leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>const ListadoMedicamentos()),
-            );
-          },
-        ),
-          ),
     
           //Cuerpo de la página con un formulario para añadir un medicamento
           body: Form(
