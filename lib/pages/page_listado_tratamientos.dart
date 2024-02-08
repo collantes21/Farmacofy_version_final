@@ -1,6 +1,7 @@
 import 'package:farmacofy/BBDD/bbdd.dart';
 import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
 import 'package:farmacofy/pages/page_tratamiento.dart';
+import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 
 class ListadoTratamientos extends StatefulWidget {
@@ -32,6 +33,7 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
               ),
             ),
           ),
+          
         centerTitle: true,
         actions: [
           IconButton(
@@ -104,6 +106,7 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
           ),
         ],
       ),
+      drawer: MenuDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushReplacement(

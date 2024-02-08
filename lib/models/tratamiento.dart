@@ -1,4 +1,3 @@
-
 class Tratamiento {
   int? _id;
   late String _condicionMedica;
@@ -10,8 +9,9 @@ class Tratamiento {
   late String _descripcion;
   late int _recordatorio;
   late int _idMedicamento;
+  late int _idUsuario; // Nuevo campo idUsuario
 
-  Tratamiento(){
+  Tratamiento() {
     _condicionMedica = "";
     _dosis = 0;
     _frecuencia = 0;
@@ -21,9 +21,21 @@ class Tratamiento {
     _descripcion = "";
     _recordatorio = 0;
     _idMedicamento = 0;
+    _idUsuario = 0; // Inicializar el nuevo campo idUsuario
   }
 
-  Tratamiento.withData(String condicionMedica, int dosis, int frecuencia, String viaAdministracion, String fechaInicio, String fechaFin, String descripcion, int recordatorio, int idMedicamento){
+  Tratamiento.withData(
+      String condicionMedica,
+      int dosis,
+      int frecuencia,
+      String viaAdministracion,
+      String fechaInicio,
+      String fechaFin,
+      String descripcion,
+      int recordatorio,
+      int idMedicamento,
+      int idUsuario) {
+    // Nuevo parámetro idUsuario
     _condicionMedica = condicionMedica;
     _dosis = dosis;
     _frecuencia = frecuencia;
@@ -33,9 +45,22 @@ class Tratamiento {
     _descripcion = descripcion;
     _recordatorio = recordatorio;
     _idMedicamento = idMedicamento;
+    _idUsuario = idUsuario; // Asignar el nuevo campo idUsuario
   }
 
-  Tratamiento.withId(String condicionMedica, int id, int dosis, int frecuencia, String viaAdministracion, String fechaInicio, String fechaFin, String descripcion, int recordatorio, int idMedicamento){
+  Tratamiento.withId(
+      String condicionMedica,
+      int id,
+      int dosis,
+      int frecuencia,
+      String viaAdministracion,
+      String fechaInicio,
+      String fechaFin,
+      String descripcion,
+      int recordatorio,
+      int idMedicamento,
+      int idUsuario) {
+    // Nuevo parámetro idUsuario
     _id = id;
     _condicionMedica = condicionMedica;
     _dosis = dosis;
@@ -46,9 +71,10 @@ class Tratamiento {
     _descripcion = descripcion;
     _recordatorio = recordatorio;
     _idMedicamento = idMedicamento;
+    _idUsuario = idUsuario; // Asignar el nuevo campo idUsuario
   }
 
-  // Getters y setters
+    // Getters y setters
 
   int? get id => _id;
   String get condicionMedica => _condicionMedica;
@@ -60,6 +86,7 @@ class Tratamiento {
   String get descripcion => _descripcion;
   int get recordatorio => _recordatorio;
   int get idMedicamento => _idMedicamento;
+  int get idUsuario => _idUsuario;
 
   set condicionMedica(String condicionMedica) {
     _condicionMedica = condicionMedica;
@@ -96,12 +123,14 @@ class Tratamiento {
   set idMedicamento(int idMedicamento) {
     _idMedicamento = idMedicamento;
   }
+  set idUsuario(int value) {
+    _idUsuario = value;
+  }
 
-  // Convertir un objeto de tipo Tratamiento a un objeto de tipo Map
-
-  Map<String, dynamic> toMap(){
+  // Ajustar el método toMap() para incluir el nuevo campo idUsuario
+  Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
-    if(id != null && id != 0){
+    if (id != null && id != 0) {
       map['id'] = _id;
     }
     map['condicionMedica'] = _condicionMedica;
@@ -113,12 +142,12 @@ class Tratamiento {
     map['descripcion'] = _descripcion;
     map['recordatorio'] = _recordatorio;
     map['idMedicamento'] = _idMedicamento;
+    map['idUsuario'] = _idUsuario;
     return map;
   }
 
-  // Convertir un objeto Map a un objeto de tipo Tratamiento
-
-  Tratamiento.fromMapObject(Map<String, dynamic> map){
+  // Ajustar el método fromMapObject() para incluir el nuevo campo idUsuario
+  Tratamiento.fromMapObject(Map<String, dynamic> map) {
     _id = map['id'];
     _condicionMedica = map['condicionMedica'];
     _dosis = map['dosis'];
@@ -129,9 +158,113 @@ class Tratamiento {
     _descripcion = map['descripcion'];
     _recordatorio = map['recordatorio'];
     _idMedicamento = map['idMedicamento'];
+    _idUsuario = map['idUsuario']; 
   }
-
-
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// class Tratamiento {
+//   int? _id;
+//   late String _condicionMedica;
+//   late int _dosis;
+//   late int _frecuencia;
+//   late String _viaAdministracion;
+//   late String _fechaInicio;
+//   late String _fechaFin;
+//   late String _descripcion;
+//   late int _recordatorio;
+//   late int _idMedicamento;
+
+//   Tratamiento(){
+//     _condicionMedica = "";
+//     _dosis = 0;
+//     _frecuencia = 0;
+//     _viaAdministracion = "";
+//     _fechaInicio = "";
+//     _fechaFin = "";
+//     _descripcion = "";
+//     _recordatorio = 0;
+//     _idMedicamento = 0;
+//   }
+
+//   Tratamiento.withData(String condicionMedica, int dosis, int frecuencia, String viaAdministracion, String fechaInicio, String fechaFin, String descripcion, int recordatorio, int idMedicamento){
+//     _condicionMedica = condicionMedica;
+//     _dosis = dosis;
+//     _frecuencia = frecuencia;
+//     _viaAdministracion = viaAdministracion;
+//     _fechaInicio = fechaInicio;
+//     _fechaFin = fechaFin;
+//     _descripcion = descripcion;
+//     _recordatorio = recordatorio;
+//     _idMedicamento = idMedicamento;
+//   }
+
+//   Tratamiento.withId(String condicionMedica, int id, int dosis, int frecuencia, String viaAdministracion, String fechaInicio, String fechaFin, String descripcion, int recordatorio, int idMedicamento){
+//     _id = id;
+//     _condicionMedica = condicionMedica;
+//     _dosis = dosis;
+//     _frecuencia = frecuencia;
+//     _viaAdministracion = viaAdministracion;
+//     _fechaInicio = fechaInicio;
+//     _fechaFin = fechaFin;
+//     _descripcion = descripcion;
+//     _recordatorio = recordatorio;
+//     _idMedicamento = idMedicamento;
+//   }
+
+
+
+//   // Convertir un objeto de tipo Tratamiento a un objeto de tipo Map
+
+//   Map<String, dynamic> toMap(){
+//     var map = new Map<String, dynamic>();
+//     if(id != null && id != 0){
+//       map['id'] = _id;
+//     }
+//     map['condicionMedica'] = _condicionMedica;
+//     map['dosis'] = _dosis;
+//     map['frecuencia'] = _frecuencia;
+//     map['viaAdministracion'] = _viaAdministracion;
+//     map['fechaInicio'] = _fechaInicio;
+//     map['fechaFin'] = _fechaFin;
+//     map['descripcion'] = _descripcion;
+//     map['recordatorio'] = _recordatorio;
+//     map['idMedicamento'] = _idMedicamento;
+//     return map;
+//   }
+
+//   // Convertir un objeto Map a un objeto de tipo Tratamiento
+
+//   Tratamiento.fromMapObject(Map<String, dynamic> map){
+//     _id = map['id'];
+//     _condicionMedica = map['condicionMedica'];
+//     _dosis = map['dosis'];
+//     _frecuencia = map['frecuencia'];
+//     _viaAdministracion = map['viaAdministracion'];
+//     _fechaInicio = map['fechaInicio'];
+//     _fechaFin = map['fechaFin'];
+//     _descripcion = map['descripcion'];
+//     _recordatorio = map['recordatorio'];
+//     _idMedicamento = map['idMedicamento'];
+//   }
+
+
+
+// }
 

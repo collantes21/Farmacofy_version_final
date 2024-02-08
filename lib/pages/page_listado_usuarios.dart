@@ -1,5 +1,6 @@
 import 'package:farmacofy/BBDD/bbdd.dart';
 import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
+import 'package:farmacofy/pages/page_listado_tratamientos.dart';
 import 'package:farmacofy/pages/page_nuevo_usuario.dart';
 import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/pantallaInicial.dart';
@@ -103,7 +104,7 @@ class _ListadoUsuariosState extends State<ListadoUsuarios> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => PantallaInicial()),
+                                builder: (context) => ListadoTratamientos()),
                           );
                         },
                         //Separacion entre las tarjetas

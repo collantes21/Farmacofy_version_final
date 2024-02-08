@@ -1,8 +1,7 @@
-
-
 // ignore_for_file: prefer_const_constructors
 
 import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
+import 'package:farmacofy/inicioSesion/pantallaRegistroLogin.dart';
 import 'package:farmacofy/models/consulta_medica.dart';
 import 'package:farmacofy/modo/modo_trabajo.dart';
 import 'package:farmacofy/pages/page_configuracion.dart';
@@ -10,6 +9,7 @@ import 'package:farmacofy/pages/page_consulta_medica.dart';
 import 'package:farmacofy/pages/page_listado_consultas.dart';
 import 'package:farmacofy/pages/page_listado_medicamentos.dart';
 import 'package:farmacofy/pages/page_listado_tratamientos.dart';
+import 'package:farmacofy/pages/page_listado_usuarios.dart';
 import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
@@ -34,51 +34,63 @@ class _MenuDrawerState extends State<MenuDrawer> {
     final esAdmin=Provider.of<AdminProvider>(context);
     
     return  NavigationDrawer(
-      selectedIndex: indiceSeleccionado, // Permitirá cambiar el color del elemento seleccionado en el indice del menú
-      // El método onDestinationSelected se ejecutará cuando se seleccione un elemento del menú lateral y se le pasará el indice del elemento seleccionado
+      selectedIndex: indiceSeleccionado, // Permitirá cambiar el color del elemento seleccionado en el índice del menú
+      // El método onDestinationSelected se ejecutará cuando se seleccione un elemento del menú lateral y se le pasará el índice del elemento seleccionado
       onDestinationSelected: (value) {
         //setState es un método que permite actualizar el estado de un widget
         setState(() {
-          indiceSeleccionado = value; // Actualiza el indice seleccionado
+          indiceSeleccionado = value; // Actualiza el índice seleccionado
         });
 
         // Navega a la ruta correspondiente al elemento seleccionado
         switch (value) {
           case 0:
-          // Aqui se puede navegar a la ruta de dos formas diferentes
-          // 1. Usando el método Navigator.push que recibe un MaterialPageRoute que es una ruta que se construye a partir de un widget
-          // 2. Usando el método Navigator.pushNamed que recibe el nombre de la ruta definida en el atributo routes del MaterialApp
-          // La diferencia entre ambas es que la primera permite pasar argumentos a la ruta y la segunda no
             Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const PantallaInicial()),
-              ); 
+              context,
+              MaterialPageRoute(builder: (context) => const PantallaInicial()),
+            ); 
             break;
           case 1:
-            // Navega a la ruta '/'
-            //Navigator.pushNamed(context, '/intruccionesUsuario');
-             Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ListadoMedicamentos()),
-              ); 
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ListadoMedicamentos()),
+            ); 
             break;
           case 2:
             Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ListadoTratamientos()),
-              ); 
+              context,
+              MaterialPageRoute(builder: (context) => const ListadoTratamientos()),
+            ); 
             break;
           case 3:
             Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ListadoConsultasMedicas()),
-              );
+              context,
+              MaterialPageRoute(builder: (context) => const ListadoConsultasMedicas()),
+            );
+            break;
+          case 4:
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const InicioPantalla()),
+            );
+            break;
+          case 5:
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const InicioPantalla()),
+            );
             break;
           case 6:
             Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const PaginaConfiguracion()),
-              );
+              context,
+              MaterialPageRoute(builder: (context) => const PaginaConfiguracion()),
+            );
+            break;
+          case 7:
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const ListadoUsuarios()),
+            );
             break;
           default:
             Navigator.pushReplacementNamed(context, '/'); 
@@ -192,7 +204,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
         ),
         (esAdmin.esAdmin) ? NavigationDrawerDestination(
           icon:  Icon(Icons.admin_panel_settings), 
-          label:  Text('Administrador')
+          label:  Text('Gestion de usuarios')
         ) : Text("")
           
         
