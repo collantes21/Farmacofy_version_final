@@ -113,15 +113,26 @@ class BaseDeDatos {
     return resultado;
   }
 
-  // Consultar tratamientos con medicamentos
-  static Future<List<Map<String, dynamic>>>
-      consultarTratamientosConMedicamentos() async {
-    final db = await database;
-    final resultado = await db!.rawQuery(
-      "SELECT t.id, t.condicionMedica, t.dosis, t.frecuencia, t.viaAdministracion, t.fechaInicio, t.fechaFin, t.descripcion, t.recordatorio, t.idMedicamento, m.nombre as nombreMedicamento, m.prospecto, m.fechaCaducidad, m.tipoEnvase, m.cantidadEnvase FROM Tratamiento t INNER JOIN Medicamento m ON t.idMedicamento = m.id",
-    );
-    return resultado;
-  }
+  //Es el metodo antiguo que lista sin tener en cuenta el idUsuario
+
+  // // Consultar tratamientos con medicamentos
+  // static Future<List<Map<String, dynamic>>>
+  //     consultarTratamientosConMedicamentos() async {
+  //   final db = await database;
+  //   final resultado = await db!.rawQuery(
+  //     "SELECT t.id, t.condicionMedica, t.dosis, t.frecuencia, t.viaAdministracion, t.fechaInicio, t.fechaFin, t.descripcion, t.recordatorio, t.idMedicamento, m.nombre as nombreMedicamento, m.prospecto, m.fechaCaducidad, m.tipoEnvase, m.cantidadEnvase FROM Tratamiento t INNER JOIN Medicamento m ON t.idMedicamento = m.id",
+  //   );
+  //   return resultado;
+  // }
+
+  static Future<List<Map<String, dynamic>>> consultarTratamientosConMedicamentosPorUsuario(int idUsuario) async {
+  final db = await database;
+  final resultado = await db!.rawQuery(
+    "SELECT t.id, t.condicionMedica, t.dosis, t.frecuencia, t.viaAdministracion, t.fechaInicio, t.fechaFin, t.descripcion, t.recordatorio, t.idMedicamento, m.nombre as nombreMedicamento, m.prospecto, m.fechaCaducidad, m.tipoEnvase, m.cantidadEnvase FROM Tratamiento t INNER JOIN Medicamento m ON t.idMedicamento = m.id WHERE t.idUsuario = ?",
+    [idUsuario],
+  );
+  return resultado;
+}
 
   // Consulta para conocer el valor de la columna administrador
 

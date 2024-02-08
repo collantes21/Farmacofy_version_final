@@ -1,8 +1,11 @@
 import 'package:farmacofy/BBDD/bbdd.dart';
 import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
+import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
+import 'package:farmacofy/pages/page_listado_usuarios.dart';
 import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ListadoTratamientos extends StatefulWidget {
   const ListadoTratamientos({super.key});
@@ -14,26 +17,33 @@ class ListadoTratamientos extends StatefulWidget {
 class _ListadoTratamientosState extends State<ListadoTratamientos> {
   BaseDeDatos bdHelper = BaseDeDatos();
 
-  @override
+    @override
   Widget build(BuildContext context) {
+    bool esAdmin = context.read<AdminProvider>().esAdmin;
+    late int usuario;
+
+    if (esAdmin) {
+      usuario = context.read<IdUsuarioSeleccionado>().idUsuario;
+    } else {
+      usuario = context.read<IdSupervisor>().idUsuario;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tratamientos'),
         backgroundColor: const Color(0xFF02A724),
-        flexibleSpace: Container( //Sirve para definir el color de la barra de estado
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  
-                  Color(0xFF02A724),
-                  Color.fromARGB(255, 18, 240, 63),
-                  Color.fromARGB(255, 11, 134, 34),
-                  
-                ],
-              ),
+        flexibleSpace: Container(
+          //Sirve para definir el color de la barra de estado
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF02A724),
+                Color.fromARGB(255, 18, 240, 63),
+                Color.fromARGB(255, 11, 134, 34),
+              ],
             ),
           ),
-          
+        ),
         centerTitle: true,
         actions: [
           IconButton(
@@ -47,7 +57,7 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
       body: Stack(
         children: [
           FutureBuilder<List<Map<String, dynamic>>>(
-            future: BaseDeDatos.consultarTratamientosConMedicamentos(),
+            future: BaseDeDatos.consultarTratamientosConMedicamentosPorUsuario(usuario),
             builder: (BuildContext context,
                 AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

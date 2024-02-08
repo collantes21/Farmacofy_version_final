@@ -1,3 +1,4 @@
+import 'package:farmacofy/pages/page_listado_tratamientos.dart';
 import 'package:farmacofy/pages/page_listado_usuarios.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -141,7 +142,7 @@ class _LoginPantallaState extends State<LoginPantalla> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PantallaInicial(),
+                              builder: (context) => ListadoTratamientos(),
                             ),
                           );
                         }

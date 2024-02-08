@@ -1,5 +1,6 @@
 import 'package:farmacofy/BBDD/bbdd.dart';
 import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
+import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
 import 'package:farmacofy/models/medicamento.dart';
 import 'package:farmacofy/models/tratamiento.dart';
 import 'package:farmacofy/pages/page_listado_tratamientos.dart';
@@ -765,11 +766,27 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                               tratamiento.idMedicamento = medicamentoId;
                             }
 
-                            final idUsuario =
+                            final esSupervisor =
+                                context.read<AdminProvider>().esAdmin;
+
+                            if(esSupervisor){
+                              
+                              final idUsuario =
                                 context.read<IdUsuarioSeleccionado>().idUsuario;
 
                                 // Añadir el id_usuario al tratamiento
-                            tratamiento.idUsuario = idUsuario;
+                                tratamiento.idUsuario = idUsuario;
+
+                            } else{
+
+                              final idUsuario =
+                                context.read<IdSupervisor>().idUsuario;
+
+                                // Añadir el id_usuario al tratamiento
+                                tratamiento.idUsuario = idUsuario;
+
+                            }
+                  
 
                             //Añadir el tratamiento a la base de datos
                             BaseDeDatos.insertarBD(

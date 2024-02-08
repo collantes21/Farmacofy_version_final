@@ -169,8 +169,8 @@ class _MenuDrawerState extends State<MenuDrawer> {
           label:  Text('Información')
         ),
          NavigationDrawerDestination(
-          icon:  Icon(Icons.local_pharmacy_outlined), 
-          label:  Text('Farmacias')
+          icon:  Icon(Icons.assignment_return_outlined), 
+          label:  Text('Cerrar sesion')
         ),
          Padding(
             padding: EdgeInsets.fromLTRB(28, 10, 28, 20),
