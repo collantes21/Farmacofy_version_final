@@ -82,7 +82,7 @@ class _InicioPantallaState extends State<InicioPantalla> {
               accelerationBuffer.removeAt(0);
             }
             //si el valor de la aceleración en el eje z supera el valor de 10 se muestra una notificación
-            if(event.z > 10){
+            if(event.z > 40){
               mostrarNotification("Emergencia", "Se ha detectado una caida");
               hayCaida = true;
             }
