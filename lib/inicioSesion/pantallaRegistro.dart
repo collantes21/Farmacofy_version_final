@@ -5,6 +5,11 @@ import 'package:farmacofy/models/usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:farmacofy/BBDD/bdHelper_old.dart';
 
+import 'package:flutter/material.dart';
+import 'package:farmacofy/BBDD/bbdd.dart';
+import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
+import 'package:farmacofy/models/usuario.dart';
+
 class Medicamento {
   bool activado = false; // Puedes ajustar según tus necesidades
 }
@@ -49,22 +54,22 @@ class _RegistroPantallaState extends State<RegistroPantalla> {
       appBar: AppBar(
         title: const Text('Registro'),
         backgroundColor: const Color(0xFF02A724),
-        flexibleSpace: Container( //Sirve para definir el color de la barra de estado
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  
-                  Color(0xFF02A724),
-                  Color.fromARGB(255, 18, 240, 63),
-                  Color.fromARGB(255, 11, 134, 34),
-                  
-                ],
-              ),
+        flexibleSpace: Container(
+          //Sirve para definir el color de la barra de estado
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color(0xFF02A724),
+                Color.fromARGB(255, 18, 240, 63),
+                Color.fromARGB(255, 11, 134, 34),
+              ],
             ),
           ),
+        ),
         centerTitle: true,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
+        // Contenedor desplazable para evitar que el teclado desplace los campos fuera de la pantalla
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,

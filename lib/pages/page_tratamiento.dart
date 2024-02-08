@@ -50,6 +50,15 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
               ),
             ),
           ),
+          leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>const ListadoTratamientos()),
+            );
+          },
+        ),
         ),
 
         //Cuerpo de la página de tratamiento con formulario a rellenar

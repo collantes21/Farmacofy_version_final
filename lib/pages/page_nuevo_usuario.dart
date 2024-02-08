@@ -26,6 +26,15 @@ class _AnadirUsuarioState extends State<AnadirUsuario> {
         title: const Text('Añadir Usuario'),
         backgroundColor: const Color(0xFF02A724),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ListadoUsuarios()),
+            );
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

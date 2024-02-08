@@ -3,6 +3,7 @@ import 'package:farmacofy/BBDD/bbdd.dart';
 import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
 import 'package:farmacofy/models/medicamento.dart';
 import 'package:farmacofy/models/medicamentoOld.dart';
+import 'package:farmacofy/pages/page_listado_medicamentos.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,8 @@ class _PaginaMedicamentoState extends State<PaginaMedicamento> {
     
     
 
-    return  GestureDetector( //Para quitar el foco de los campos de texto al pulsar fuera de ellos
+    return  GestureDetector(
+       //Para quitar el foco de los campos de texto al pulsar fuera de ellos
    
       onTap: () {
         //Quitar el foco de los campos de texto al pulsar fuera de ellos
@@ -68,8 +70,17 @@ class _PaginaMedicamentoState extends State<PaginaMedicamento> {
             //Color de los iconos 
             color: tema.colorScheme.onPrimary,
           ),
+          leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>const ListadoMedicamentos()),
+            );
+          },
+        ),
           ),
-
+    
           //Cuerpo de la página con un formulario para añadir un medicamento
           body: Form(
             key: _formKey, //Clave del formulario para validar los campos

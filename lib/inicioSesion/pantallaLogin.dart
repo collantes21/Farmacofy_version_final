@@ -1,18 +1,11 @@
 import 'package:farmacofy/pages/page_listado_tratamientos.dart';
 import 'package:farmacofy/pages/page_listado_usuarios.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:farmacofy/BBDD/bbdd.dart';
-import 'package:farmacofy/pages/page_configuracion.dart';
-import 'package:farmacofy/pantallaInicial.dart';
-
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:farmacofy/BBDD/bbdd.dart';
+import 'package:farmacofy/pages/page_listado_tratamientos.dart';
 import 'package:farmacofy/pages/page_listado_usuarios.dart';
-import 'package:farmacofy/pantallaInicial.dart';
+import 'package:provider/provider.dart';
 
-// Definir la clase que actúa como un proveedor para el rol de administrador
 class AdminProvider with ChangeNotifier {
   late bool _esAdmin;
 
@@ -24,7 +17,6 @@ class AdminProvider with ChangeNotifier {
   }
 }
 
-// Definir la clase que actúa como un proveedor para el id del usuario
 class IdSupervisor with ChangeNotifier {
   late int _idUsuario;
 
@@ -47,6 +39,8 @@ class _LoginPantallaState extends State<LoginPantalla> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usuarioController = TextEditingController();
   final TextEditingController _contrasenaController = TextEditingController();
+
+  bool _credencialesIncorrectas = false;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +69,17 @@ class _LoginPantallaState extends State<LoginPantalla> {
             children: [
               TextFormField(
                 controller: _usuarioController,
-                decoration: InputDecoration(labelText: 'Usuario'),
+                decoration: InputDecoration(
+                  labelText: 'Usuario',
+                  errorText: _credencialesIncorrectas
+                      ? 'Credenciales incorrectas'
+                      : null,
+                  focusedBorder: _credencialesIncorrectas
+                      ? OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red),
+                        )
+                      : null,
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, introduce tu usuario';
@@ -86,7 +90,17 @@ class _LoginPantallaState extends State<LoginPantalla> {
               TextFormField(
                 controller: _contrasenaController,
                 obscureText: true,
-                decoration: InputDecoration(labelText: 'Contraseña'),
+                decoration: InputDecoration(
+                  labelText: 'Contraseña',
+                  errorText: _credencialesIncorrectas
+                      ? 'Credenciales incorrectas'
+                      : null,
+                  focusedBorder: _credencialesIncorrectas
+                      ? OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red),
+                        )
+                      : null,
+                ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, introduce tu contraseña';
@@ -106,29 +120,22 @@ class _LoginPantallaState extends State<LoginPantalla> {
                             usuario, contrasena);
 
                     if (credencialesCorrectas) {
-                      
                       final bool? esAdmin =
                           await BaseDeDatos.obtenerRolUsuario(usuario);
                       final int? idUsuario =
                           await BaseDeDatos.obtenerIdUsuario(usuario);
 
-                      // Obtener el proveedor AdminProvider
                       final adminProvider =
                           Provider.of<AdminProvider>(context, listen: false);
-
-                      // Obtener el proveedor UsuarioProvider
                       final usuarioProvider =
                           Provider.of<IdSupervisor>(context, listen: false);
 
-                      // Almacenar el id_usuario en el proveedor
                       if (idUsuario != null) {
                         usuarioProvider.actualizarIdUsuario(idUsuario);
                       }
 
-                      // Navegar a la pantalla correspondiente
                       if (esAdmin != null) {
                         if (esAdmin) {
-                          // Actualizar el valor de esAdmin en el proveedor
                           adminProvider.actualizarEsAdmin(esAdmin);
 
                           Navigator.push(
@@ -147,14 +154,12 @@ class _LoginPantallaState extends State<LoginPantalla> {
                           );
                         }
                       }
+                    } else {
+                      setState(() {
+                        _credencialesIncorrectas = true;
+                      });
+                      _contrasenaController.clear();
                     }
-                  } else {
-                    // Mostrar un mensaje de error si las credenciales son incorrectas
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Error: Credenciales incorrectas'),
-                      ),
-                    );
                   }
                 },
                 child: const Text('Login'),
