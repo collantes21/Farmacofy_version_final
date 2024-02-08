@@ -34,13 +34,7 @@ class BaseDeDatos {
       await db.execute(
           'CREATE TABLE IF NOT EXISTS Usuarios(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, usuario TEXT, contrasena TEXT, administrador INTEGER, id_administrador INTEGER)');
     },
-    // onUpgrade: (Database db, int oldVersion, int newVersion) async {
-    //   if (oldVersion < 5) {
-    //     await db.execute(
-    //       "ALTER TABLE Tratamiento ADD COLUMN idUsuario INTEGER",
-    //     );
-    //   }
-    // },
+    
   );
   return baseDatos;
 }

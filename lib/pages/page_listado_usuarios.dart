@@ -2,6 +2,7 @@ import 'package:farmacofy/BBDD/bbdd.dart';
 import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
 import 'package:farmacofy/pages/page_nuevo_usuario.dart';
 import 'package:farmacofy/pages/page_tratamiento.dart';
+import 'package:farmacofy/pantallaInicial.dart';
 import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,6 +14,8 @@ class ListadoUsuarios extends StatefulWidget {
   @override
   State<ListadoUsuarios> createState() => _ListadoUsuariosState();
 }
+
+
 
 class _ListadoUsuariosState extends State<ListadoUsuarios> {
   @override
@@ -52,7 +55,8 @@ class _ListadoUsuariosState extends State<ListadoUsuarios> {
       body: Stack(
         children: [
           FutureBuilder<List<Map<String, dynamic>>>(
-            future: BaseDeDatos.consultarUsuariosPorIdAdministrador(idAdministrador),
+            future: BaseDeDatos.consultarUsuariosPorIdAdministrador(
+                idAdministrador),
             builder: (BuildContext context,
                 AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -65,9 +69,17 @@ class _ListadoUsuariosState extends State<ListadoUsuarios> {
                   return ListView.builder(
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
-                      return Card(
+                      return GestureDetector(
+                        onTap: () {
+                          //
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PantallaInicial()),
+                          );
+                        },
                         //Separacion entre las tarjetas
-                        margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
+                        // margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
                         child: ListTile(
                           leading: Icon(
                             FontAwesomeIcons.userMd,

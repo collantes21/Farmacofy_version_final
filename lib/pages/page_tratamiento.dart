@@ -813,7 +813,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: ElevatedButton.icon(
                           
-                          onPressed: () {
+                          onPressed: () async {
                            
                             //Validación del formulario
                             if (_formKey.currentState!.validate()) {
@@ -821,7 +821,12 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                               //Añadir el medicamento a la base de datos solo si se ha seleccionado la opción de añadir un medicamento
                               if(_habilitado == true)
                               {
-                                BaseDeDatos.insertarBD('Medicamento', medicamento.toMap());
+                                // Insertar el medicamento y obtener el ID insertado
+                              int medicamentoId = await BaseDeDatos.insertarBD(
+                                  'Medicamento', medicamento.toMap());
+ 
+                              // Asignar el ID del medicamento al tratamiento si se ha añadido un medicamento nuevo
+                              tratamiento.idMedicamento = medicamentoId;
                               }
                         
                               //Añadir el tratamiento a la base de datos
