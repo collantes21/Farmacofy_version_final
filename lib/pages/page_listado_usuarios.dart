@@ -37,6 +37,7 @@ class _ListadoUsuariosState extends State<ListadoUsuarios> {
   Widget build(BuildContext context) {
 
     // Obtener el id del usuario del proveedor
+    
     final usuarioProvider = context.read<IdSupervisor>();
     final int idAdministrador = usuarioProvider.idUsuario;
 
@@ -91,6 +92,7 @@ class _ListadoUsuariosState extends State<ListadoUsuarios> {
                           // Guardar el ID del usuario en el Provider
                           final usuarioId = snapshot.data![index]['id'] as int;
                           Provider.of<IdUsuarioSeleccionado>(context, listen: false).setIdUsuario(usuarioId);
+                          // bool esAdmin=Provider.of<AdminProvider>(context, listen: false).actualizarEsAdmin(false);
 
                           ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

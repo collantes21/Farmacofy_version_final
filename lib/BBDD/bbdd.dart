@@ -134,6 +134,17 @@ class BaseDeDatos {
   return resultado;
 }
 
+ // Consultar Consultas por usuario
+  static Future<List<Map<String, dynamic>>> consultarConsultasPorUsuario(int idUsuario) async {
+  final db = await database;
+  final resultado = await db!.rawQuery(
+    "SELECT * FROM Consulta WHERE idUsuario = ?",
+    [idUsuario],
+  
+  );
+  return resultado;
+}
+
   // Consulta para conocer el valor de la columna administrador
 
   static Future<bool?> obtenerRolUsuario(String usuario) async {
@@ -178,4 +189,6 @@ static Future<List<Map<String, dynamic>>> consultarUsuariosPorIdAdministrador(in
   );
   return resultado;
 }
+
+
 }

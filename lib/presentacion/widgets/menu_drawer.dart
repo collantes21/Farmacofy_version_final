@@ -35,7 +35,47 @@ class _MenuDrawerState extends State<MenuDrawer> {
           indiceSeleccionado = value;
         });
 
-        switch (value) {
+        if (esAdmin.esAdmin) {
+
+          switch (value) {
+          case 0:
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const PantallaInicial()),
+            );
+            break;
+          case 1:
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const InicioPantalla()),
+            );
+            break;
+          case 2:
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const PaginaConfiguracion(),
+              ),
+            );
+            break;
+            case 3:
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const PaginaConfiguracion(),
+              ),
+            );
+            break;
+          case 4:
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const ListadoUsuarios()),
+            );
+            break;
+        }
+        } else{
+
+            switch (value) {
           case 0:
             Navigator.pushReplacement(
               context,
@@ -83,7 +123,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
               ),
             );
             break;
-            break;
+            
           case 7:
             Navigator.pushReplacement(
               context,
@@ -91,6 +131,9 @@ class _MenuDrawerState extends State<MenuDrawer> {
             );
             break;
         }
+        }
+
+        
       },
       children: [
         Padding(
@@ -113,36 +156,40 @@ class _MenuDrawerState extends State<MenuDrawer> {
             ],
           ),
         ),
-        Padding(
+        const Padding(
           padding: EdgeInsets.fromLTRB(28, 0, 28, 20),
           child: Divider(
             color: Colors.green,
             thickness: 2,
           ),
         ),
-        NavigationDrawerDestination(
+
+        const NavigationDrawerDestination(
             icon: Icon(Icons.home), label: Text('Inicio')),
-        NavigationDrawerDestination(
-            icon: Icon(Icons.medication_outlined), label: Text('Medicamentos')),
-        NavigationDrawerDestination(
+            // Hacemos desaparecer el boton de inicio si el usuario es admin
+            (!esAdmin.esAdmin)?
+        const NavigationDrawerDestination(
+            icon: Icon(Icons.medication_outlined), label: Text('Medicamentos')): SizedBox.shrink(),
+            (!esAdmin.esAdmin)?
+        const NavigationDrawerDestination(
             icon: Icon(Icons.medication_liquid_outlined),
-            label: Text('Tratamiento')),
-        NavigationDrawerDestination(
+            label: Text('Tratamiento')): SizedBox.shrink(),
+            (!esAdmin.esAdmin)?
+        const NavigationDrawerDestination(
             icon: Icon(Icons.medical_services_outlined),
-            label: Text('Consultas médicas')),
-        NavigationDrawerDestination(
-            icon: Icon(Icons.info_sharp), label: Text('Información')),
-        NavigationDrawerDestination(
+            label: Text('Consultas médicas')): SizedBox.shrink(),
+        
+        const NavigationDrawerDestination(
             icon: Icon(Icons.assignment_return_outlined),
             label: Text('Cerrar sesion')),
-        Padding(
+        const Padding(
           padding: EdgeInsets.fromLTRB(28, 10, 28, 20),
           child: Divider(
             color: Colors.green,
             thickness: 2,
           ),
         ),
-        Padding(
+       const Padding(
             padding: EdgeInsets.fromLTRB(28, 0, 16, 10),
             child: Text(
               'Configuración',
@@ -151,13 +198,15 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 fontSize: 24,
               ),
             )),
-        Padding(
+       const Padding(
           padding: EdgeInsets.fromLTRB(28, 0, 28, 20),
           child: Divider(
             color: Colors.green,
             thickness: 2,
           ),
         ),
+        const NavigationDrawerDestination(
+            icon: Icon(Icons.info_sharp), label: Text('Gestionar Perfil')),
         NavigationDrawerDestination(
             icon: Icon(Icons.settings), label: Text('Configuración')),
         (esAdmin.esAdmin)
