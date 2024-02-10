@@ -35,45 +35,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
           indiceSeleccionado = value;
         });
 
-        if (esAdmin.esAdmin) {
-
-          switch (value) {
-          case 0:
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const PantallaInicial()),
-            );
-            break;
-          case 1:
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const InicioPantalla()),
-            );
-            break;
-          case 2:
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const PaginaConfiguracion(),
-              ),
-            );
-            break;
-            case 3:
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const PaginaConfiguracion(),
-              ),
-            );
-            break;
-          case 4:
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const ListadoUsuarios()),
-            );
-            break;
-        }
-        } else{
+   
 
             switch (value) {
           case 0:
@@ -131,7 +93,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
             );
             break;
         }
-        }
+        
 
         
       },
@@ -167,17 +129,19 @@ class _MenuDrawerState extends State<MenuDrawer> {
         const NavigationDrawerDestination(
             icon: Icon(Icons.home), label: Text('Inicio')),
             // Hacemos desaparecer el boton de inicio si el usuario es admin
-            (!esAdmin.esAdmin)?
+            //(!esAdmin.esAdmin)? 
         const NavigationDrawerDestination(
-            icon: Icon(Icons.medication_outlined), label: Text('Medicamentos')): SizedBox.shrink(),
-            (!esAdmin.esAdmin)?
+            icon: Icon(Icons.medication_outlined), label: Text('Medicamentos')),
+            //: SizedBox.shrink(), // Si es admin, no se muestra el boton
+            
         const NavigationDrawerDestination(
             icon: Icon(Icons.medication_liquid_outlined),
-            label: Text('Tratamiento')): SizedBox.shrink(),
-            (!esAdmin.esAdmin)?
+            label: Text('Tratamiento')),
+            //: SizedBox.shrink(),
+           
         const NavigationDrawerDestination(
             icon: Icon(Icons.medical_services_outlined),
-            label: Text('Consultas médicas')): SizedBox.shrink(),
+            label: Text('Consultas médicas')),
         
         const NavigationDrawerDestination(
             icon: Icon(Icons.assignment_return_outlined),

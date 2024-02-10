@@ -26,6 +26,10 @@ class Medicamento {
   String get tipoEnvase => _tipoEnvase;
   int get cantidadEnvase => _cantidadEnvase;
 
+  set id(int? id) {
+    _id = id;
+  }
+
   set nombre(String nombre) {
     _nombre = nombre;
   }

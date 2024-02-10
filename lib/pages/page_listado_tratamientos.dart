@@ -17,7 +17,7 @@ class ListadoTratamientos extends StatefulWidget {
 class _ListadoTratamientosState extends State<ListadoTratamientos> {
   BaseDeDatos bdHelper = BaseDeDatos();
 
-    @override
+  @override
   Widget build(BuildContext context) {
     bool esAdmin = context.read<AdminProvider>().esAdmin;
     late int usuario;
@@ -57,7 +57,8 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
       body: Stack(
         children: [
           FutureBuilder<List<Map<String, dynamic>>>(
-            future: BaseDeDatos.consultarTratamientosConMedicamentosPorUsuario(usuario),
+            future: BaseDeDatos.consultarTratamientosConMedicamentosPorUsuario(
+                usuario),
             builder: (BuildContext context,
                 AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -101,8 +102,51 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                                   'Medicamento: ${snapshot.data![index]['nombreMedicamento']}'), // Acordarse de poner: m.nombre as nombreMedicamento
                             ],
                           ),
+                          trailing: IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red),
+                             // Pregunta si está seguro de eliminar el tratamiento
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Eliminar Tratamiento'),
+                                    content: const Text(
+                                        '¿Estás seguro de eliminar el tratamiento?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text('Cancelar'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text('Aceptar'),
+                                        onPressed: () {
+                                          // Aquí va tu código para eliminar el medicamento de la base de datos
+                                          BaseDeDatos.eliminarBD('Tratamiento', snapshot.data![index]['id']);
+                                          // BaseDeDatos.eliminarBD('Medicamento', snapshot.data![index]['idMedicamento']);
+                                          setState(() {});
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
                           onTap: () {
-                            // Acción al pulsar sobre la tarjeta
+                            // Acción al pulsar sobre la tarjeta nos lleva a la pantalla de edición
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const PaginaTratamiento(
+                                  
+                           
+                                ),
+                              ),
+                            );
                           },
                         ),
                       );

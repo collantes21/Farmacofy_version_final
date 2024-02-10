@@ -11,9 +11,6 @@ import 'package:provider/provider.dart';
 
 
 
-
-
-
 class ListadoUsuarios extends StatefulWidget {
   const ListadoUsuarios({super.key});
 
@@ -113,7 +110,7 @@ class _ListadoUsuariosState extends State<ListadoUsuarios> {
                         // margin: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
                         child: ListTile(
                           leading: Icon(
-                            FontAwesomeIcons.userMd,
+                            FontAwesomeIcons.hospitalUser,
                             color: Colors.blue,
                             size: 40.0,
                           ),
@@ -160,7 +157,7 @@ class _ListadoUsuariosState extends State<ListadoUsuarios> {
             MaterialPageRoute(builder: (context) => const AnadirUsuario()),
           );
         },
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.person_add),
         backgroundColor: const Color(0xFF02A724),
       ),
     );

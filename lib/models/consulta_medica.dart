@@ -50,6 +50,10 @@ class ConsultaMedica {
   String get motivo => _motivo;
   int get idUsuario => _idUsuario;
 
+  set id(int? id) {
+    _id = id;
+  }
+
   set especialista(String especialista) {
     _especialista = especialista;
   }

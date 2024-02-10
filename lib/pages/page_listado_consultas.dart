@@ -1,7 +1,9 @@
 import 'package:farmacofy/BBDD/bbdd.dart';
 import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
 import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
+import 'package:farmacofy/models/consulta_medica.dart';
 import 'package:farmacofy/pages/page_consulta_medica.dart';
+import 'package:farmacofy/pages/page_editar_consulta.dart';
 import 'package:farmacofy/pages/page_listado_usuarios.dart';
 import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
@@ -102,18 +104,75 @@ class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
                                     fontSize: 15.0),
                               ),
                               Text(
-                                'Hora cita: ' + snapshot.data![index]['hora'],
+                                'Hora: ' + snapshot.data![index]['hora'],
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 4, 167, 12),
                                     fontSize: 17.0),
-                              ), // Añade la hora aquí
-                            ],
-                          ),
-                          trailing: Text(
-                            snapshot.data![index]['fecha'],
+                              ),
+                              Text(
+                            'Fecha cita: '+snapshot.data![index]['fecha'],
                             style:
                                 TextStyle(color: Colors.teal, fontSize: 17.0),
+                          ), // Añade la hora aquí
+                            ],
                           ),
+                          trailing: 
+
+                            IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red),
+                             // Pregunta si está seguro de eliminar la consulta
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Eliminar la consulta médica'),
+                                    content:  Text(
+                                        '¿Estás seguro de eliminar la consulta de: ${snapshot.data![index]['especialista']} ?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text('Cancelar'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: const Text('Aceptar'),
+                                        onPressed: () {
+                                          // Aquí va tu código para eliminar la consulta de la base de datos
+                                          BaseDeDatos.eliminarBD('Consulta', snapshot.data![index]['id']);
+                                         
+                                          setState(() {});
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
+
+                          /**
+                           * ! IMPORTANTE
+                           * * Aqui se implementa el cambio de pantalla al pulsar sobre una tarjeta consulta
+                           * * Se pasa como parametro la consulta seleccionada
+                           */
+
+                          onTap: (){
+                            ConsultaMedica consultaSeleccionada = ConsultaMedica();
+                            consultaSeleccionada.id = snapshot.data![index]['id'];
+                            ConsultaMedica consultaIdUsuario = ConsultaMedica();
+                            consultaIdUsuario.idUsuario = snapshot.data![index]['idUsuario'];
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditarConsultaMedica(consultaMedicaEditar: consultaSeleccionada, consultaIdUsuario: consultaIdUsuario,),
+                              ),
+                            );
+                          },
+
                         ),
                       );
                     },
