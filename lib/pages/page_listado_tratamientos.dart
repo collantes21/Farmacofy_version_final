@@ -98,8 +98,13 @@ class _ListadoTratamientosState extends State<ListadoTratamientos> {
                                   'Frecuencia: ${snapshot.data![index]['frecuencia']}'),
                               Text(
                                   'Via de administración: ${snapshot.data![index]['viaAdministracion']}'),
+                              Text('Hora inicio toma: ${snapshot.data![index]['horaInicioToma']}'),
+                              Text('Cantidad total envase : ${snapshot.data![index]['cantidadTotalPastillas']}'),
+                              Text('Cantidad mínima envase : ${snapshot.data![index]['cantidadMinima']}'),
+                              
                               Text(
-                                  'Medicamento: ${snapshot.data![index]['nombreMedicamento']}'), // Acordarse de poner: m.nombre as nombreMedicamento
+                                  'Medicamento: ${snapshot.data![index]['nombreMedicamento']}'),
+                               // Acordarse de poner: m.nombre as nombreMedicamento
                             ],
                           ),
                           trailing: IconButton(

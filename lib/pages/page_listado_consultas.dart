@@ -168,6 +168,8 @@ class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
+
+                                
                                 builder: (context) => EditarConsultaMedica(consultaMedicaEditar: consultaSeleccionada, consultaIdUsuario: consultaIdUsuario,),
                               ),
                             );

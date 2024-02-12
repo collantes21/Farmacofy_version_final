@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 
 class BaseDeDatos {
   static Database? _database;
-  static const String nombreBD = "farmacofy-BBDD.db";
+  static const String nombreBD = "farmacofy.db";
 
   // Iniciar la base de datos
   static Future<Database?> get database async {
@@ -15,13 +15,13 @@ class BaseDeDatos {
     return _database;
   }
 
-  // Método privado para inicializar la base de datos
-  static Future<Database> inicializarBD() async {
+// Método privado para inicializar la base de datos
+static Future<Database> inicializarBD() async {
   var directorio = await getDatabasesPath();
   String path = join(directorio, nombreBD);
   var baseDatos = await openDatabase(
     path,
-    version: 6,
+    version: 7, // Incrementa la versión de la base de datos para aplicar los cambios
     onCreate: (Database db, int version) async {
       await db.execute(
          "CREATE TABLE IF NOT EXISTS Consulta(id INTEGER PRIMARY KEY, especialista TEXT, doctor TEXT, fecha TEXT, hora TEXT, motivo TEXT, idUsuario INTEGER, FOREIGN KEY(idUsuario) REFERENCES Usuarios(id) ON DELETE CASCADE)");
@@ -29,12 +29,12 @@ class BaseDeDatos {
           "CREATE TABLE IF NOT EXISTS Medicamento(id INTEGER PRIMARY KEY, nombre TEXT, prospecto TEXT, fechaCaducidad TEXT, tipoEnvase TEXT, cantidadEnvase INTEGER)");
 
       await db.execute(
-          "CREATE TABLE IF NOT EXISTS Tratamiento(id INTEGER PRIMARY KEY, condicionMedica TEXT, dosis INTEGER, frecuencia INTEGER, viaAdministracion TEXT, fechaInicio TEXT, fechaFin TEXT, descripcion TEXT, recordatorio INTEGER, idMedicamento INTEGER, idUsuario INTEGER, FOREIGN KEY(idMedicamento) REFERENCES Medicamento(id), FOREIGN KEY(idUsuario) REFERENCES Usuarios(id) ON DELETE CASCADE)");
+          "CREATE TABLE IF NOT EXISTS Tratamiento(id INTEGER PRIMARY KEY, condicionMedica TEXT, dosis INTEGER, frecuencia INTEGER, viaAdministracion TEXT, fechaInicio TEXT, fechaFin TEXT, descripcion TEXT, recordatorio INTEGER, idMedicamento INTEGER, idUsuario INTEGER, horaInicioToma TEXT, cantidadTotalPastillas INTEGER, cantidadMinima INTEGER, FOREIGN KEY(idMedicamento) REFERENCES Medicamento(id), FOREIGN KEY(idUsuario) REFERENCES Usuarios(id) ON DELETE CASCADE)");
 
       await db.execute(
           'CREATE TABLE IF NOT EXISTS Usuarios(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, usuario TEXT, contrasena TEXT, administrador INTEGER, id_administrador INTEGER)');
     },
-    
+
   );
   return baseDatos;
 }
@@ -125,10 +125,21 @@ class BaseDeDatos {
   //   return resultado;
   // }
 
-  static Future<List<Map<String, dynamic>>> consultarTratamientosConMedicamentosPorUsuario(int idUsuario) async {
+
+//Metodo que lista sin meter lo campos nuevos para el control del stockage
+//   static Future<List<Map<String, dynamic>>> consultarTratamientosConMedicamentosPorUsuario(int idUsuario) async {
+//   final db = await database;
+//   final resultado = await db!.rawQuery(
+//     "SELECT t.id, t.condicionMedica, t.dosis, t.frecuencia, t.viaAdministracion, t.fechaInicio, t.fechaFin, t.descripcion, t.recordatorio, t.idMedicamento, m.nombre as nombreMedicamento, m.prospecto, m.fechaCaducidad, m.tipoEnvase, m.cantidadEnvase FROM Tratamiento t INNER JOIN Medicamento m ON t.idMedicamento = m.id WHERE t.idUsuario = ?",
+//     [idUsuario],
+//   );
+//   return resultado;
+// }
+
+static Future<List<Map<String, dynamic>>> consultarTratamientosConMedicamentosPorUsuario(int idUsuario) async {
   final db = await database;
   final resultado = await db!.rawQuery(
-    "SELECT t.id, t.condicionMedica, t.dosis, t.frecuencia, t.viaAdministracion, t.fechaInicio, t.fechaFin, t.descripcion, t.recordatorio, t.idMedicamento, m.nombre as nombreMedicamento, m.prospecto, m.fechaCaducidad, m.tipoEnvase, m.cantidadEnvase FROM Tratamiento t INNER JOIN Medicamento m ON t.idMedicamento = m.id WHERE t.idUsuario = ?",
+    "SELECT t.id, t.condicionMedica, t.dosis, t.frecuencia, t.viaAdministracion, t.fechaInicio, t.fechaFin, t.descripcion, t.recordatorio, t.idMedicamento, t.horaInicioToma, t.cantidadTotalPastillas, t.cantidadMinima, m.nombre as nombreMedicamento, m.prospecto, m.fechaCaducidad, m.tipoEnvase, m.cantidadEnvase FROM Tratamiento t INNER JOIN Medicamento m ON t.idMedicamento = m.id WHERE t.idUsuario = ?",
     [idUsuario],
   );
   return resultado;

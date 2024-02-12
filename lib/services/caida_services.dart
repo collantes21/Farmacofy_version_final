@@ -37,6 +37,7 @@ Future<void> initNotifications() async {
 
 //funcion para mostrar una notificacion
 
+
 Future<void> mostrarNotification(String title, String body) async {
   //creamos un objeto de configuracion de la notificacion
   const AndroidNotificationDetails androidNotificacion =
@@ -54,8 +55,8 @@ Future<void> mostrarNotification(String title, String body) async {
 
 
   //mostramos la notificacion
-//   await flutterNotificationsPlugin.show(
-//       0, title, body, notificationDetails,payload: 'item x');
+  await flutterNotificationsPlugin.show(
+      0, title, body, notificationDetails,payload: 'item x');
  }
 
 //funcion para llamar a emergencias

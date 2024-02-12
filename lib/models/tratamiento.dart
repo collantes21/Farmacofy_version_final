@@ -4,24 +4,34 @@ class Tratamiento {
   late int _dosis;
   late int _frecuencia;
   late String _viaAdministracion;
-  late String _fechaInicio;
+  late DateTime _fechaInicio;
   late String _fechaFin;
   late String _descripcion;
   late int _recordatorio;
   late int _idMedicamento;
   late int _idUsuario; // Nuevo campo idUsuario
+  late String _dia;
+  late String _horaInicioToma;
+  late int _cantidadTotalPastillas;
+  late int _cantidadMinima;
 
   Tratamiento() {
+
     _condicionMedica = "";
     _dosis = 0;
     _frecuencia = 0;
     _viaAdministracion = "";
-    _fechaInicio = "";
+    _fechaInicio = DateTime.now();
     _fechaFin = "";
     _descripcion = "";
     _recordatorio = 0;
     _idMedicamento = 0;
     _idUsuario = 0; // Inicializar el nuevo campo idUsuario
+    _dia = _fechaInicio.day.toString()+"/"+_fechaInicio.month.toString()+"/"+_fechaInicio.year.toString();
+    //_horaInicioToma = "${this._fechaInicio.hour}:${this._fechaInicio.minute}";
+    _horaInicioToma = _fechaInicio.hour.toString()+":"+_fechaInicio.minute.toString();
+    _cantidadTotalPastillas = 0;
+    _cantidadMinima = 0;
   }
 
   Tratamiento.withData(
@@ -29,12 +39,16 @@ class Tratamiento {
       int dosis,
       int frecuencia,
       String viaAdministracion,
-      String fechaInicio,
+      DateTime fechaInicio,
       String fechaFin,
       String descripcion,
       int recordatorio,
       int idMedicamento,
-      int idUsuario) {
+      int idUsuario,
+      String dia,
+      String horaInicioToma,
+      int cantidadTotalPastillas,
+      int cantidadMinima) {
     // Nuevo parámetro idUsuario
     _condicionMedica = condicionMedica;
     _dosis = dosis;
@@ -46,6 +60,10 @@ class Tratamiento {
     _recordatorio = recordatorio;
     _idMedicamento = idMedicamento;
     _idUsuario = idUsuario; // Asignar el nuevo campo idUsuario
+    _dia = _fechaInicio.day.toString()+"/"+_fechaInicio.month.toString()+"/"+_fechaInicio.year.toString();
+    _horaInicioToma = _fechaInicio.hour.toString()+":"+_fechaInicio.minute.toString();
+    _cantidadTotalPastillas = cantidadTotalPastillas;
+    _cantidadMinima = cantidadMinima;
   }
 
   Tratamiento.withId(
@@ -54,12 +72,16 @@ class Tratamiento {
       int dosis,
       int frecuencia,
       String viaAdministracion,
-      String fechaInicio,
+      DateTime fechaInicio,
       String fechaFin,
       String descripcion,
       int recordatorio,
       int idMedicamento,
-      int idUsuario) {
+      int idUsuario,
+      String dia,
+      String horaInicioToma,
+      int cantidadTotalPastillas,
+      int cantidadMinima) {
     // Nuevo parámetro idUsuario
     _id = id;
     _condicionMedica = condicionMedica;
@@ -72,6 +94,10 @@ class Tratamiento {
     _recordatorio = recordatorio;
     _idMedicamento = idMedicamento;
     _idUsuario = idUsuario; // Asignar el nuevo campo idUsuario
+    _dia = _fechaInicio.day.toString()+"/"+_fechaInicio.month.toString()+"/"+_fechaInicio.year.toString();
+    _horaInicioToma = _fechaInicio.hour.toString()+":"+_fechaInicio.minute.toString();
+    _cantidadTotalPastillas = cantidadTotalPastillas;
+    _cantidadMinima = cantidadMinima;
   }
 
     // Getters y setters
@@ -81,12 +107,16 @@ class Tratamiento {
   int get dosis => _dosis;
   int get frecuencia => _frecuencia;
   String get viaAdministracion => _viaAdministracion;
-  String get fechaInicio => _fechaInicio;
+  DateTime get fechaInicio => _fechaInicio;
   String get fechaFin => _fechaFin;
   String get descripcion => _descripcion;
   int get recordatorio => _recordatorio;
   int get idMedicamento => _idMedicamento;
   int get idUsuario => _idUsuario;
+  String get dia => _dia;
+  String get horaInicioToma => _horaInicioToma;
+  int get cantidadTotalPastillas => _cantidadTotalPastillas;
+  int get cantidadMinima => _cantidadMinima;
 
   set condicionMedica(String condicionMedica) {
     _condicionMedica = condicionMedica;
@@ -103,9 +133,14 @@ class Tratamiento {
   set viaAdministracion(String viaAdministracion) {
     _viaAdministracion = viaAdministracion;
   }
+  /// este setter está tomando una fecha y hora (DateTime) 
+  /// y está dividiendo esa información en dos cadenas separadas: una para la fecha (_dia) y otra para la hora (_horaInicioToma).
+  /// Esto es útil para mostrar la fecha y la hora por separado en la interfaz de usuario.
+  
 
-  set fechaInicio(String fechaInicio) {
-    _fechaInicio = fechaInicio;
+  set fechaInicio(DateTime fechaInicio) {
+    _dia = _fechaInicio.day.toString()+"/"+_fechaInicio.month.toString()+"/"+_fechaInicio.year.toString();
+    _horaInicioToma = _fechaInicio.hour.toString()+":"+_fechaInicio.minute.toString();
   } 
 
   set fechaFin(String fechaFin) {
@@ -127,6 +162,31 @@ class Tratamiento {
     _idUsuario = value;
   }
 
+  set dia(String dia) {
+    _dia = dia;
+    List<String> partes = dia.split("/");
+    int dd = int.tryParse(partes[0])!;
+    int mm = int.tryParse(partes[1])!;
+    int yyyy = int.tryParse(partes[2])!;
+    _fechaInicio = new DateTime(yyyy, mm, dd, _fechaInicio.hour, _fechaInicio.minute);
+  }
+
+  set horaInicioToma(String horaInicioToma) {
+    _horaInicioToma = horaInicioToma;
+    List<String> partes = horaInicioToma.split(":");
+    int horas = int.tryParse(partes[0])!;
+    int minutos = int.tryParse(partes[1])!;
+    _fechaInicio = new DateTime(_fechaInicio.year, _fechaInicio.month, _fechaInicio.day, horas, minutos);
+  }
+
+  set cantidadTotalPastillas(int cantidadTotalPastillas) {
+    _cantidadTotalPastillas = cantidadTotalPastillas;
+  }
+
+  set cantidadMinima(int cantidadMinima) {
+    _cantidadMinima = cantidadMinima;
+  }
+
   // Ajustar el método toMap() para incluir el nuevo campo idUsuario
   Map<String, dynamic> toMap() {
     var map = new Map<String, dynamic>();
@@ -137,28 +197,40 @@ class Tratamiento {
     map['dosis'] = _dosis;
     map['frecuencia'] = _frecuencia;
     map['viaAdministracion'] = _viaAdministracion;
-    map['fechaInicio'] = _fechaInicio;
+    map['fechaInicio'] = _fechaInicio.toString();
     map['fechaFin'] = _fechaFin;
     map['descripcion'] = _descripcion;
     map['recordatorio'] = _recordatorio;
     map['idMedicamento'] = _idMedicamento;
     map['idUsuario'] = _idUsuario;
+    map['horaInicioToma'] = _horaInicioToma;
+    map['cantidadTotalPastillas'] = _cantidadTotalPastillas;
+    map['cantidadMinima'] = _cantidadMinima;
+    //map['horaInicioToma'] = _horaInicioToma.toIso8601String();
     return map;
   }
 
-  // Ajustar el método fromMapObject() para incluir el nuevo campo idUsuario
+  /// Este tipo de constructor es muy útil cuando se trabaja con BBDD o APIs
+  /// Los datos vienen en fomrato mapa o JSON y necesitan ser convertidos a objetos 
+  
   Tratamiento.fromMapObject(Map<String, dynamic> map) {
     _id = map['id'];
     _condicionMedica = map['condicionMedica'];
     _dosis = map['dosis'];
     _frecuencia = map['frecuencia'];
     _viaAdministracion = map['viaAdministracion'];
-    _fechaInicio = map['fechaInicio'];
+    _fechaInicio = DateTime.parse(map['fechaInicio']); // Convertir la cadena a un objeto DateTime
     _fechaFin = map['fechaFin'];
     _descripcion = map['descripcion'];
     _recordatorio = map['recordatorio'];
     _idMedicamento = map['idMedicamento'];
-    _idUsuario = map['idUsuario']; 
+    _idUsuario = map['idUsuario'];
+    _dia = _fechaInicio.day.toString()+"/"+_fechaInicio.month.toString()+"/"+_fechaInicio.year.toString();
+    _horaInicioToma = map['horaInicioToma'];
+    _cantidadTotalPastillas = map['cantidadTotalPastillas'];
+    _cantidadMinima = map['cantidadMinima'];
+    // No se si hay que incluir esta parte de código
+    //_horaInicioToma = _fechaInicio.hour.toString()+":"+_fechaInicio.minute.toString(); 
   }
 }
 

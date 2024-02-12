@@ -267,9 +267,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                         if (value == null || value.isEmpty) {
                           return 'Por favor, introduce la fecha de inicio';
                         }
-                        if (RegExp(r'^(\d{2})/(\d{2})/(\d{4})$')
-                                .hasMatch(value) ==
-                            false) {
+                        if (RegExp(r'^(\d{2})/(\d{2})/(\d{4})$').hasMatch(value) == false) {
                           return 'El formato de la fecha es incorrecto';
                         } else {
                           return null;
@@ -278,7 +276,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                       //Asignación del valor del campo al atributo fechaInicio del objeto medicamento
                       onSaved: (value) {
                         if (value != null) {
-                          tratamiento.fechaInicio = value;
+                          tratamiento.dia = value;
                         }
                       },
                     ),
@@ -318,6 +316,41 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: TextFormField(
                       decoration: const InputDecoration(
+                        labelText: 'Hora inicio toma',
+                        hintText: 'Itroduce la hora del comienzo de la toma',
+                        icon: Icon(Icons.timer,
+                              color: Color.fromARGB(255, 9, 168, 44),
+                        ),
+                      ),
+                      keyboardType: TextInputType.datetime,
+
+                      validator: (value) {
+                        if(value == null || value.isEmpty){
+                          return 'El campo no puede estar vacio';
+                        }
+                        if(RegExp(r'^[0-2][0-9]:[0-5][0-9]$').hasMatch(value)==false)
+                        {
+                          return 'El formato de la hora no es correcto';
+                        }
+                        else{
+                          return null;
+                        }
+                      },
+
+                      onSaved: (value){
+                        if(value != null)
+                        {
+                          tratamiento.horaInicioToma = value;
+                        }
+
+                      },
+                    ),
+
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
                         labelText: 'Detalles del tratamiento',
                         hintText: 'Introduce notas sobre el tratamiento',
                         icon: Icon(Icons.note_add_rounded,
@@ -339,6 +372,78 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                         }
                       },
                     ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Cantidad total del envase',
+                        hintText: 'Introduce la cantidad del envase',
+                        icon: Icon(Icons.local_drink),
+                      ),
+                      keyboardType: TextInputType.number,
+                      //Validación del campo cantidadEnvase
+
+                      validator: (value) {
+                      
+                        if ((value == null || value.isEmpty)) {
+                          return 'Por favor, introduce la cantidad del envase';
+                        }
+                        //Controlar que sea un número entero positivo
+                        if (RegExp(r'^[0-9]+$').hasMatch(value) == false) {
+                          return 'La cantidad debe ser un número';
+                        }else{
+                            return null;
+                        }
+
+                        
+                      },
+                      onSaved: (value) {
+                         
+                          if (value!=null) {
+                            tratamiento.cantidadTotalPastillas = int.parse(value);
+                          }
+                        
+                      },
+                     
+                    ),
+
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        labelText: 'Cantidad mínima envase',
+                        hintText: 'Introduce la cantidad mínima restante',
+                        icon: Icon(Icons.local_drink),
+                      ),
+                      keyboardType: TextInputType.number,
+                      //Validación del campo cantidadEnvase
+
+                      validator: (value) {
+                    
+                        if ((value == null || value.isEmpty)) {
+                          return 'Por favor, introduce la cantidad mínima del envase';
+                        }
+                        //Controlar que sea un número entero positivo
+                        if (RegExp(r'^[0-9]+$').hasMatch(value) == false) {
+                          return 'La cantidad debe ser un número';
+                        }else{
+                             return null;
+                        }
+
+                       
+                      },
+                      onSaved: (value) {
+                         
+                          if (value != null) {
+                            tratamiento.cantidadMinima = int.parse(value);
+                          }
+                        
+                      },
+                     
+                    ),
+
                   ),
                   SizedBox(height: 15),
                   Divider(
@@ -460,8 +565,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                                     onChanged: (String? value) {
                                       setState(() {
                                         if (value != null)
-                                          tratamiento.idMedicamento = int.parse(
-                                              value); //Asignación del valor del campo al atributo idMedicamento del objeto medicamento
+                                          tratamiento.idMedicamento = int.parse(value); //Asignación del valor del campo al atributo idMedicamento del objeto medicamento
                                       });
                                     },
                                     // validator: (value) {
@@ -631,8 +735,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                   ),
 
                   //Campo del tipo de envase del medicamento
-                  if (_habilitado ==
-                      true) // Mustra el campo si selecciona 'Agregar nuevo medicamento'
+                  if (_habilitado == true) // Mustra el campo si selecciona 'Agregar nuevo medicamento'
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
