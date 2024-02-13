@@ -4,7 +4,7 @@ import 'package:path/path.dart';
 
 class BaseDeDatos {
   static Database? _database;
-  static const String nombreBD = "farmacofy.db";
+  static const String nombreBD = "farmacofy1.db";
 
   // Iniciar la base de datos
   static Future<Database?> get database async {
@@ -29,12 +29,11 @@ static Future<Database> inicializarBD() async {
           "CREATE TABLE IF NOT EXISTS Medicamento(id INTEGER PRIMARY KEY, nombre TEXT, prospecto TEXT, fechaCaducidad TEXT, tipoEnvase TEXT, cantidadEnvase INTEGER)");
 
       await db.execute(
-          "CREATE TABLE IF NOT EXISTS Tratamiento(id INTEGER PRIMARY KEY, condicionMedica TEXT, dosis INTEGER, frecuencia INTEGER, viaAdministracion TEXT, fechaInicio TEXT, fechaFin TEXT, descripcion TEXT, recordatorio INTEGER, idMedicamento INTEGER, idUsuario INTEGER, horaInicioToma TEXT, cantidadTotalPastillas INTEGER, cantidadMinima INTEGER, FOREIGN KEY(idMedicamento) REFERENCES Medicamento(id), FOREIGN KEY(idUsuario) REFERENCES Usuarios(id) ON DELETE CASCADE)");
+          "CREATE TABLE IF NOT EXISTS Tratamiento(id INTEGER PRIMARY KEY, condicionMedica TEXT, dosis INTEGER, frecuencia INTEGER, viaAdministracion TEXT, fechaInicio TEXT, fechaFin TEXT, descripcion TEXT, recordatorio INTEGER, idMedicamento INTEGER, idUsuario INTEGER, dia TEXT, horaInicioToma TEXT, cantidadTotalPastillas INTEGER, cantidadMinima INTEGER, FOREIGN KEY(idMedicamento) REFERENCES Medicamento(id), FOREIGN KEY(idUsuario) REFERENCES Usuarios(id) ON DELETE CASCADE)");
 
       await db.execute(
           'CREATE TABLE IF NOT EXISTS Usuarios(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, usuario TEXT, contrasena TEXT, administrador INTEGER, id_administrador INTEGER)');
     },
-
   );
   return baseDatos;
 }
@@ -96,6 +95,12 @@ static Future<Database> inicializarBD() async {
     var resultado = await db!.insert(tabla, fila);
     return resultado;
   }
+
+  static Future<int> insertarBDDevuelveId(String tabla, Map<String, dynamic> fila) async {
+  final db = await database;
+  int id = await db!.insert(tabla, fila);
+  return id;
+}
 
   // Eliminar datos de la base de datos
   static Future<int> eliminarBD(String tabla, int id) async {

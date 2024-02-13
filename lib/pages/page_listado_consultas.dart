@@ -5,6 +5,7 @@ import 'package:farmacofy/models/consulta_medica.dart';
 import 'package:farmacofy/pages/page_consulta_medica.dart';
 import 'package:farmacofy/pages/page_editar_consulta.dart';
 import 'package:farmacofy/pages/page_listado_usuarios.dart';
+import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

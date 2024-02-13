@@ -1,3 +1,4 @@
+import 'package:farmacofy/alarma_tratamiento/alarma.dart';
 import 'package:farmacofy/almacen.dart';
 import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
 import 'package:farmacofy/inicioSesion/pantallaRegistroLogin.dart';

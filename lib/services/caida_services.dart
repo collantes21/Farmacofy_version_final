@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 
@@ -59,8 +61,31 @@ Future<void> mostrarNotification(String title, String body) async {
       0, title, body, notificationDetails,payload: 'item x');
  }
 
-//funcion para llamar a emergencias
+// Función para mostrar una notificación con botones de acción
+Future<void> mostrarNotificationConBotones(String title, String body) async {
+  // Crear un canal de notificación para Android
+   const AndroidNotificationDetails androidNotification = AndroidNotificationDetails(
+    'canal_id', 'Emergencia', 
+    importance: Importance.max,
+    priority: Priority.high,
+    showWhen: false,
+    ongoing: true,
+    // Configurar los botones de acción sin iconos
+    actions: [
+      AndroidNotificationAction('tomar', 'Tomar'),
+      AndroidNotificationAction('posponer', 'Posponer'),
+    ],
+  );
+  
+  // Crear el objeto de notificación
+  const NotificationDetails notificationDetails = NotificationDetails(android: androidNotification);
 
+  // Mostrar la notificación
+  await flutterNotificationsPlugin.show(0, title, body, notificationDetails, payload: 'item x');
+}
+
+
+//funcion para llamar a emergencias
 Future<void> llamaEmergencias() async {
   // const String numeroEmergencias = 'tel:112';
   UrlLauncher.launch("tel://112");

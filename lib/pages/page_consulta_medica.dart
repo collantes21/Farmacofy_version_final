@@ -7,6 +7,7 @@ import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
 import 'package:farmacofy/models/consulta_medica.dart';
 import 'package:farmacofy/pages/page_listado_consultas.dart';
 import 'package:farmacofy/pages/page_listado_usuarios.dart';
+import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

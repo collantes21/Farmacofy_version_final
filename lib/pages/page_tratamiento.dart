@@ -7,7 +7,47 @@ import 'package:farmacofy/pages/page_listado_tratamientos.dart';
 import 'package:farmacofy/pages/page_listado_usuarios.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'dart:async';
+
+class TratamientoAlarma {
+  late int? idTratamiento;
+  late String? _fechaInitStr;
+  late String? _horaInitStr;
+
+  // Constructor
+  TratamientoAlarma({int? idTratamiento, String? fechaInitStr, String? horaInitStr}) {
+    this.idTratamiento = idTratamiento;
+    _fechaInitStr = fechaInitStr;
+    _horaInitStr = horaInitStr;
+  }
+
+  // Getter para idTratamiento
+  int? get getIdTratamiento => idTratamiento;
+
+  // Setter para idTratamiento
+  set setIdTratamiento(int? value) {
+    idTratamiento = value;
+  }
+
+  // Getter para fechaInitStr
+  String? get fechaInitStr => _fechaInitStr;
+
+  // Setter para fechaInitStr
+  set fechaInitStr(String? value) {
+    _fechaInitStr = value;
+  }
+
+  // Getter para horaInitStr
+  String? get horaInitStr => _horaInitStr;
+
+  // Setter para horaInitStr
+  set horaInitStr(String? value) {
+    _horaInitStr = value;
+  }
+}
+
 
 class PaginaTratamiento extends StatefulWidget {
   const PaginaTratamiento({
@@ -24,6 +64,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
   Medicamento medicamento = Medicamento();
   Tratamiento tratamiento = Tratamiento();
   BaseDeDatos bdHelper = BaseDeDatos();
+  TratamientoAlarma tratamientoAlarma = TratamientoAlarma();
   bool _habilitado = false;
   String? _opcionSeleccionada;
 
@@ -51,14 +92,15 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
             ),
           ),
           leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>const ListadoTratamientos()),
-            );
-          },
-        ),
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const ListadoTratamientos()),
+              );
+            },
+          ),
         ),
 
         //Cuerpo de la página de tratamiento con formulario a rellenar
@@ -267,7 +309,9 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                         if (value == null || value.isEmpty) {
                           return 'Por favor, introduce la fecha de inicio';
                         }
-                        if (RegExp(r'^(\d{2})/(\d{2})/(\d{4})$').hasMatch(value) == false) {
+                        if (RegExp(r'^(\d{4})/(\d{2})/(\d{2})$')
+                                .hasMatch(value) ==
+                            false) {
                           return 'El formato de la fecha es incorrecto';
                         } else {
                           return null;
@@ -276,7 +320,8 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                       //Asignación del valor del campo al atributo fechaInicio del objeto medicamento
                       onSaved: (value) {
                         if (value != null) {
-                          tratamiento.dia = value;
+                          tratamiento.fechaInicio = value;
+                          tratamientoAlarma.fechaInitStr = value;
                         }
                       },
                     ),
@@ -296,7 +341,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                         if (value == null || value.isEmpty) {
                           return 'Por favor, introduce la fecha de fin';
                         }
-                        if (RegExp(r'^(\d{2})/(\d{2})/(\d{4})$')
+                        if (RegExp(r'^(\d{4})/(\d{2})/(\d{2})$')
                                 .hasMatch(value) ==
                             false) {
                           return 'El formato de la fecha es incorrecto';
@@ -341,11 +386,11 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                         if(value != null)
                         {
                           tratamiento.horaInicioToma = value;
+                          tratamientoAlarma.horaInitStr=value;
                         }
 
                       },
                     ),
-
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 20),
@@ -385,29 +430,22 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                       //Validación del campo cantidadEnvase
 
                       validator: (value) {
-                      
                         if ((value == null || value.isEmpty)) {
                           return 'Por favor, introduce la cantidad del envase';
                         }
                         //Controlar que sea un número entero positivo
                         if (RegExp(r'^[0-9]+$').hasMatch(value) == false) {
                           return 'La cantidad debe ser un número';
-                        }else{
-                            return null;
+                        } else {
+                          return null;
                         }
-
-                        
                       },
                       onSaved: (value) {
-                         
-                          if (value!=null) {
-                            tratamiento.cantidadTotalPastillas = int.parse(value);
-                          }
-                        
+                        if (value != null) {
+                          tratamiento.cantidadTotalPastillas = int.parse(value);
+                        }
                       },
-                     
                     ),
-
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 20),
@@ -421,29 +459,22 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                       //Validación del campo cantidadEnvase
 
                       validator: (value) {
-                    
                         if ((value == null || value.isEmpty)) {
                           return 'Por favor, introduce la cantidad mínima del envase';
                         }
                         //Controlar que sea un número entero positivo
                         if (RegExp(r'^[0-9]+$').hasMatch(value) == false) {
                           return 'La cantidad debe ser un número';
-                        }else{
-                             return null;
+                        } else {
+                          return null;
                         }
-
-                       
                       },
                       onSaved: (value) {
-                         
-                          if (value != null) {
-                            tratamiento.cantidadMinima = int.parse(value);
-                          }
-                        
+                        if (value != null) {
+                          tratamiento.cantidadMinima = int.parse(value);
+                        }
                       },
-                     
                     ),
-
                   ),
                   SizedBox(height: 15),
                   Divider(
@@ -565,7 +596,8 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                                     onChanged: (String? value) {
                                       setState(() {
                                         if (value != null)
-                                          tratamiento.idMedicamento = int.parse(value); //Asignación del valor del campo al atributo idMedicamento del objeto medicamento
+                                          tratamiento.idMedicamento = int.parse(
+                                              value); //Asignación del valor del campo al atributo idMedicamento del objeto medicamento
                                       });
                                     },
                                     // validator: (value) {
@@ -735,7 +767,8 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                   ),
 
                   //Campo del tipo de envase del medicamento
-                  if (_habilitado == true) // Mustra el campo si selecciona 'Agregar nuevo medicamento'
+                  if (_habilitado ==
+                      true) // Mustra el campo si selecciona 'Agregar nuevo medicamento'
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Row(
@@ -881,36 +914,38 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                             final esSupervisor =
                                 context.read<AdminProvider>().esAdmin;
 
-                            if(esSupervisor){
-                              
+                            if (esSupervisor) {
+                              final idUsuario = context
+                                  .read<IdUsuarioSeleccionado>()
+                                  .idUsuario;
+
+                              // Añadir el id_usuario al tratamiento
+                              tratamiento.idUsuario = idUsuario;
+                            } else {
                               final idUsuario =
-                                context.read<IdUsuarioSeleccionado>().idUsuario;
+                                  context.read<IdSupervisor>().idUsuario;
 
-                                // Añadir el id_usuario al tratamiento
-                                tratamiento.idUsuario = idUsuario;
-
-                            } else{
-
-                              final idUsuario =
-                                context.read<IdSupervisor>().idUsuario;
-
-                                // Añadir el id_usuario al tratamiento
-                                tratamiento.idUsuario = idUsuario;
-
+                              // Añadir el id_usuario al tratamiento
+                              tratamiento.idUsuario = idUsuario;
                             }
-                  
 
                             //Añadir el tratamiento a la base de datos
-                            BaseDeDatos.insertarBD(
-                                'Tratamiento', tratamiento.toMap());
+                            // BaseDeDatos.insertarBD(
+                            //     'Tratamiento', tratamiento.toMap());
+                            
+                            int idTratamiento = await BaseDeDatos.insertarBDDevuelveId('Tratamiento', tratamiento.toMap());
+                            tratamientoAlarma.idTratamiento=idTratamiento;
 
-                            //Mostrar mensaje de confirmación despues de 1 segundo
+                            if(idTratamiento!=null){
+
+                              //Mostrar mensaje de confirmación despues de 1 segundo
                             Future.delayed(const Duration(seconds: 1), () {
                               //Mostrar mensaje de confirmación
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content:
-                                      Text('Tratamiento añadido correctamente'),
+                                SnackBar(
+                                  content: Text(
+                                    'Fecha de inicio: ${tratamientoAlarma.fechaInitStr}, Hora de inicio: ${tratamientoAlarma.horaInitStr}, ID Tratamiento: ${tratamientoAlarma.idTratamiento}',
+                                  ),
                                 ),
                               );
                               //Volver a la pagina de inicio
@@ -922,6 +957,7 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                                         const ListadoTratamientos()),
                               );
                             });
+                            }
                           }
                         },
                         icon: const Icon(Icons.addchart_rounded),
@@ -940,5 +976,49 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
             )),
       ),
     );
+  }
+}
+
+class CountdownTimer {
+  late TratamientoAlarma tratamientoAlarma;
+
+  CountdownTimer({required this.tratamientoAlarma});
+
+  void startCountdown() {
+    // Parsear la fecha y hora a DateTime
+    DateTime fechaInicio =
+        DateFormat('yyyy-MM-dd').parse(tratamientoAlarma.fechaInitStr!);
+    DateTime horaInicio =
+        DateFormat('HH:mm').parse(tratamientoAlarma.horaInitStr!);
+
+    DateTime combinedDateTime = DateTime(
+      fechaInicio.year,
+      fechaInicio.month,
+      fechaInicio.day,
+      horaInicio.hour,
+      horaInicio.minute,
+    );
+
+    Duration difference = combinedDateTime.difference(DateTime.now());
+    if (difference.isNegative) {
+      print('La fecha y hora ya ha pasado.');
+      return;
+    }
+
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      difference = combinedDateTime.difference(DateTime.now());
+      if (difference.isNegative) {
+        print('Cuenta regresiva finalizada.');
+        timer.cancel();
+        return;
+      }
+
+      String formattedDifference = formatDuration(difference);
+      print('Tiempo restante: $formattedDifference');
+    });
+  }
+
+  String formatDuration(Duration duration) {
+    return duration.toString().split('.').first.padLeft(8, "0");
   }
 }

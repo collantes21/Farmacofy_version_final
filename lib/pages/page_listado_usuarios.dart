@@ -5,6 +5,7 @@ import 'package:farmacofy/pages/page_nuevo_usuario.dart';
 import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
+import 'package:farmacofy/services/caida_services.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -162,6 +163,21 @@ class _ListadoUsuariosState extends State<ListadoUsuarios> {
       ),
     );
   }
+
+//   TratamientoAlarma tratamientoAlarma=TratamientoAlarma();
+
+//   // Lógica para verificar la coincidencia de fecha y hora
+// void verificarFechaYHora() {
+//   // Obtener la fecha y la hora actuales
+//   DateTime now = DateTime.now();
+  
+//   // Comparar la fecha y la hora con las almacenadas en la clase TratamientoAlarma
+//   if (now.toString() == tratamientoAlarma.fechaInitStr && 
+//       TimeOfDay.now().format(context) == tratamientoAlarma.horaInitStr) {
+//     // Si coinciden, mostrar la notificación con botones de acción
+//     mostrarNotificationConBotones('Título de la notificación', 'Cuerpo de la notificación');
+//   }
+// }
 }
 
 
