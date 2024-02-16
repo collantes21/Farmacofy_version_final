@@ -42,6 +42,10 @@ class Usuario {
   bool get administrador => _administrador;
   int? get idAdministrador => _idAdministrador;
 
+  set id(int? id) {
+    _id = id;
+  }
+
   set nombre(String nombre) {
     _nombre = nombre;
   }

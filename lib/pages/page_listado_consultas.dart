@@ -1,34 +1,36 @@
 import 'package:farmacofy/BBDD/bbdd.dart';
 import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
+import 'package:farmacofy/almacen.dart';
 import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
 import 'package:farmacofy/models/consulta_medica.dart';
 import 'package:farmacofy/pages/page_consulta_medica.dart';
 import 'package:farmacofy/pages/page_editar_consulta.dart';
+import 'package:farmacofy/pages/page_listado_tratamientos.dart';
 import 'package:farmacofy/pages/page_listado_usuarios.dart';
-import 'package:farmacofy/pages/page_tratamiento.dart';
+import 'package:farmacofy/pages/page_medicamento.dart';
 import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
+ 
 class ListadoConsultasMedicas extends StatefulWidget {
   const ListadoConsultasMedicas({super.key});
-
+ 
   @override
   State<ListadoConsultasMedicas> createState() =>
       _ListadoConsultasMedicasState();
 }
-
+ 
 class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
   BaseDeDatos bdHelper = BaseDeDatos();
-
+ 
   @override
   Widget build(BuildContext context) {
-
+ 
     bool esAdmin = context.read<AdminProvider>().esAdmin;
-
+ 
     late int usuario;
-
+ 
     if(esAdmin){
       // Si es admin , recogemos el id del usuario seleccionado que esta siendo supervisado
       usuario = context.read<IdUsuarioSeleccionado>().idUsuario;
@@ -36,8 +38,8 @@ class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
       // Si no es admin, recogemos el id del usuario logeado normal
       usuario = context.read<IdSupervisor>().idUsuario;
     }
-
-
+ 
+ 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Consultas médicas'),
@@ -117,8 +119,8 @@ class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
                           ), // Añade la hora aquí
                             ],
                           ),
-                          trailing: 
-
+                          trailing:
+ 
                             IconButton(
                             icon: Icon(Icons.delete, color: Colors.red),
                              // Pregunta si está seguro de eliminar la consulta
@@ -153,29 +155,29 @@ class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
                               );
                             },
                           ),
-
+ 
                           /**
                            * ! IMPORTANTE
                            * * Aqui se implementa el cambio de pantalla al pulsar sobre una tarjeta consulta
                            * * Se pasa como parametro la consulta seleccionada
                            */
-
+ 
                           onTap: (){
                             ConsultaMedica consultaSeleccionada = ConsultaMedica();
                             consultaSeleccionada.id = snapshot.data![index]['id'];
                             ConsultaMedica consultaIdUsuario = ConsultaMedica();
                             consultaIdUsuario.idUsuario = snapshot.data![index]['idUsuario'];
-
+ 
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-
-                                
+ 
+                               
                                 builder: (context) => EditarConsultaMedica(consultaMedicaEditar: consultaSeleccionada, consultaIdUsuario: consultaIdUsuario,),
                               ),
                             );
                           },
-
+ 
                         ),
                       );
                     },
@@ -202,6 +204,45 @@ class _ListadoConsultasMedicasState extends State<ListadoConsultasMedicas> {
         },
         child: const Icon(Icons.add),
         backgroundColor: const Color(0xFF02A724),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Inicio',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.medication_liquid),
+            label: '+ Medicamento',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_pharmacy_rounded),
+            label: 'Farmacias',
+          ),
+        ],
+        onTap: (index) {
+          // Lógica para manejar la selección de ítem
+          switch (index) {
+            case 0:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const ListadoTratamientos()),
+              );
+              break;
+            case 1:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const PaginaMedicamento()),
+              );
+              break;
+            case 2:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const Almacen()),
+              );
+              break;
+          }
+        },
       ),
     );
   }

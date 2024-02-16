@@ -1,25 +1,25 @@
 import 'package:farmacofy/BBDD/bbdd.dart';
 import 'package:farmacofy/models/consulta_medica.dart';
 import 'package:farmacofy/pages/page_listado_consultas.dart';
-
+ 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+ 
 class EditarConsultaMedica extends StatefulWidget {
   final ConsultaMedica consultaMedicaEditar;
   final ConsultaMedica consultaIdUsuario;
-
+ 
   const EditarConsultaMedica({super.key, required this.consultaMedicaEditar, required this.consultaIdUsuario});
-
+ 
   @override
   State<EditarConsultaMedica> createState() => _EditarConsultaMedicaState();
 }
-
+ 
 class _EditarConsultaMedicaState extends State<EditarConsultaMedica> {
   ConsultaMedica consultaMedica = ConsultaMedica();
   BaseDeDatos bdHelper = BaseDeDatos();
   FocusNode myFocusNode = FocusNode();
-  
+ 
   // Esto permite que el campo de texto cambie de color cuando está seleccionado
   @override
   void initState() {
@@ -28,7 +28,7 @@ class _EditarConsultaMedicaState extends State<EditarConsultaMedica> {
       setState(() {}); // Esto hace que se redibuje el campo de texto
     });
   }
-
+ 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -71,7 +71,7 @@ class _EditarConsultaMedicaState extends State<EditarConsultaMedica> {
                       focusNode: myFocusNode, // Declaramos el nodo de enfoque
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: Color.fromARGB(255, 217, 238, 218), 
+                        fillColor: Color.fromARGB(255, 217, 238, 218),
                         labelText: 'Especialista',
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
                         prefixIcon: Icon(
@@ -103,8 +103,8 @@ class _EditarConsultaMedicaState extends State<EditarConsultaMedica> {
                       //focusNode: myFocusNode,
                       decoration:  InputDecoration(
                         filled: true,
-                        fillColor: Color.fromARGB(255, 217, 238, 218), 
-                        
+                        fillColor: Color.fromARGB(255, 217, 238, 218),
+                       
                         labelText: 'Doctor',
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
                         prefixIcon: Icon(FontAwesomeIcons.userDoctor,
@@ -135,7 +135,7 @@ class _EditarConsultaMedicaState extends State<EditarConsultaMedica> {
                       //focusNode: myFocusNode,
                       decoration:  InputDecoration(
                         filled: true,
-                        fillColor: Color.fromARGB(255, 217, 238, 218), 
+                        fillColor: Color.fromARGB(255, 217, 238, 218),
                         labelText: 'Fecha',
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
                         prefixIcon: Icon(FontAwesomeIcons.calendarPlus,
@@ -166,7 +166,7 @@ class _EditarConsultaMedicaState extends State<EditarConsultaMedica> {
                       //focusNode: myFocusNode,
                       decoration:  InputDecoration(
                         filled: true,
-                        fillColor: Color.fromARGB(255, 217, 238, 218), 
+                        fillColor: Color.fromARGB(255, 217, 238, 218),
                         labelText: 'Hora',
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
                         prefixIcon: Icon(FontAwesomeIcons.clock,
@@ -197,7 +197,7 @@ class _EditarConsultaMedicaState extends State<EditarConsultaMedica> {
                       //focusNode: myFocusNode,
                       decoration:  InputDecoration(
                         filled: true,
-                        fillColor: Color.fromARGB(255, 217, 238, 218), 
+                        fillColor: Color.fromARGB(255, 217, 238, 218),
                         labelText: 'Motivo',
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
                         prefixIcon: Icon(FontAwesomeIcons.bookMedical,
@@ -222,18 +222,18 @@ class _EditarConsultaMedicaState extends State<EditarConsultaMedica> {
                       },
                     ),
                   ),
-
+ 
                   // Recoger idUsuario del usuario logueado
-
-
+ 
+ 
                   Padding(
                     padding: const EdgeInsets.fromLTRB(15, 15, 15, 15),
                     child: ElevatedButton(
                       onPressed: () {
-                        consultaMedica.idUsuario = widget.consultaIdUsuario.idUsuario; 
+                        consultaMedica.idUsuario = widget.consultaIdUsuario.idUsuario;
                         consultaMedica.id = widget.consultaMedicaEditar.id;
                         BaseDeDatos.actualizarBD('Consulta', consultaMedica.toMap());
-
+ 
                           //Mostrar mensaje de confirmación despues de 1 segundo
                           Future.delayed(const Duration(seconds: 2), () {
                             //Mostrar mensaje de confirmación
@@ -252,8 +252,8 @@ class _EditarConsultaMedicaState extends State<EditarConsultaMedica> {
                             );
                           }
                         );
-
-                      }, 
+ 
+                      },
                       child: Row(
                         mainAxisSize: MainAxisSize.min, // Esto hace que la fila tenga el tamaño del contenido
                         children: <Widget>[
@@ -271,10 +271,10 @@ class _EditarConsultaMedicaState extends State<EditarConsultaMedica> {
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(18.0),
-                                      side: BorderSide(color: Colors.green)))), 
+                                      side: BorderSide(color: Colors.green)))),
                       ),
                     ),
-
+ 
                 ],
               ),
             ),

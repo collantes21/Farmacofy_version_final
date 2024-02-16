@@ -41,7 +41,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
           case 0:
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const PantallaInicial()),
+              MaterialPageRoute(builder: (context) => const ListadoTratamientos()),
             );
             break;
           case 1:

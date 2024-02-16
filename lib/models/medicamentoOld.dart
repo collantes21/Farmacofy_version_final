@@ -180,6 +180,10 @@ class MedicamentoOld {
   //String get imagenEnvase => _imagenEnvase;
   String get notas => _notas;
 
+  set id(int? id) {
+    _id = id;
+  }
+
   set nombre(String nombre) {
     _nombre = nombre;
   }

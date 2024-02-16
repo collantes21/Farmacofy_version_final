@@ -38,6 +38,7 @@ static Future<Database> inicializarBD() async {
   return baseDatos;
 }
 
+
   // Método para registrar un usuario
   static Future<int> registrarUsuario(Usuario usuario) async {
     final db = await database;
@@ -118,6 +119,38 @@ static Future<Database> inicializarBD() async {
     return resultado;
   }
 
+  static Future<bool?> obtenerRolAdministrador(int idUsuario) async {
+  final db = await database;
+  final result = await db!.query(
+    'Usuarios',
+    columns: ['administrador'],
+    where: 'id = ?',
+    whereArgs: [idUsuario],
+  );
+  if (result.isNotEmpty) {
+    final bool esAdmin = result.first['administrador'] == 1;
+    return esAdmin;
+  } else {
+    return null;
+  }
+}
+
+  // Método para obtener la horaInicio y fechaInicio de un tratamiento por su idTratamiento
+  static Future<Map<String, dynamic>?> obtenerHoraFechaInicio(int idTratamiento) async {
+    final db = await inicializarBD();
+    final List<Map<String, dynamic>> result = await db.query(
+      'Tratamiento',
+      columns: ['horaInicioToma', 'fechaInicio'],
+      where: 'id = ?',
+      whereArgs: [idTratamiento],
+    );
+    if (result.isNotEmpty) {
+      return result.first;
+    } else {
+      return null;
+    }
+  }
+
   //Es el metodo antiguo que lista sin tener en cuenta el idUsuario
 
   // // Consultar tratamientos con medicamentos
@@ -144,7 +177,7 @@ static Future<Database> inicializarBD() async {
 static Future<List<Map<String, dynamic>>> consultarTratamientosConMedicamentosPorUsuario(int idUsuario) async {
   final db = await database;
   final resultado = await db!.rawQuery(
-    "SELECT t.id, t.condicionMedica, t.dosis, t.frecuencia, t.viaAdministracion, t.fechaInicio, t.fechaFin, t.descripcion, t.recordatorio, t.idMedicamento, t.horaInicioToma, t.cantidadTotalPastillas, t.cantidadMinima, m.nombre as nombreMedicamento, m.prospecto, m.fechaCaducidad, m.tipoEnvase, m.cantidadEnvase FROM Tratamiento t INNER JOIN Medicamento m ON t.idMedicamento = m.id WHERE t.idUsuario = ?",
+    "SELECT t.id, t.condicionMedica, t.dosis, t.frecuencia, t.viaAdministracion, t.fechaInicio, t.fechaFin, t.descripcion, t.recordatorio, t.idMedicamento, t.idUsuario, t.horaInicioToma, t.cantidadTotalPastillas, t.cantidadMinima, m.nombre as nombreMedicamento, m.prospecto, m.fechaCaducidad, m.tipoEnvase, m.cantidadEnvase FROM Tratamiento t INNER JOIN Medicamento m ON t.idMedicamento = m.id WHERE t.idUsuario = ?",
     [idUsuario],
   );
   return resultado;
@@ -205,6 +238,94 @@ static Future<List<Map<String, dynamic>>> consultarUsuariosPorIdAdministrador(in
   );
   return resultado;
 }
+
+// Método para obtener la cantidad total de pastillas de un tratamiento dado su ID
+  static Future<int?> obtenerCantidadTotalPastillas(int idTratamiento) async {
+    final db = await inicializarBD();
+    final List<Map<String, dynamic>> resultados = await db.query(
+      'Tratamiento',
+      where: 'id = ?',
+      whereArgs: [idTratamiento],
+    );
+    if (resultados.isNotEmpty) {
+      return resultados.first['cantidadTotalPastillas'] as int?;
+    }
+    return null; // Retornar null si no se encuentra el tratamiento
+  }
+
+
+// Método para actualizar la cantidad total de pastillas de un tratamiento dado su ID
+  static Future<void> actualizarCantidadTotalPastillas(int idTratamiento, int nuevaCantidad) async {
+    final db = await inicializarBD();
+    await db.update(
+      'Tratamiento',
+      {'cantidadTotalPastillas': nuevaCantidad},
+      where: 'id = ?',
+      whereArgs: [idTratamiento],
+    );
+  }
+
+  // Método para obtener la cantidad mínima de pastillas de un tratamiento dado su ID
+static Future<int?> obtenerCantidadMinimaPastillas(int idTratamiento) async {
+  final db = await inicializarBD();
+  final List<Map<String, dynamic>> resultados = await db.query(
+    'Tratamiento',
+    where: 'id = ?',
+    whereArgs: [idTratamiento],
+  );
+  if (resultados.isNotEmpty) {
+    return resultados.first['cantidadMinima'] as int?;
+  }
+  return null; // Retornar null si no se encuentra el tratamiento
+}
+
+// Método para obtener el nombre del medicamento dado su ID
+static Future<String> obtenerNombreMedicamento(int idMedicamento) async {
+  final db = await inicializarBD();
+  final List<Map<String, dynamic>> resultados = await db!.query(
+    'Medicamento',
+    columns: ['nombre'],
+    where: 'id = ?',
+    whereArgs: [idMedicamento],
+  );
+  if (resultados.isNotEmpty) {
+    return resultados.first['nombre'] as String;
+  } else {
+    // Si no se encuentra el medicamento, puedes retornar un valor por defecto o lanzar una excepción
+    throw Exception('No se encontró el medicamento con el ID $idMedicamento');
+  }
+}
+
+// Método para obtener el ID del medicamento dado el ID del tratamiento
+static Future<int?> obtenerIdMedicamento(int idTratamiento) async {
+  final db = await inicializarBD();
+  final List<Map<String, dynamic>> resultados = await db.query(
+    'Tratamiento',
+    columns: ['idMedicamento'],
+    where: 'id = ?',
+    whereArgs: [idTratamiento],
+  );
+  if (resultados.isNotEmpty) {
+    return resultados.first['idMedicamento'] as int?;
+  } else {
+    // Si no se encuentra el tratamiento, puedes retornar null o lanzar una excepción
+    return null;
+  }
+}
+
+// Método para obtener la cantidad total de pastillas de un tratamiento dado su ID
+  // static Future<int?> obtenerCantidadTotalPastillas(int idTratamiento) async {
+  //   final db = await inicializarBD();
+  //   final List<Map<String, dynamic>> resultados = await db.query(
+  //     'Tratamiento',
+  //     where: 'id = ?',
+  //     whereArgs: [idTratamiento],
+  //   );
+  //   if (resultados.isNotEmpty) {
+  //     return resultados.first['cantidadTotalPastillas'] as int?;
+  //   }
+  //   return null; // Retornar null si no se encuentra el tratamiento
+  // }
 
 
 }

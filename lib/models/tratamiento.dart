@@ -26,15 +26,9 @@ class Tratamiento {
     _recordatorio = 0;
     _idMedicamento = 0;
     _idUsuario = 0;
+     _horaInicioToma = "";
     _cantidadTotalPastillas = 0;
     _cantidadMinima = 0;
-
-    // Inicializar _horaInicioToma después de asignar un valor a _fechaInicio
-  if (_fechaInicio.isNotEmpty) {
-    _horaInicioToma = _fechaInicio.substring(11, 16);
-  } else {
-    _horaInicioToma = "";
-  }
   }
 
   Tratamiento.withData(
@@ -113,6 +107,10 @@ class Tratamiento {
   int get cantidadTotalPastillas => _cantidadTotalPastillas;
   int get cantidadMinima => _cantidadMinima;
 
+  set id(int? id) {
+    _id = id;
+  }
+
   set condicionMedica(String condicionMedica) {
     _condicionMedica = condicionMedica;
   }
@@ -156,9 +154,9 @@ class Tratamiento {
 
   set horaInicioToma(String horaInicioToma) {
     _horaInicioToma = horaInicioToma;
-    List<String> partes = horaInicioToma.split(":");
-    int horas = int.tryParse(partes[0])!;
-    int minutos = int.tryParse(partes[1])!;
+  //   List<String> partes = horaInicioToma.split(":");
+  //   int horas = int.tryParse(partes[0])!;
+  //   int minutos = int.tryParse(partes[1])!;
   }
 
   set cantidadTotalPastillas(int cantidadTotalPastillas) {
@@ -170,25 +168,26 @@ class Tratamiento {
   }
 
   // Ajustar el método toMap() para incluir el nuevo campo idUsuario
-  Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{
-      'condicionMedica': _condicionMedica,
-      'dosis': _dosis,
-      'frecuencia': _frecuencia,
-      'viaAdministracion': _viaAdministracion,
-      'fechaInicio': _fechaInicio,
-      'fechaFin': _fechaFin,
-      'descripcion': _descripcion,
-      'recordatorio': _recordatorio,
-      'idMedicamento': _idMedicamento,
-      'idUsuario': _idUsuario,
-      'horaInicioToma': _horaInicioToma,
-      'cantidadTotalPastillas': _cantidadTotalPastillas,
-      'cantidadMinima': _cantidadMinima,
-    };
-    if (_id != null && _id != 0) {
+    Map<String, dynamic> toMap() {
+    var map = new Map<String, dynamic>();
+    if (id != null && id != 0) {
       map['id'] = _id;
     }
+    map['condicionMedica'] = _condicionMedica;
+    map['dosis'] = _dosis;
+    map['frecuencia'] = _frecuencia;
+    map['viaAdministracion'] = _viaAdministracion;
+    map['fechaInicio'] = _fechaInicio;
+    map['fechaFin'] = _fechaFin;
+    map['descripcion'] = _descripcion;
+    map['recordatorio'] = _recordatorio;
+    map['idMedicamento'] = _idMedicamento;
+    map['idUsuario'] = _idUsuario;
+ 
+    map['horaInicioToma'] = _horaInicioToma;
+    map['cantidadTotalPastillas'] = _cantidadTotalPastillas;
+    map['cantidadMinima'] = _cantidadMinima;
+    //map['horaInicioToma'] = _horaInicioToma.toIso8601String();
     return map;
   }
 

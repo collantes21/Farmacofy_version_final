@@ -1,10 +1,11 @@
-import 'package:farmacofy/alarma_tratamiento/alarma.dart';
+
 import 'package:farmacofy/almacen.dart';
 import 'package:farmacofy/inicioSesion/pantallaLogin.dart';
 import 'package:farmacofy/inicioSesion/pantallaRegistroLogin.dart';
 import 'package:farmacofy/instruccionesUsuario.dart';
 import 'package:farmacofy/modo/modo_trabajo.dart';
 import 'package:farmacofy/pages/page_listado_usuarios.dart';
+import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/services/caida_services.dart';
 import 'package:flutter/material.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos2.dart';
@@ -24,6 +25,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => AdminProvider()),
         ChangeNotifierProvider(create: (_) => IdSupervisor()),
         ChangeNotifierProvider(create: (_) => IdUsuarioSeleccionado()),
+        ChangeNotifierProvider(create: (_) => TratamientoAlarma()),
       ],
       child: const MyApp(),
     ),

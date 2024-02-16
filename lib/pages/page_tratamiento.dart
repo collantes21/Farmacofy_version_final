@@ -11,41 +11,60 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 
-class TratamientoAlarma {
-  late int? idTratamiento;
+class TratamientoAlarma extends ChangeNotifier {
+  late int _idTratamiento;
   late String? _fechaInitStr;
   late String? _horaInitStr;
+  late int _dosis;
 
-  // Constructor
-  TratamientoAlarma({int? idTratamiento, String? fechaInitStr, String? horaInitStr}) {
-    this.idTratamiento = idTratamiento;
-    _fechaInitStr = fechaInitStr;
-    _horaInitStr = horaInitStr;
+  int get idTratamiento => _idTratamiento;
+
+  
+  void cambiarIdTratamiento(int value) {
+    _idTratamiento = value;
+    notifyListeners();
   }
-
-  // Getter para idTratamiento
-  int? get getIdTratamiento => idTratamiento;
+   
+    String? get fechaInitStr => _fechaInitStr;
 
   // Setter para idTratamiento
-  set setIdTratamiento(int? value) {
-    idTratamiento = value;
+  void cambiarFechaInitStr(String value) {
+    _fechaInitStr = value;
+    notifyListeners();
+  }
+    String? get horaInitStr => _horaInitStr;
+
+  // Setter para idTratamiento
+  void cambiarHoraInitStr(String value) {
+    _horaInitStr = value;
+    notifyListeners();
+  }
+
+  int? get dosis => _dosis;
+
+  // Setter para idTratamiento
+  void cambiarDosis(int value) {
+    _dosis = value;
+    notifyListeners();
   }
 
   // Getter para fechaInitStr
-  String? get fechaInitStr => _fechaInitStr;
+  // String? get fechaInitStr => _fechaInitStr;
 
-  // Setter para fechaInitStr
-  set fechaInitStr(String? value) {
-    _fechaInitStr = value;
-  }
+  // // Setter para fechaInitStr
+  // set fechaInitStr(String? value) {
+  //   _fechaInitStr = value;
+  //   notifyListeners();
+  // }
 
-  // Getter para horaInitStr
-  String? get horaInitStr => _horaInitStr;
+  // // Getter para horaInitStr
+  // String? get horaInitStr => _horaInitStr;
 
-  // Setter para horaInitStr
-  set horaInitStr(String? value) {
-    _horaInitStr = value;
-  }
+  // // Setter para horaInitStr
+  // set horaInitStr(String? value) {
+  //   _horaInitStr = value;
+  //   notifyListeners();
+  // }
 }
 
 
@@ -167,6 +186,13 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                       onSaved: (value) {
                         if (value != null) {
                           tratamiento.dosis = int.parse(value);
+
+                          int castDosis=int.parse(value);
+
+                          final dosis= Provider.of<TratamientoAlarma>(context, listen: false);
+
+                          dosis.cambiarDosis(castDosis);
+
                         }
                       },
                     ),
@@ -321,7 +347,12 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                       onSaved: (value) {
                         if (value != null) {
                           tratamiento.fechaInicio = value;
-                          tratamientoAlarma.fechaInitStr = value;
+                          
+                          final fechaInicioTratamiento= Provider.of<TratamientoAlarma>(context, listen: false);
+
+
+                          fechaInicioTratamiento.cambiarFechaInitStr(value);
+                          // tratamientoAlarma.fechaInitStr = value;
                         }
                       },
                     ),
@@ -386,7 +417,12 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                         if(value != null)
                         {
                           tratamiento.horaInicioToma = value;
-                          tratamientoAlarma.horaInitStr=value;
+
+                          final horaInicioTratamiento= Provider.of<TratamientoAlarma>(context, listen: false);
+
+
+                          horaInicioTratamiento.cambiarHoraInitStr(value);
+                          //tratamientoAlarma.horaInitStr=value;
                         }
 
                       },
@@ -933,23 +969,29 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
                             // BaseDeDatos.insertarBD(
                             //     'Tratamiento', tratamiento.toMap());
                             
-                            int idTratamiento = await BaseDeDatos.insertarBDDevuelveId('Tratamiento', tratamiento.toMap());
-                            tratamientoAlarma.idTratamiento=idTratamiento;
+                            int idTratamiento1 = await BaseDeDatos.insertarBDDevuelveId('Tratamiento', tratamiento.toMap());
 
-                            if(idTratamiento!=null){
+
+                           final idTratamientoProvider= Provider.of<TratamientoAlarma>(context, listen: false);
+
+
+                          idTratamientoProvider.cambiarIdTratamiento(idTratamiento1);
+
+
+                            if(idTratamiento1!=null){
 
                               //Mostrar mensaje de confirmación despues de 1 segundo
                             Future.delayed(const Duration(seconds: 1), () {
-                              //Mostrar mensaje de confirmación
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Fecha de inicio: ${tratamientoAlarma.fechaInitStr}, Hora de inicio: ${tratamientoAlarma.horaInitStr}, ID Tratamiento: ${tratamientoAlarma.idTratamiento}',
-                                  ),
-                                ),
-                              );
-                              //Volver a la pagina de inicio
-                              //Navigator.pop(context);
+                              // Mostrar mensaje de confirmación
+                              // ScaffoldMessenger.of(context).showSnackBar(
+                              //   SnackBar(
+                              //     content: Text(
+                              //       'Fecha de inicio: ${tratamientoAlarma.fechaInitStr}, Hora de inicio: ${tratamientoAlarma.horaInitStr}, ID Tratamiento: ${tratamientoAlarma.idTratamiento}',
+                              //     ),
+                              //   ),
+                              // );
+                              // Volver a la pagina de inicio
+                              Navigator.pop(context);
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
@@ -979,46 +1021,46 @@ class _PaginaTratamientoState extends State<PaginaTratamiento> {
   }
 }
 
-class CountdownTimer {
-  late TratamientoAlarma tratamientoAlarma;
+// class CountdownTimer {
+//   late TratamientoAlarma tratamientoAlarma;
 
-  CountdownTimer({required this.tratamientoAlarma});
+//   CountdownTimer({required this.tratamientoAlarma});
 
-  void startCountdown() {
-    // Parsear la fecha y hora a DateTime
-    DateTime fechaInicio =
-        DateFormat('yyyy-MM-dd').parse(tratamientoAlarma.fechaInitStr!);
-    DateTime horaInicio =
-        DateFormat('HH:mm').parse(tratamientoAlarma.horaInitStr!);
+//   void startCountdown() {
+//     // Parsear la fecha y hora a DateTime
+//     DateTime fechaInicio =
+//         DateFormat('yyyy-MM-dd').parse(tratamientoAlarma.fechaInitStr!);
+//     DateTime horaInicio =
+//         DateFormat('HH:mm').parse(tratamientoAlarma.horaInitStr!);
 
-    DateTime combinedDateTime = DateTime(
-      fechaInicio.year,
-      fechaInicio.month,
-      fechaInicio.day,
-      horaInicio.hour,
-      horaInicio.minute,
-    );
+//     DateTime combinedDateTime = DateTime(
+//       fechaInicio.year,
+//       fechaInicio.month,
+//       fechaInicio.day,
+//       horaInicio.hour,
+//       horaInicio.minute,
+//     );
 
-    Duration difference = combinedDateTime.difference(DateTime.now());
-    if (difference.isNegative) {
-      print('La fecha y hora ya ha pasado.');
-      return;
-    }
+//     Duration difference = combinedDateTime.difference(DateTime.now());
+//     if (difference.isNegative) {
+//       print('La fecha y hora ya ha pasado.');
+//       return;
+//     }
 
-    Timer.periodic(Duration(seconds: 1), (timer) {
-      difference = combinedDateTime.difference(DateTime.now());
-      if (difference.isNegative) {
-        print('Cuenta regresiva finalizada.');
-        timer.cancel();
-        return;
-      }
+//     Timer.periodic(Duration(seconds: 1), (timer) {
+//       difference = combinedDateTime.difference(DateTime.now());
+//       if (difference.isNegative) {
+//         print('Cuenta regresiva finalizada.');
+//         timer.cancel();
+//         return;
+//       }
 
-      String formattedDifference = formatDuration(difference);
-      print('Tiempo restante: $formattedDifference');
-    });
-  }
+//       String formattedDifference = formatDuration(difference);
+//       print('Tiempo restante: $formattedDifference');
+//     });
+//   }
 
-  String formatDuration(Duration duration) {
-    return duration.toString().split('.').first.padLeft(8, "0");
-  }
-}
+//   String formatDuration(Duration duration) {
+//     return duration.toString().split('.').first.padLeft(8, "0");
+//   }
+// }

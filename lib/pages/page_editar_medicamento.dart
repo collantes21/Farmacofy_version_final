@@ -3,22 +3,22 @@ import 'package:farmacofy/pages/page_listado_medicamentos.dart';
 import 'package:farmacofy/models/medicamento.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-
+ 
+ 
 class EditarMedicamento extends StatefulWidget {
   // Variable para almacenar el medicamento que se va a editar
   final Medicamento medicamentoEditar;
-  
+ 
   const EditarMedicamento({super.key, required this.medicamentoEditar});
-
+ 
   @override
   State<EditarMedicamento> createState() => _EditarMedicamentoState();
 }
-
+ 
 class _EditarMedicamentoState extends State<EditarMedicamento> {
   Medicamento medicamento = Medicamento();
   BaseDeDatos bdHelper = BaseDeDatos();
-
+ 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -60,10 +60,10 @@ class _EditarMedicamentoState extends State<EditarMedicamento> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                     child: TextFormField(
-                      
+                     
                       decoration:  InputDecoration(
                         filled: true,
-                        fillColor: Colors.blue[50], 
+                        fillColor: Colors.blue[50],
                         labelText: 'Nombre del medicamento',
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
                          prefixIcon: Icon(
@@ -85,7 +85,7 @@ class _EditarMedicamentoState extends State<EditarMedicamento> {
                         });
                       },
                     ),
-
+ 
                     // Campo de texto para el prospecto del medicamento
                   ),
                   Padding(
@@ -93,7 +93,7 @@ class _EditarMedicamentoState extends State<EditarMedicamento> {
                     child: TextFormField(
                       decoration:  InputDecoration(
                         filled: true,
-                        fillColor: Colors.blue[50], 
+                        fillColor: Colors.blue[50],
                         labelText: 'Prospecto del medicamento',
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
                          prefixIcon: Icon(
@@ -121,7 +121,7 @@ class _EditarMedicamentoState extends State<EditarMedicamento> {
                     child: TextFormField(
                       decoration:  InputDecoration(
                         filled: true,
-                        fillColor: Colors.blue[50], 
+                        fillColor: Colors.blue[50],
                         labelText: 'Fecha de caducidad',
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
                          prefixIcon: Icon(
@@ -149,7 +149,7 @@ class _EditarMedicamentoState extends State<EditarMedicamento> {
                     child: TextFormField(
                       decoration:  InputDecoration(
                         filled: true,
-                        fillColor: Colors.blue[50], 
+                        fillColor: Colors.blue[50],
                         labelText: 'Tipo de envase',
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
                          prefixIcon: Icon(
@@ -177,7 +177,7 @@ class _EditarMedicamentoState extends State<EditarMedicamento> {
                     child: TextFormField(
                       decoration:  InputDecoration(
                         filled: true,
-                        fillColor: Colors.blue[50], 
+                        fillColor: Colors.blue[50],
                         labelText: 'Cantidad de envase',
                         labelStyle: TextStyle(fontWeight: FontWeight.bold),
                          prefixIcon: Icon(
@@ -209,12 +209,12 @@ class _EditarMedicamentoState extends State<EditarMedicamento> {
                            * ! Actualizar el medicamento en la base de datos
                            * * El id del medicamento se obtiene del medicamento que el usuarioa ha seleccionado en la lista medicamentos
                            * * Hemos guardado ese id seleccionado en la variable medicamentoEditar que se pasa como parámetro a esta página de edición
-                           * 
+                           *
                            * * Ahora recuperamos ese id mediante el widget.medicamentoEditar.id y lo asignamos al medicamento que vamos a actualizar
                            */
-                          medicamento.id = widget.medicamentoEditar.id; 
+                          medicamento.id = widget.medicamentoEditar.id;
                           BaseDeDatos.actualizarBD('Medicamento', medicamento.toMap());
-                      
+                     
                             //Mostrar mensaje de confirmación despues de 1 segundo
                           Future.delayed(const Duration(seconds: 2), () {
                             //Mostrar mensaje de confirmación
@@ -263,3 +263,4 @@ class _EditarMedicamentoState extends State<EditarMedicamento> {
     );
   }
 }
+ 

@@ -7,6 +7,7 @@ import 'package:farmacofy/models/consulta_medica.dart';
 import 'package:farmacofy/models/medicamentoOld.dart';
 import 'package:farmacofy/modo/modo_trabajo.dart';
 import 'package:farmacofy/pages/page_consulta_medica.dart';
+import 'package:farmacofy/pages/page_listado_tratamientos.dart';
 import 'package:farmacofy/pages/page_medicamento.dart';
 import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
@@ -142,8 +143,8 @@ class PantallaInicial extends StatelessWidget {
             label: 'Inicio',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.info_outline),
-            label: 'Información',
+            icon: Icon(Icons.medication_liquid),
+            label: '+ Medicamento',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_pharmacy_rounded),
@@ -156,13 +157,13 @@ class PantallaInicial extends StatelessWidget {
             case 0:
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const PantallaInicial()),
+                MaterialPageRoute(builder: (context) => const ListadoTratamientos()),
               );
               break;
             case 1:
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const InstruccionesUsuario()),
+                MaterialPageRoute(builder: (context) => const PaginaMedicamento()),
               );
               break;
             case 2:

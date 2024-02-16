@@ -2,6 +2,7 @@ import 'package:farmacofy/almacen.dart';
 import 'package:farmacofy/config_menu/menu_items.dart';
 import 'package:farmacofy/anadirTratamiento/tratamientos2.dart';
 import 'package:farmacofy/instruccionesUsuario.dart';
+import 'package:farmacofy/pages/page_listado_tratamientos.dart';
 import 'package:farmacofy/pantallaInicial.dart';
 import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,15 @@ class Almacen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('FarmacoFy'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+             Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const ListadoTratamientos()),
+              );
+          },
+        ),
         backgroundColor: const Color(0xFF02A724),
         centerTitle: true,
         actions: [

@@ -1,25 +1,27 @@
 import 'package:farmacofy/BBDD/bbdd.dart';
 import 'package:farmacofy/BBDD/bbdd_medicamento_old.dart';
+import 'package:farmacofy/almacen.dart';
 import 'package:farmacofy/models/medicamento.dart';
 import 'package:farmacofy/pages/page_editar_medicamento.dart';
+import 'package:farmacofy/pages/page_listado_tratamientos.dart';
 import 'package:farmacofy/pages/page_medicamento.dart';
 import 'package:farmacofy/pages/page_tratamiento.dart';
 import 'package:farmacofy/presentacion/widgets/menu_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+ 
 class ListadoMedicamentos extends StatefulWidget {
  // final Medicamento medicamentoSeleccionado;
-
+ 
   const ListadoMedicamentos({super.key});
-
+ 
   @override
   State<ListadoMedicamentos> createState() => _ListadoMedicamentosState();
 }
-
+ 
 class _ListadoMedicamentosState extends State<ListadoMedicamentos> {
   BaseDeDatos bdHelper = BaseDeDatos();
-
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -243,7 +245,7 @@ class _ListadoMedicamentosState extends State<ListadoMedicamentos> {
                                   );
                                 },
                               ),
-
+ 
                             /**
                              * ! IMPORTANTE!
                              * * Aqui implementamos el cambio de pantalla al pulsar sobre la tarjeta
@@ -288,6 +290,46 @@ class _ListadoMedicamentosState extends State<ListadoMedicamentos> {
         child: const Icon(Icons.add),
         backgroundColor: const Color(0xFF02A724),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Inicio',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.medication_liquid),
+            label: '+ Medicamento',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_pharmacy_rounded),
+            label: 'Farmacias',
+          ),
+        ],
+        onTap: (index) {
+          // Lógica para manejar la selección de ítem
+          switch (index) {
+            case 0:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const ListadoTratamientos()),
+              );
+              break;
+            case 1:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const PaginaMedicamento()),
+              );
+              break;
+            case 2:
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const Almacen()),
+              );
+              break;
+          }
+        },
+      ),
     );
   }
 }
+ 
